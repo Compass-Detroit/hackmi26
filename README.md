@@ -1,9 +1,10 @@
-# 🌌 Darkness - Astro Dark Theme
+# 🌌 Darkness - Astro Blog/Portfolio Template
 
-A heavily modified dark theme based on Astro's official blog template, themed around **darkness**. This experimental project uses Three.js, rich CSS animations, and Astro's latest features to deliver an overwhelming motion-filled experience.
+A heavily modified dark theme based on Astro's official blog template, themed around **darkness**. This is a fully functional blog and portfolio template with Three.js particles, rich CSS animations, and Astro's content collections system for managing posts and projects.
 
 ![Darkness Theme](https://img.shields.io/badge/Astro-4.0-purple)
 ![Three.js](https://img.shields.io/badge/Three.js-0.160-blue)
+![Content Collections](https://img.shields.io/badge/Content-Collections-green)
 
 ## ✨ Features
 
@@ -23,6 +24,13 @@ A heavily modified dark theme based on Astro's official blog template, themed ar
 - **Hover Effects**: Rich hover animations on interactive elements
 - **View Transitions**: Smooth animations during page transitions
 - **Particle Burst**: Particle effects on button clicks
+
+### 📝 Blog & Portfolio
+- **Blog System**: Full-featured blog with markdown support
+- **Content Collections**: Type-safe content management
+- **Projects Showcase**: Portfolio section with featured projects
+- **Styled Markdown**: Beautiful code blocks and typography
+- **Tag System**: Categorize posts and projects with tags
 
 ### ⚡ Performance
 - **Astro**: Fast performance through static site generation
@@ -44,6 +52,36 @@ npm run build
 
 # Preview
 npm run preview
+```
+
+### Adding Content
+
+**Blog Posts**: Create markdown files in `src/content/blog/`:
+
+```markdown
+---
+title: 'Your Post Title'
+description: 'Brief description'
+pubDate: 2024-01-15
+tags: ['astro', 'three.js']
+---
+
+Your content here...
+```
+
+**Projects**: Create markdown files in `src/content/projects/`:
+
+```markdown
+---
+title: 'Your Project'
+description: 'Project description'
+image: '/path/to/image.jpg'
+github: 'https://github.com/...'
+tags: ['react', 'typescript']
+featured: true
+---
+
+Project details...
 ```
 
 ### Customization
@@ -72,14 +110,25 @@ You can easily customize the theme by changing CSS variables in `src/styles/glob
 │   ├── components/      # Reusable components
 │   │   ├── ThreeBackground.astro   # Three.js background
 │   │   ├── Hero.astro              # Hero section
-│   │   ├── Card.astro              # Card component
+│   │   ├── Card.astro              # Feature card
+│   │   ├── BlogCard.astro          # Blog post card
+│   │   ├── ProjectCard.astro       # Project card
 │   │   ├── Features.astro          # Features section
 │   │   └── Navigation.astro        # Navigation bar
+│   ├── content/         # Content collections
+│   │   ├── blog/        # Blog posts (Markdown)
+│   │   ├── projects/    # Portfolio projects (Markdown)
+│   │   └── config.ts    # Content schema definitions
 │   ├── layouts/         # Layouts
-│   │   └── BaseLayout.astro
+│   │   ├── BaseLayout.astro        # Base layout
+│   │   └── BlogPostLayout.astro    # Blog post layout
 │   ├── pages/           # Pages
-│   │   ├── index.astro
-│   │   └── about.astro
+│   │   ├── index.astro             # Homepage with recent posts
+│   │   ├── about.astro             # About page
+│   │   ├── blog/
+│   │   │   ├── index.astro         # Blog listing
+│   │   │   └── [...slug].astro     # Individual blog posts
+│   │   └── projects.astro          # Projects portfolio
 │   └── styles/          # Global styles
 │       └── global.css
 ├── astro.config.mjs     # Astro configuration
@@ -106,6 +155,14 @@ You can easily customize the theme by changing CSS variables in `src/styles/glob
 7. **View Transitions**: Smooth animations between pages
 8. **Particle Burst**: Particle emission on click
 
+## 📄 Pages
+
+- **Homepage** (`/`): Hero section, features, and 3 most recent blog posts
+- **Blog** (`/blog`): All blog posts in a grid layout
+- **Blog Post** (`/blog/[slug]`): Individual blog post with styled markdown
+- **Projects** (`/projects`): Portfolio with featured and regular projects
+- **About** (`/about`): About page with theme details
+
 ## 🌟 Future Extensions
 
 - [ ] Scroll trigger animations
@@ -113,6 +170,9 @@ You can easily customize the theme by changing CSS variables in `src/styles/glob
 - [ ] Music visualizer
 - [ ] Parallax scrolling
 - [ ] Interactive 3D objects
+- [ ] Search functionality
+- [ ] RSS feed
+- [ ] Reading time estimates
 
 ## 📝 License
 
