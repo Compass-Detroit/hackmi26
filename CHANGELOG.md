@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Three.js animation persistence across View Transitions navigation ([#6](https://github.com/kpab/astro-darkness/pull/6))
+- Mobile hamburger menu not working after View Transitions page navigation
 
 ## [1.0.0] - 2026-01-04
 
