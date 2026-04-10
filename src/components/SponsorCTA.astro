@@ -1,0 +1,118 @@
+---
+import { EXTERNAL_URLS } from '../lib/constants';
+import Card from './Card.astro';
+---
+
+<section id="sponsors" class="sponsors">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Support the Next Wave of Michigan Innovation</h2>
+      <p class="section-subtitle">Partner with us to empower the local developer ecosystem and shape the future of tech in Detroit.</p>
+    </div>
+
+    <div class="tiers-grid">
+      <Card 
+        title="Platinum" 
+        description="Premium visibility, recruitment access, and keynote opportunities for market leaders." 
+        icon="rocket"
+      />
+      <Card 
+        title="Gold" 
+        description="Strong brand presence, workshop hosting, and direct engagement with top-tier engineering talent." 
+        icon="star"
+      />
+      <Card 
+        title="Community" 
+        description="Show your support for the Michigan tech community and connect with passionate builders." 
+        icon="code"
+      />
+    </div>
+
+    <div class="sponsor-cta">
+      <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        Become a Sponsor
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sponsors {
+    padding: 6rem 2rem;
+    position: relative;
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    color: var(--color-text-dim);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .sponsor-cta {
+    text-align: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  }
+
+  .btn-primary:hover {
+    background: #2563EB;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .sponsors {
+      padding: 4rem 1.5rem;
+    }
+    
+    .tiers-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

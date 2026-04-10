@@ -1,0 +1,134 @@
+---
+import { EVENT_DETAILS } from '../lib/constants';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-info">
+        <h3 class="footer-logo">HACKMI</h3>
+        <p class="footer-tagline">Building the future of Michigan's tech corridor.</p>
+        <p class="footer-event-details">
+          {EVENT_DETAILS.LOCATION}<br />
+          {EVENT_DETAILS.DATE}
+        </p>
+      </div>
+      
+      <div class="footer-links">
+        <h4 class="footer-title">Navigation</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#sponsors">Sponsors</a></li>
+          <li><a href="#details">Details</a></li>
+          <li><a href="#logistics">Logistics</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-social">
+        <h4 class="footer-title">Connect</h4>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} {EVENT_DETAILS.NAME}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 6rem 2rem 3rem;
+    background: rgba(15, 23, 42, 0.9);
+    border-top: 1px solid var(--color-border);
+    position: relative;
+    z-index: 10;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .footer-tagline {
+    color: var(--color-text-dim);
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+  }
+
+  .footer-event-details {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .footer-links ul,
+  .footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li,
+  .footer-social li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links a,
+  .footer-social a {
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover,
+  .footer-social a:hover {
+    color: var(--color-primary);
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    color: var(--color-text-dim-extra, #4B5563);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    .footer {
+      padding: 4rem 1.5rem 2rem;
+    }
+  }
+</style>

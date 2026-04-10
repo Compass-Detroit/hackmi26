@@ -2,6 +2,13 @@
 // Three.js による3D背景アニメーション
 ---
 
+<div class="animation-controls">
+  <button id="toggle-animation" aria-label="Toggle animation" class="control-btn">
+    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+    <svg id="play-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+  </button>
+</div>
+
 <canvas id="three-canvas"></canvas>
 
 <script>
@@ -18,6 +25,7 @@
   let mouseX = 0;
   let mouseY = 0;
   let time = 0;
+  let isPaused = false;
 
   // マウスムーブハンドラー
   const handleMouseMove = (event: MouseEvent) => {
@@ -33,6 +41,25 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
+  // Toggle animation state
+  const toggleAnimation = () => {
+    isPaused = !isPaused;
+    const pauseIcon = document.getElementById('pause-icon');
+    const playIcon = document.getElementById('play-icon');
+    
+    if (isPaused) {
+      pauseIcon?.classList.add('hidden');
+      playIcon?.classList.remove('hidden');
+    } else {
+      pauseIcon?.classList.remove('hidden');
+      playIcon?.classList.add('hidden');
+      // Restart the loop if it was stopped
+      if (animationId === null) {
+        animate();
+      }
+    }
+  };
+
   // Three.jsアニメーションの初期化
   function initThreeAnimation() {
     const canvas = document.getElementById('three-canvas') as HTMLCanvasElement;
@@ -40,6 +67,9 @@
 
     // 既存のアニメーションをクリーンアップ
     cleanupThreeAnimation();
+
+    const toggleBtn = document.getElementById('toggle-animation');
+    toggleBtn?.addEventListener('click', toggleAnimation);
 
     // シーン、カメラ、レンダラーの設定
     scene = new THREE.Scene();
@@ -133,6 +163,11 @@
   function animate() {
     if (!scene || !camera || !renderer || !particlesMesh || !torus || !torus2) return;
 
+    if (isPaused) {
+      animationId = null;
+      return;
+    }
+
     animationId = requestAnimationFrame(animate);
     time += 0.001;
 
@@ -168,6 +203,9 @@
     // イベントリスナーの削除
     document.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('resize', handleResize);
+    
+    const toggleBtn = document.getElementById('toggle-animation');
+    toggleBtn?.removeEventListener('click', toggleAnimation);
 
     // Three.jsオブジェクトのクリーンアップ
     if (particlesMesh) {
@@ -217,5 +255,39 @@
     height: 100%;
     z-index: -1;
     pointer-events: none;
+  }
+
+  .animation-controls {
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+    z-index: 1001;
+  }
+
+  .control-btn {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-dim);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .control-btn:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: rgba(15, 23, 42, 0.8);
+    transform: scale(1.1);
+  }
+
+  .hidden {
+    display: none;
   }
 </style>

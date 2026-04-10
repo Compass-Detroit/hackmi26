@@ -1,0 +1,117 @@
+---
+import { EVENT_DETAILS } from '../lib/constants';
+---
+
+<section id="details" class="details">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Event Context</h2>
+      <p class="section-subtitle">Detroit Tech Corridor | May 2026</p>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <h3 class="detail-title">Location</h3>
+        <p class="detail-value">{EVENT_DETAILS.LOCATION}</p>
+        <p class="detail-description">
+          Hosted in the heart of downtown Detroit, our venue provides immediate access to the region's top engineering firms and startups.
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <h3 class="detail-title">Dates</h3>
+        <p class="detail-value">{EVENT_DETAILS.DATE}</p>
+        <p class="detail-description">
+          A 48-hour engineering sprint designed to challenge, inspire, and facilitate high-velocity development.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .details {
+    padding: 6rem 2rem;
+    position: relative;
+    background: rgba(15, 23, 42, 0.2);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .detail-item {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    transition: all 0.3s ease;
+  }
+
+  .detail-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
+  }
+
+  .detail-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .detail-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .detail-description {
+    color: var(--color-text-dim);
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 768px) {
+    .details-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .detail-item {
+      padding: 2rem;
+    }
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import { EVENT_DETAILS } from '../lib/constants';
+---
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="content-grid">
+      <div class="about-text">
+        <h2 class="section-title">A Modern Engineering Event</h2>
+        <p class="mission">{EVENT_DETAILS.MISSION}</p>
+        <div class="details">
+          <p>
+            Hack Michigan is more than a competition. It is a technical proving ground where the next generation of engineers, builders, and designers gather to solve complex problems. 
+          </p>
+          <p>
+            Located in Detroit's thriving tech corridor, we provide the environment, tools, and mentorship needed to push the boundaries of modern software engineering.
+          </p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number">48H</span>
+          <span class="stat-label">Engineering</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Developers</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">$10k+</span>
+          <span class="stat-label">In Prizes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">30+</span>
+          <span class="stat-label">Partners</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding: 8rem 2rem;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+  }
+
+  .mission {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .details p {
+    color: var(--color-text-dim);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .stat-card:hover {
+    border-color: var(--color-primary);
+    background: rgba(59, 130, 246, 0.1);
+    transform: translateY(-5px);
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 968px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>
