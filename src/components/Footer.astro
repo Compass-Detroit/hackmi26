@@ -1,99 +1,142 @@
 ---
 import { footerSponsorLogos, publicAssetUrl } from '../data/siteLogos';
+import { EVENT_DETAILS } from '../lib/constants';
 
 const base = import.meta.env.BASE_URL;
 const sponsors = footerSponsorLogos;
+const currentYear = new Date().getFullYear();
 ---
 
-{sponsors.length > 0 && (
-  <footer class="site-footer">
-    <div class="site-footer-inner">
-      <p class="site-footer-label">Partners & sponsors</p>
-      <ul class="site-footer-logos" role="list">
-        {sponsors.map((logo) => (
-          <li>
-            {logo.href ? (
-              <a
-                href={logo.href}
-                class="site-footer-logo-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={publicAssetUrl(base, logo.src)}
-                  alt={logo.alt}
-                  class="site-footer-logo-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </a>
-            ) : (
-              <span class="site-footer-logo-wrap">
-                <img
-                  src={publicAssetUrl(base, logo.src)}
-                  alt={logo.alt}
-                  class="site-footer-logo-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
+<footer class="footer">
+  {sponsors.length > 0 && (
+    <div class="sponsor-strip">
+      <div class="sponsor-strip-inner">
+        <p class="sponsor-strip-label">Partners &amp; sponsors</p>
+        <ul class="sponsor-strip-logos" role="list">
+          {sponsors.map((logo) => (
+            <li>
+              {logo.href ? (
+                <a
+                  href={logo.href}
+                  class="sponsor-strip-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    class="sponsor-strip-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              ) : (
+                <span class="sponsor-strip-wrap">
+                  <img
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    class="sponsor-strip-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  </footer>
-)}
+  )}
+
+  <div class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-info">
+          <h3 class="footer-logo">HACKMI</h3>
+          <p class="footer-tagline">Building the future of Michigan's tech corridor.</p>
+          <p class="footer-event-details">
+            {EVENT_DETAILS.LOCATION}<br />
+            {EVENT_DETAILS.DATE}
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h4 class="footer-title">Navigation</h4>
+          <ul>
+            <li><a href={`${base}#about`}>About</a></li>
+            <li><a href={`${base}#sponsors`}>Sponsors</a></li>
+            <li><a href={`${base}#event-details`}>Details</a></li>
+            <li><a href={`${base}#logistics`}>Logistics</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-social">
+          <h4 class="footer-title">Connect</h4>
+          <ul>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; {currentYear} {EVENT_DETAILS.NAME}. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <style>
-  .site-footer {
-    margin-top: auto;
-    padding: 2.5rem 1.5rem 3rem;
+  .sponsor-strip {
+    padding: 2rem 1.5rem 0;
     border-top: 1px solid var(--color-border);
     background: rgba(15, 23, 42, 0.5);
   }
 
-  .site-footer-inner {
+  .sponsor-strip-inner {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
   }
 
-  .site-footer-label {
+  .sponsor-strip-label {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-text-dim);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
-  .site-footer-logos {
+  .sponsor-strip-logos {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 1.5rem 2rem;
+    padding-bottom: 2rem;
   }
 
-  .site-footer-logo-link,
-  .site-footer-logo-wrap {
+  .sponsor-strip-link,
+  .sponsor-strip-wrap {
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
-  .site-footer-logo-link {
+  .sponsor-strip-link {
     opacity: 0.85;
     transition: opacity 0.2s ease;
   }
 
-  .site-footer-logo-link:hover {
+  .sponsor-strip-link:hover {
     opacity: 1;
   }
 
-  .site-footer-logo-img {
+  .sponsor-strip-img {
     max-height: 48px;
     width: auto;
     max-width: 240px;
@@ -101,7 +144,99 @@ const sponsors = footerSponsorLogos;
     filter: grayscale(0.15) brightness(1.05);
   }
 
-  .site-footer-logo-link:hover .site-footer-logo-img {
+  .sponsor-strip-link:hover .sponsor-strip-img {
     filter: grayscale(0) brightness(1.1);
+  }
+
+  .footer {
+    position: relative;
+    z-index: 10;
+  }
+
+  .footer-main {
+    padding: 4rem 2rem 3rem;
+    background: rgba(15, 23, 42, 0.9);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .footer-tagline {
+    color: var(--color-text-dim);
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+  }
+
+  .footer-event-details {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .footer-links ul,
+  .footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li,
+  .footer-social li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links a,
+  .footer-social a {
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover,
+  .footer-social a:hover {
+    color: var(--color-primary);
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .footer-main {
+      padding: 3rem 1.5rem 2rem;
+    }
   }
 </style>

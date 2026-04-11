@@ -23,7 +23,7 @@ A dark-themed Astro portfolio/blog template with Three.js particles and modern a
 
 ```bash
 # Clone this template
-git clone https://github.com/kpab/astro-darkness.git
+git clone https://github.com/Compass-Detroit/hackmi26.git
 cd astro-darkness
 
 # Install dependencies

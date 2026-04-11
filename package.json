@@ -34,8 +34,13 @@
     "three": "^0.160.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.8",
     "@types/three": "^0.160.0",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "yaml-language-server": {
+      "yaml": ">=2.8.3"
+    }
   }
 }

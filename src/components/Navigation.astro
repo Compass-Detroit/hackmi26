@@ -1,6 +1,6 @@
 ---
 import { headerOrganizationalLogos, publicAssetUrl, siteHeaderBrand } from '../data/siteLogos';
-import { HACKER_REGISTRATION_URL, SPONSOR_INQUIRY_URL } from '../lib/constants';
+import { EXTERNAL_URLS } from '../lib/constants';
 
 const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
@@ -9,7 +9,7 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 const orgLogos = headerOrganizationalLogos;
 const brand = siteHeaderBrand;
 const homeLabel = `${brand.logoAlt} — Home`;
-const logoAlt = `${brand.logoAlt} — Logo`;
+const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
 ---
 
 <nav class="nav">
@@ -19,9 +19,11 @@ const logoAlt = `${brand.logoAlt} — Logo`;
         <img
           class="site-logo-img"
           src={publicAssetUrl(base, brand.logoSrc)}
+          alt={wordmark ? '' : brand.logoAlt}
           loading="eager"
           decoding="async"
         />
+        {wordmark && <span class="logo-wordmark">{wordmark}</span>}
       </a>
       {orgLogos.length > 0 && (
         <ul class="nav-org-logos" role="list" aria-label="Partner organizations">
@@ -30,7 +32,6 @@ const logoAlt = `${brand.logoAlt} — Logo`;
               {logo.href ? (
                 <a href={logo.href} class="nav-org-logo-link" target="_blank" rel="noopener noreferrer">
                   <img src={publicAssetUrl(base, logo.src)} alt={logo.alt} class="nav-org-logo-img" loading="lazy" decoding="async" />
-				  {logoAlt}
                 </a>
               ) : (
                 <span class="nav-org-logo-wrap">
@@ -51,10 +52,10 @@ const logoAlt = `${brand.logoAlt} — Logo`;
       <a href={`${base}#sponsors`} class="nav-link">Sponsors</a>
       <a href={`${base}#event-details`} class="nav-link">Event</a>
       <a href={`${base}#logistics`} class="nav-link">Logistics</a>
-      <a href={HACKER_REGISTRATION_URL} class="nav-link nav-link-external" target="_blank" rel="noopener noreferrer">
+      <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="nav-link nav-link-external" target="_blank" rel="noopener noreferrer">
         Register
       </a>
-      <a href={SPONSOR_INQUIRY_URL} class="nav-cta" target="_blank" rel="noopener noreferrer">Sponsor</a>
+      <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="nav-cta" target="_blank" rel="noopener noreferrer">Sponsor</a>
     </div>
 
     <button class="mobile-menu-btn" aria-label="Toggle menu" id="mobile-menu-btn">
@@ -74,8 +75,8 @@ const logoAlt = `${brand.logoAlt} — Logo`;
     <a href={`${base}#sponsors`} class="mobile-nav-link">Sponsors</a>
     <a href={`${base}#event-details`} class="mobile-nav-link">Event</a>
     <a href={`${base}#logistics`} class="mobile-nav-link">Logistics</a>
-    <a href={HACKER_REGISTRATION_URL} class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Register</a>
-    <a href={SPONSOR_INQUIRY_URL} class="mobile-nav-cta" target="_blank" rel="noopener noreferrer">Become a sponsor</a>
+    <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Register</a>
+    <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="mobile-nav-cta" target="_blank" rel="noopener noreferrer">Become a sponsor</a>
   </div>
 </div>
 
@@ -165,6 +166,14 @@ const logoAlt = `${brand.logoAlt} — Logo`;
     display: block;
   }
 
+  .logo-wordmark {
+    white-space: nowrap;
+  }
+
+  .logo:hover .logo-wordmark {
+    color: var(--color-primary);
+  }
+
   .logo:hover {
     color: var(--color-primary);
   }
@@ -248,7 +257,7 @@ const logoAlt = `${brand.logoAlt} — Logo`;
   }
 
   .mobile-menu {
-    display: none;
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -332,8 +341,8 @@ const logoAlt = `${brand.logoAlt} — Logo`;
     }
 
     .site-logo-img {
-      height: 120px;
-      max-width: 120px;
+      height: 36px;
+      max-width: 160px;
     }
 
     .nav-org-logo-img {
@@ -347,10 +356,6 @@ const logoAlt = `${brand.logoAlt} — Logo`;
 
     .mobile-menu-btn {
       display: flex;
-    }
-
-    .mobile-menu {
-      display: block;
     }
   }
 </style>

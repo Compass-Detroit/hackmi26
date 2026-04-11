@@ -1,11 +1,13 @@
 ---
-// Dates & location — TBA placeholders until schedule and venue are locked
+import { EVENT_DETAILS } from '../lib/constants';
 ---
 
 <section class="event-details" id="event-details" aria-labelledby="event-heading">
   <div class="container">
     <h2 id="event-heading" class="section-title">Event details</h2>
-    <p class="section-subtitle">Save the window—exact schedule and venue will be posted as we finalize logistics.</p>
+    <p class="section-subtitle">
+      Save the window—exact schedule and venue will be posted as we finalize logistics.
+    </p>
 
     <div class="detail-grid">
       <article class="detail-card glass" id="dates">
@@ -13,7 +15,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
         <h3 class="detail-title">Dates</h3>
-        <p class="detail-highlight">May 2026</p>
+        <p class="detail-highlight">{EVENT_DETAILS.DATE}</p>
         <p class="detail-copy">
           We are targeting a spring weekend in Detroit. Subscribe via registration for the first announcement of kickoff,
           judging, and showcase times.
@@ -25,7 +27,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
         </div>
         <h3 class="detail-title">Location</h3>
-        <p class="detail-highlight">Detroit tech corridor</p>
+        <p class="detail-highlight">{EVENT_DETAILS.LOCATION}</p>
         <p class="detail-copy">
           HackMI is rooted in Detroit’s growing innovation corridor—accessible to students across Southeast Michigan and
           visitors flying into DTW. Venue and transit notes will be shared with registered participants.

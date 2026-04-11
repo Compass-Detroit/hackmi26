@@ -15,8 +15,6 @@ export const siteHeaderBrand = {
   logoSrc: '/images/site/compass-logo.svg',
   /** Used for accessibility and when the logo is shown without a wordmark. */
   logoAlt: 'Compass Detroit',
-  /** Optional text next to the mark; omit for image-only. */
- // wordmark: 'Compass Detroit',
 } as const;
 
 /** Shown in the main nav (e.g. host org, chapter, venue). */
