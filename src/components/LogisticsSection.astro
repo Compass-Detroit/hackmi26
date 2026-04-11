@@ -1,0 +1,116 @@
+---
+// Rules, prizes, judges, criteria — placeholder content until handbook is ready
+---
+
+<section class="logistics" id="logistics" aria-labelledby="logistics-heading">
+  <div class="container">
+    <h2 id="logistics-heading" class="section-title">Logistics for hackers</h2>
+    <p class="section-subtitle">What to expect on the ground—full details will live in the participant guide.</p>
+
+    <div class="logistics-grid">
+      <article class="log-card glass" id="rules">
+        <h3 class="log-title">Rules</h3>
+        <p class="log-copy">
+          Code of conduct, team sizes, originality expectations, and allowed tooling will be published here. Our goal is a
+          fair, inclusive, and safe event for everyone.
+        </p>
+      </article>
+      <article class="log-card glass" id="prizes">
+        <h3 class="log-title">Prizes</h3>
+        <p class="log-copy">
+          Prize tracks and awards will be announced alongside sponsor commitments. Expect recognition for technical depth,
+          creativity, and impact—not just polish.
+        </p>
+      </article>
+      <article class="log-card glass" id="judges">
+        <h3 class="log-title">Judges</h3>
+        <p class="log-copy">
+          Judges from industry and academia will join us in Detroit. Names and backgrounds will be listed once the panel is
+          confirmed.
+        </p>
+      </article>
+      <article class="log-card glass" id="judging-criteria">
+        <h3 class="log-title">Judging criteria</h3>
+        <p class="log-copy">
+          Submissions will be scored on problem relevance, execution, innovation, and presentation. Weighting and rubric will
+          mirror the final participant rules.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .logistics {
+    padding: 4rem 2rem 5rem;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--color-text-dim);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .logistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .log-card {
+    padding: 1.75rem;
+    border-radius: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass {
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .log-card:hover {
+    border-color: rgba(139, 92, 246, 0.35);
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.08);
+  }
+
+  .log-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.65rem;
+  }
+
+  .log-copy {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-text-dim);
+  }
+
+  @media (max-width: 768px) {
+    .logistics {
+      padding: 3rem 1.25rem 4rem;
+    }
+  }
+</style>
