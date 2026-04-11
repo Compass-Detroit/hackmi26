@@ -1,42 +1,41 @@
 ---
-// Hero section - Clean, professional design
+import { HACKER_REGISTRATION_URL, SPONSOR_INQUIRY_URL } from '../lib/constants';
+
 const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero">
   <div class="hero-content">
-    <div class="greeting">Hello, I'm</div>
+    <div class="greeting">Detroit · Michigan · May 2026</div>
     <h1 class="hero-title">
-      <span class="title-text">DARKNESS</span>
+      <span class="title-text">HACKMI</span>
     </h1>
-    <p class="hero-subtitle">Web Developer & Creative Coder</p>
+    <p class="hero-subtitle">Michigan’s hackathon for builders, students, and bold ideas</p>
     <p class="hero-description">
-      Building immersive web experiences with Three.js, modern animations, and dark aesthetics.
-      Specializing in motion-rich interfaces that push the boundaries of what's possible on the web.
+      HackMI is a weekend sprint in the heart of the Detroit tech corridor—welcoming the public and students from schools
+      like the University of Michigan and Wayne State University. Help us grow the event: rally hackers and partners as we
+      finalize the full program.
     </p>
     <div class="hero-buttons">
-      <a href={`${base}projects`} class="btn btn-primary">
-        <span>View Projects</span>
+      <a href={HACKER_REGISTRATION_URL} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        <span>Register Now</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
       </a>
-      <a href={`${base}blog`} class="btn btn-secondary">
-        <span>Read Blog</span>
+      <a href={SPONSOR_INQUIRY_URL} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+        <span>Sponsor HackMI</span>
       </a>
     </div>
 
-    <!-- Tech stack badges -->
-    <div class="tech-stack">
-      <span class="tech-badge">TypeScript</span>
-      <span class="tech-badge">React</span>
-      <span class="tech-badge">Three.js</span>
-      <span class="tech-badge">Astro</span>
+    <div class="hero-chips">
+      <a href={`${base}#sponsors`} class="hero-chip">Call for sponsors</a>
+      <a href={`${base}#about`} class="hero-chip">Why HackMI?</a>
+      <a href={`${base}#logistics`} class="hero-chip">Rules &amp; judging</a>
     </div>
   </div>
 
-  <!-- Decorative elements -->
   <div class="hero-decoration">
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
@@ -89,7 +88,8 @@ const base = import.meta.env.BASE_URL;
   }
 
   @keyframes gradientFlow {
-    0%, 100% {
+    0%,
+    100% {
       background-position: 0% 50%;
     }
     50% {
@@ -110,7 +110,7 @@ const base = import.meta.env.BASE_URL;
     color: var(--color-text-dim);
     margin-bottom: 2.5rem;
     line-height: 1.7;
-    max-width: 600px;
+    max-width: 640px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -120,7 +120,7 @@ const base = import.meta.env.BASE_URL;
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
   .btn {
@@ -145,7 +145,7 @@ const base = import.meta.env.BASE_URL;
   }
 
   .btn-primary:hover {
-    background: #2563EB;
+    background: #2563eb;
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
   }
 
@@ -168,14 +168,14 @@ const base = import.meta.env.BASE_URL;
     border-color: var(--color-primary);
   }
 
-  .tech-stack {
+  .hero-chips {
     display: flex;
     gap: 0.75rem;
     justify-content: center;
     flex-wrap: wrap;
   }
 
-  .tech-badge {
+  .hero-chip {
     padding: 0.5rem 1rem;
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid var(--color-border);
@@ -183,14 +183,14 @@ const base = import.meta.env.BASE_URL;
     font-size: 0.875rem;
     color: var(--color-text-dim);
     transition: all 0.2s ease;
+    text-decoration: none;
   }
 
-  .tech-badge:hover {
+  .hero-chip:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
   }
 
-  /* Decorative glows */
   .hero-decoration {
     position: absolute;
     width: 100%;
@@ -238,7 +238,8 @@ const base = import.meta.env.BASE_URL;
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translate(0, 0);
     }
     50% {
@@ -246,12 +247,12 @@ const base = import.meta.env.BASE_URL;
     }
   }
 
-  /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .title-text {
       animation: none;
     }
-    .glow-1, .glow-2 {
+    .glow-1,
+    .glow-2 {
       animation: none;
     }
     .hero-content {
