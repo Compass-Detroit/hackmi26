@@ -9,6 +9,7 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 const orgLogos = headerOrganizationalLogos;
 const brand = siteHeaderBrand;
 const homeLabel = `${brand.logoAlt} — Home`;
+const logoAlt = `${brand.logoAlt} — Logo`;
 ---
 
 <nav class="nav">
@@ -29,6 +30,7 @@ const homeLabel = `${brand.logoAlt} — Home`;
               {logo.href ? (
                 <a href={logo.href} class="nav-org-logo-link" target="_blank" rel="noopener noreferrer">
                   <img src={publicAssetUrl(base, logo.src)} alt={logo.alt} class="nav-org-logo-img" loading="lazy" decoding="async" />
+				  {logoAlt}
                 </a>
               ) : (
                 <span class="nav-org-logo-wrap">
