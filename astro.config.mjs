@@ -4,8 +4,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://github.com/Compass-Detroit/',
-  base: '/hackmi2026',
+  site: 'https://hackmichigan.com',
+  base: '/hackmichigan',
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
 });
