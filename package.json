@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/kpab/astro-darkness"
   },
-  "homepage": "https://kpab.github.io/astro-darkness",
+  "homepage": "https://hackmichigan.com",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

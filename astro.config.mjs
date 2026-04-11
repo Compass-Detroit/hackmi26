@@ -4,8 +4,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  // Production URL for sitemap/RSS; override in Vercel if preview domains differ.
   site: 'https://hackmichigan.com',
-  base: '/hackmichigan',
+  // Root path for Vercel (or any host at domain root). Use a subpath only if deployed under one.
+  base: '/',
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
 });
