@@ -15,8 +15,8 @@
   --color-shadow: rgba(59, 130, 246, 0.3);
 
   /* Typography */
-  --font-heading: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-heading: 'Orbitron', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
 
   /* Spacing */
   --nav-height: 80px;
@@ -36,7 +36,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Headings use Space Grotesk */
+/* Headings use Orbitron (self-hosted, see BaseLayout.astro) */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
