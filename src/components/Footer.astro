@@ -1,0 +1,107 @@
+---
+import { footerSponsorLogos, publicAssetUrl } from '../data/siteLogos';
+
+const base = import.meta.env.BASE_URL;
+const sponsors = footerSponsorLogos;
+---
+
+{sponsors.length > 0 && (
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p class="site-footer-label">Partners & sponsors</p>
+      <ul class="site-footer-logos" role="list">
+        {sponsors.map((logo) => (
+          <li>
+            {logo.href ? (
+              <a
+                href={logo.href}
+                class="site-footer-logo-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={publicAssetUrl(base, logo.src)}
+                  alt={logo.alt}
+                  class="site-footer-logo-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+            ) : (
+              <span class="site-footer-logo-wrap">
+                <img
+                  src={publicAssetUrl(base, logo.src)}
+                  alt={logo.alt}
+                  class="site-footer-logo-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </footer>
+)}
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    padding: 2.5rem 1.5rem 3rem;
+    border-top: 1px solid var(--color-border);
+    background: rgba(15, 23, 42, 0.5);
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .site-footer-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin-bottom: 1.25rem;
+  }
+
+  .site-footer-logos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem 2rem;
+  }
+
+  .site-footer-logo-link,
+  .site-footer-logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-footer-logo-link {
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+
+  .site-footer-logo-link:hover {
+    opacity: 1;
+  }
+
+  .site-footer-logo-img {
+    max-height: 48px;
+    width: auto;
+    max-width: 240px;
+    object-fit: contain;
+    filter: grayscale(0.15) brightness(1.05);
+  }
+
+  .site-footer-logo-link:hover .site-footer-logo-img {
+    filter: grayscale(0) brightness(1.1);
+  }
+</style>
