@@ -1,0 +1,88 @@
+---
+// About HackMI — mission copy (refine when programming is finalized)
+---
+
+<section class="about-section" id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <h2 id="about-heading" class="section-title">About HackMI</h2>
+    <p class="section-subtitle">A Michigan hackathon for builders, students, and curious technologists.</p>
+    <div class="about-card glass">
+      <p class="about-lead">
+        HackMI is a weekend-long innovation sprint in <strong>Detroit</strong>, bringing together public participants and
+        students from schools like the <strong>University of Michigan</strong> and <strong>Wayne State University</strong>.
+        Teams ship creative projects that blend software, design, and real-world impact—with room to experiment boldly.
+      </p>
+      <p class="about-body">
+        Whether you are polishing an agentic workflow, crafting a polished UI, or exploring hardware-adjacent ideas, HackMI is
+        built to give you mentorship, momentum, and a memorable community experience in the heart of the Detroit tech corridor.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: 5rem 2rem 3rem;
+    position: relative;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--color-text-dim);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-card {
+    padding: 2rem 2.25rem;
+    border-radius: 1rem;
+  }
+
+  .glass {
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .about-lead,
+  .about-body {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--color-text-dim);
+  }
+
+  .about-lead {
+    margin-bottom: 1.25rem;
+  }
+
+  .about-lead strong,
+  .about-body strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .about-section {
+      padding: 4rem 1.25rem 2.5rem;
+    }
+
+    .about-card {
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>
