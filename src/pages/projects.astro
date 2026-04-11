@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ThreeBackground from '../components/ThreeBackground.astro';
 import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 
 const allProjects = await getCollection('projects');
@@ -64,6 +65,8 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
       )}
     </div>
   </main>
+
+  <Footer />
 </BaseLayout>
 
 <style>

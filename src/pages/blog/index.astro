@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ThreeBackground from '../../components/ThreeBackground.astro';
 import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
 import BlogCard from '../../components/BlogCard.astro';
 
 const allBlogPosts = await getCollection('blog');
@@ -40,6 +41,8 @@ const sortedPosts = allBlogPosts.sort((a, b) =>
       </div>
     </div>
   </main>
+
+  <Footer />
 </BaseLayout>
 
 <style>

@@ -2,25 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ThreeBackground from '../components/ThreeBackground.astro';
 import Navigation from '../components/Navigation.astro';
-import Hero from '../components/Hero.astro';
-import EventAbout from '../components/EventAbout.astro';
-import SponsorCTA from '../components/SponsorCTA.astro';
-import EventDetails from '../components/EventDetails.astro';
-import Logistics from '../components/Logistics.astro';
-import FinalCTA from '../components/FinalCTA.astro';
 import Footer from '../components/Footer.astro';
-
-const base = import.meta.env.BASE_URL;
+import Hero from '../components/Hero.astro';
+import AboutSection from '../components/AboutSection.astro';
+import SponsorsSection from '../components/SponsorsSection.astro';
+import EventDetails from '../components/EventDetails.astro';
+import LogisticsSection from '../components/LogisticsSection.astro';
+import SignupSection from '../components/SignupSection.astro';
+import FinalAgenticCTA from '../components/FinalAgenticCTA.astro';
 ---
 
-<BaseLayout title="Hack Michigan 2026 - Detroit's Premier Engineering Event">
+<BaseLayout
+  title="HackMI — Detroit hackathon · May 2026"
+  description="Hack Michigan (HackMI) is a Detroit hackathon in May 2026 for students and the public. Register and explore sponsorship."
+>
   <ThreeBackground />
   <Navigation />
   <Hero />
-  <EventAbout />
-  <SponsorCTA />
+  <AboutSection />
+  <SponsorsSection />
   <EventDetails />
-  <Logistics />
-  <FinalCTA />
+  <LogisticsSection />
+  <SignupSection />
+  <FinalAgenticCTA />
   <Footer />
 </BaseLayout>

@@ -1,54 +1,162 @@
 ---
+import { footerSponsorLogos, publicAssetUrl } from '../data/siteLogos';
 import { EVENT_DETAILS } from '../lib/constants';
+
+const base = import.meta.env.BASE_URL;
+const sponsors = footerSponsorLogos;
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-info">
-        <h3 class="footer-logo">HACKMI</h3>
-        <p class="footer-tagline">Building the future of Michigan's tech corridor.</p>
-        <p class="footer-event-details">
-          {EVENT_DETAILS.LOCATION}<br />
-          {EVENT_DETAILS.DATE}
-        </p>
-      </div>
-      
-      <div class="footer-links">
-        <h4 class="footer-title">Navigation</h4>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#sponsors">Sponsors</a></li>
-          <li><a href="#details">Details</a></li>
-          <li><a href="#logistics">Logistics</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-social">
-        <h4 class="footer-title">Connect</h4>
-        <ul>
-          <li><a href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+  {sponsors.length > 0 && (
+    <div class="sponsor-strip">
+      <div class="sponsor-strip-inner">
+        <p class="sponsor-strip-label">Partners &amp; sponsors</p>
+        <ul class="sponsor-strip-logos" role="list">
+          {sponsors.map((logo) => (
+            <li>
+              {logo.href ? (
+                <a
+                  href={logo.href}
+                  class="sponsor-strip-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    class="sponsor-strip-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              ) : (
+                <span class="sponsor-strip-wrap">
+                  <img
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    class="sponsor-strip-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+              )}
+            </li>
+          ))}
         </ul>
       </div>
     </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; {currentYear} {EVENT_DETAILS.NAME}. All rights reserved.</p>
+  )}
+
+  <div class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-info">
+          <h3 class="footer-logo">HACKMI</h3>
+          <p class="footer-tagline">Building the future of Michigan's tech corridor.</p>
+          <p class="footer-event-details">
+            {EVENT_DETAILS.LOCATION}<br />
+            {EVENT_DETAILS.DATE}
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h4 class="footer-title">Navigation</h4>
+          <ul>
+            <li><a href={`${base}#about`}>About</a></li>
+            <li><a href={`${base}#sponsors`}>Sponsors</a></li>
+            <li><a href={`${base}#event-details`}>Details</a></li>
+            <li><a href={`${base}#logistics`}>Logistics</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-social">
+          <h4 class="footer-title">Connect</h4>
+          <ul>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; {currentYear} {EVENT_DETAILS.NAME}. All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>
 
 <style>
-  .footer {
-    padding: 6rem 2rem 3rem;
-    background: rgba(15, 23, 42, 0.9);
+  .sponsor-strip {
+    padding: 2rem 1.5rem 0;
     border-top: 1px solid var(--color-border);
+    background: rgba(15, 23, 42, 0.5);
+  }
+
+  .sponsor-strip-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .sponsor-strip-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .sponsor-strip-logos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .sponsor-strip-link,
+  .sponsor-strip-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sponsor-strip-link {
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+
+  .sponsor-strip-link:hover {
+    opacity: 1;
+  }
+
+  .sponsor-strip-img {
+    max-height: 48px;
+    width: auto;
+    max-width: 240px;
+    object-fit: contain;
+    filter: grayscale(0.15) brightness(1.05);
+  }
+
+  .sponsor-strip-link:hover .sponsor-strip-img {
+    filter: grayscale(0) brightness(1.1);
+  }
+
+  .footer {
     position: relative;
     z-index: 10;
+  }
+
+  .footer-main {
+    padding: 4rem 2rem 3rem;
+    background: rgba(15, 23, 42, 0.9);
+    border-top: 1px solid var(--color-border);
   }
 
   .container {
@@ -117,7 +225,7 @@ const currentYear = new Date().getFullYear();
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
-    color: var(--color-text-dim-extra, #4B5563);
+    color: var(--color-text-dim);
     font-size: 0.9rem;
   }
 
@@ -126,9 +234,9 @@ const currentYear = new Date().getFullYear();
       grid-template-columns: 1fr;
       gap: 3rem;
     }
-    
-    .footer {
-      padding: 4rem 1.5rem 2rem;
+
+    .footer-main {
+      padding: 3rem 1.5rem 2rem;
     }
   }
 </style>

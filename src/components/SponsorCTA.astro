@@ -1,118 +1,133 @@
 ---
 import { EXTERNAL_URLS } from '../lib/constants';
-import Card from './Card.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<section id="sponsors" class="sponsors">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Support the Next Wave of Michigan Innovation</h2>
-      <p class="section-subtitle">Partner with us to empower the local developer ecosystem and shape the future of tech in Detroit.</p>
-    </div>
-
-    <div class="tiers-grid">
-      <Card 
-        title="Platinum" 
-        description="Premium visibility, recruitment access, and keynote opportunities for market leaders." 
-        icon="rocket"
-      />
-      <Card 
-        title="Gold" 
-        description="Strong brand presence, workshop hosting, and direct engagement with top-tier engineering talent." 
-        icon="star"
-      />
-      <Card 
-        title="Community" 
-        description="Show your support for the Michigan tech community and connect with passionate builders." 
-        icon="code"
-      />
-    </div>
-
-    <div class="sponsor-cta">
+<section class="sponsor-cta" id="sponsor-cta" aria-labelledby="sponsor-cta-heading">
+  <div class="sponsor-cta-inner glass">
+    <p class="eyebrow">Partners &amp; supporters</p>
+    <h2 id="sponsor-cta-heading" class="headline">
+      Support the Next Wave of Michigan Innovation
+    </h2>
+    <p class="lede">
+      Help us bring students and builders from the University of Michigan, Wayne State, and the wider region together for an
+      unforgettable weekend in Detroit.
+    </p>
+    <div class="actions">
       <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
         Become a Sponsor
       </a>
+      <a href={`${base}#event-details`} class="btn btn-ghost">Event details</a>
     </div>
   </div>
 </section>
 
 <style>
-  .sponsors {
-    padding: 6rem 2rem;
-    position: relative;
-    background: rgba(15, 23, 42, 0.3);
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-  }
-
-  .section-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--color-text);
-  }
-
-  .section-subtitle {
-    color: var(--color-text-dim);
-    font-size: 1.1rem;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-
   .sponsor-cta {
+    padding: 0 2rem 2rem;
+    position: relative;
+  }
+
+  .sponsor-cta-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    border-radius: 1.25rem;
     text-align: center;
+  }
+
+  .glass {
+    background: rgba(30, 41, 59, 0.65);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .headline {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .lede {
+    color: var(--color-text-dim);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 640px;
+    margin: 0 auto 1.75rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
   }
 
   .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     font-family: var(--font-body);
-    border: none;
     border-radius: 0.5rem;
-    cursor: pointer;
     text-decoration: none;
     transition: all 0.2s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
   }
 
   .btn-primary {
     background: var(--color-primary);
     color: white;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
   }
 
   .btn-primary:hover {
-    background: #2563EB;
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-    transform: translateY(-2px);
+    background: #2563eb;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
   }
 
   @media (max-width: 768px) {
-    .sponsors {
-      padding: 4rem 1.5rem;
+    .sponsor-cta {
+      padding: 0 1.25rem 1.5rem;
     }
-    
-    .tiers-grid {
-      grid-template-columns: 1fr;
+
+    .actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn {
+      width: 100%;
     }
   }
 </style>

@@ -2,116 +2,131 @@
 import { EVENT_DETAILS } from '../lib/constants';
 ---
 
-<section id="details" class="details">
+<section class="event-details" id="event-details" aria-labelledby="event-heading">
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Event Context</h2>
-      <p class="section-subtitle">Detroit Tech Corridor | May 2026</p>
-    </div>
+    <h2 id="event-heading" class="section-title">Event details</h2>
+    <p class="section-subtitle">
+      Save the window—exact schedule and venue will be posted as we finalize logistics.
+    </p>
 
-    <div class="details-grid">
-      <div class="detail-item">
-        <h3 class="detail-title">Location</h3>
-        <p class="detail-value">{EVENT_DETAILS.LOCATION}</p>
-        <p class="detail-description">
-          Hosted in the heart of downtown Detroit, our venue provides immediate access to the region's top engineering firms and startups.
-        </p>
-      </div>
-
-      <div class="detail-item">
+    <div class="detail-grid">
+      <article class="detail-card glass" id="dates">
+        <div class="detail-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
         <h3 class="detail-title">Dates</h3>
-        <p class="detail-value">{EVENT_DETAILS.DATE}</p>
-        <p class="detail-description">
-          A 48-hour engineering sprint designed to challenge, inspire, and facilitate high-velocity development.
+        <p class="detail-highlight">{EVENT_DETAILS.DATE}</p>
+        <p class="detail-copy">
+          We are targeting a spring weekend in Detroit. Subscribe via registration for the first announcement of kickoff,
+          judging, and showcase times.
         </p>
-      </div>
+      </article>
+
+      <article class="detail-card glass" id="location">
+        <div class="detail-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        </div>
+        <h3 class="detail-title">Location</h3>
+        <p class="detail-highlight">{EVENT_DETAILS.LOCATION}</p>
+        <p class="detail-copy">
+          HackMI is rooted in Detroit’s growing innovation corridor—accessible to students across Southeast Michigan and
+          visitors flying into DTW. Venue and transit notes will be shared with registered participants.
+        </p>
+      </article>
     </div>
   </div>
 </section>
 
 <style>
-  .details {
-    padding: 6rem 2rem;
+  .event-details {
+    padding: 4rem 2rem;
     position: relative;
-    background: rgba(15, 23, 42, 0.2);
   }
 
   .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
   }
 
   .section-title {
     font-family: var(--font-heading);
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
     color: var(--color-text);
   }
 
   .section-subtitle {
-    color: var(--color-primary);
+    text-align: center;
+    color: var(--color-text-dim);
     font-size: 1.1rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    margin-bottom: 2.5rem;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .details-grid {
+  .detail-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
 
-  .detail-item {
-    background: rgba(15, 23, 42, 0.4);
+  .detail-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass {
+    background: rgba(30, 41, 59, 0.55);
     border: 1px solid var(--color-border);
-    border-radius: 1.5rem;
-    padding: 3rem;
-    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
-  .detail-item:hover {
-    border-color: var(--color-primary);
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
+  .detail-card:hover {
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.1);
+  }
+
+  .detail-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--color-primary);
+    margin-bottom: 1rem;
   }
 
   .detail-title {
     font-family: var(--font-heading);
-    font-size: 1rem;
-    color: var(--color-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-
-  .detail-value {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
     color: var(--color-text);
+    margin-bottom: 0.35rem;
   }
 
-  .detail-description {
+  .detail-highlight {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-copy {
+    font-size: 0.98rem;
+    line-height: 1.65;
     color: var(--color-text-dim);
-    line-height: 1.7;
-    font-size: 1.05rem;
   }
 
   @media (max-width: 768px) {
-    .details-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    
-    .detail-item {
-      padding: 2rem;
+    .event-details {
+      padding: 3rem 1.25rem;
     }
   }
 </style>

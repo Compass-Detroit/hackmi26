@@ -10,6 +10,26 @@
 </div>
 
 <canvas id="three-canvas"></canvas>
+<button
+  type="button"
+  id="three-pause-toggle"
+  class="three-pause-btn"
+  aria-pressed="false"
+  aria-label="Pause background animation"
+  title="Pause background animation"
+>
+  <span class="three-pause-icon three-pause-icon--pause" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+      <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+    </svg>
+  </span>
+  <span class="three-pause-icon three-pause-icon--play" aria-hidden="true" hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8 5v14l11-7-11-7z"></path>
+    </svg>
+  </span>
+</button>
 
 <script>
   import * as THREE from 'three';
@@ -26,6 +46,7 @@
   let mouseY = 0;
   let time = 0;
   let isPaused = false;
+  let pauseButtonHandler: (() => void) | null = null;
 
   // マウスムーブハンドラー
   const handleMouseMove = (event: MouseEvent) => {
@@ -156,7 +177,61 @@
 
     // アニメーションループの開始
     time = 0;
+    isPaused = false;
     animate();
+    setupPauseButton();
+  }
+
+  function syncPauseButton() {
+    const btn = document.getElementById('three-pause-toggle');
+    if (!btn) return;
+    const pauseIcon = btn.querySelector('.three-pause-icon--pause');
+    const playIcon = btn.querySelector('.three-pause-icon--play');
+    btn.setAttribute('aria-pressed', isPaused ? 'true' : 'false');
+    if (isPaused) {
+      btn.setAttribute('aria-label', 'Resume background animation');
+      btn.setAttribute('title', 'Resume background animation');
+    } else {
+      btn.setAttribute('aria-label', 'Pause background animation');
+      btn.setAttribute('title', 'Pause background animation');
+    }
+    if (pauseIcon && playIcon) {
+      pauseIcon.toggleAttribute('hidden', isPaused);
+      playIcon.toggleAttribute('hidden', !isPaused);
+    }
+  }
+
+  function setPaused(paused: boolean) {
+    isPaused = paused;
+    if (isPaused) {
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    } else {
+      animate();
+    }
+    syncPauseButton();
+  }
+
+  function setupPauseButton() {
+    const btn = document.getElementById('three-pause-toggle');
+    if (!btn) return;
+    if (pauseButtonHandler) {
+      btn.removeEventListener('click', pauseButtonHandler);
+    }
+    pauseButtonHandler = () => setPaused(!isPaused);
+    btn.addEventListener('click', pauseButtonHandler);
+    syncPauseButton();
+  }
+
+  function cleanupPauseButton() {
+    const btn = document.getElementById('three-pause-toggle');
+    if (btn && pauseButtonHandler) {
+      btn.removeEventListener('click', pauseButtonHandler);
+    }
+    pauseButtonHandler = null;
+    isPaused = false;
   }
 
   // アニメーションループ
@@ -194,6 +269,8 @@
 
   // クリーンアップ
   function cleanupThreeAnimation() {
+    cleanupPauseButton();
+
     // アニメーションループの停止
     if (animationId !== null) {
       cancelAnimationFrame(animationId);
@@ -289,5 +366,58 @@
 
   .hidden {
     display: none;
+  }
+
+  .three-pause-btn {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 0.65rem;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-text);
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    touch-action: manipulation;
+  }
+
+  .three-pause-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(30, 41, 59, 0.95);
+  }
+
+  .three-pause-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .three-pause-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .three-pause-icon[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .three-pause-btn {
+      bottom: 1rem;
+      right: 1rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
   }
 </style>
