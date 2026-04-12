@@ -1,5 +1,10 @@
 ---
 import SponsorCTA from './SponsorCTA.astro';
+
+const platinumSlots = [1, 2, 3] as const;
+const communitySlots = [1, 2, 3, 4] as const;
+const platinumSlotTotal = platinumSlots.length;
+const communitySlotTotal = communitySlots.length;
 ---
 
 <section class="sponsors-section" id="sponsors" aria-labelledby="sponsors-heading">
@@ -9,25 +14,43 @@ import SponsorCTA from './SponsorCTA.astro';
       Thank you to the organizations backing HackMI. Interested in joining them?
     </p>
 
-    <div class="tier-grid" role="list">
-      <article class="tier-card glass" role="listitem">
-        <p class="tier-label">Platinum</p>
-        <h3 class="tier-name">Partner name</h3>
-        <p class="tier-copy">Logo and details will appear here when sponsors are confirmed.</p>
-        <div class="tier-placeholder" aria-hidden="true" />
-      </article>
-      <article class="tier-card glass" role="listitem">
-        <p class="tier-label">Gold</p>
-        <h3 class="tier-name">Partner name</h3>
-        <p class="tier-copy">Logo and details will appear here when sponsors are confirmed.</p>
-        <div class="tier-placeholder" aria-hidden="true" />
-      </article>
-      <article class="tier-card glass" role="listitem">
-        <p class="tier-label">Community</p>
-        <h3 class="tier-name">Partner name</h3>
-        <p class="tier-copy">Logo and details will appear here when sponsors are confirmed.</p>
-        <div class="tier-placeholder" aria-hidden="true" />
-      </article>
+    <div class="sponsor-tiers">
+      <section class="sponsor-tier sponsor-tier--gold" aria-labelledby="tier-gold-heading">
+        <h3 id="tier-gold-heading" class="tier-heading">Gold</h3>
+        <ul class="tier-slots tier-slots--gold">
+          <li class="sponsor-slot sponsor-slot--card" aria-label="Gold sponsor — logo placeholder">
+            <span class="sponsor-slot__plus" aria-hidden="true">+</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sponsor-tier sponsor-tier--platinum" aria-labelledby="tier-platinum-heading">
+        <h3 id="tier-platinum-heading" class="tier-heading">Platinum</h3>
+        <ul class="tier-slots tier-slots--platinum">
+          {platinumSlots.map((n) => (
+            <li
+              class="sponsor-slot sponsor-slot--card"
+              aria-label={`Platinum sponsor slot ${n} of ${platinumSlotTotal} — logo placeholder`}
+            >
+              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="sponsor-tier sponsor-tier--community" aria-labelledby="tier-community-heading">
+        <h3 id="tier-community-heading" class="tier-heading">Community</h3>
+        <ul class="tier-slots tier-slots--community">
+          {communitySlots.map((n) => (
+            <li
+              class="sponsor-slot sponsor-slot--square"
+              aria-label={`Community sponsor slot ${n} of ${communitySlotTotal} — logo placeholder`}
+            >
+              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
 
     <SponsorCTA />
@@ -64,64 +87,109 @@ import SponsorCTA from './SponsorCTA.astro';
     margin-right: auto;
   }
 
-  .tier-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+  .sponsor-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
   }
 
-  .tier-card {
-    border-radius: 1rem;
-    padding: 1.75rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  .sponsor-tier {
+    width: 100%;
   }
 
-  .glass {
-    background: rgba(30, 41, 59, 0.55);
-    border: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .tier-card:hover {
-    border-color: rgba(59, 130, 246, 0.45);
-    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.12);
-  }
-
-  .tier-label {
-    font-size: 0.7rem;
+  .tier-heading {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-primary);
-    margin-bottom: 0.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
-  .tier-name {
+  .tier-slots {
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Gold: single row, one business-card slot (centered) */
+  .tier-slots--gold {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    max-width: min(400px, 100%);
+    margin: 0 auto;
+  }
+
+  /* Platinum: three across */
+  .tier-slots--platinum {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Community: four across */
+  .tier-slots--community {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sponsor-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0.75rem;
+    border: 1px dashed rgba(148, 163, 184, 0.45);
+    background: rgba(15, 23, 42, 0.5);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  /* 3.5″ × 2″ business card (landscape) */
+  .sponsor-slot--card {
+    aspect-ratio: 7 / 4;
+  }
+
+  .sponsor-slot--square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .sponsor-slot:hover {
+    border-color: rgba(59, 130, 246, 0.55);
+    background: rgba(30, 41, 59, 0.55);
+  }
+
+  .sponsor-slot__plus {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1;
+    color: rgba(148, 163, 184, 0.55);
+    user-select: none;
+    pointer-events: none;
   }
 
-  .tier-copy {
-    font-size: 0.95rem;
-    color: var(--color-text-dim);
-    line-height: 1.55;
-    margin-bottom: 1.25rem;
+  @media (max-width: 900px) {
+    .tier-slots--community {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
-  .tier-placeholder {
-    height: 72px;
-    border-radius: 0.5rem;
-    border: 1px dashed var(--color-border);
-    background: rgba(15, 23, 42, 0.4);
-  }
+  @media (max-width: 640px) {
+    .tier-slots--platinum {
+      grid-template-columns: 1fr;
+    }
 
-  @media (max-width: 768px) {
+    .tier-slots--community {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .sponsors-section {
       padding: 1.5rem 1.25rem 4rem;
     }
