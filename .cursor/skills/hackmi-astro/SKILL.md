@@ -8,7 +8,6 @@ description: >-
 
 - Stack is Astro + component CSS, not React
 - defer to ui-ux-pro-max for visual ideas only
-- use tailwind for utility classes only
 ## Repo map
 - Home: `src/pages/index.astro`
 - URLs & copy: `src/lib/constants.ts`
@@ -16,7 +15,6 @@ description: >-
 - Org logos: `public/images/org/`
 - Sponsors: `public/images/sponsors/`
 - Footer sponsors: `public/images/footer/`
-- Header sponsors: `public/images/header/`
 - Header sponsors: `public/images/header/`
 - Fonts: `public/fonts/`
 - Styles: `src/styles/global.css`
@@ -29,7 +27,4 @@ description: >-
 - README: `README.md`
 - CHANGELOG: `CHANGELOG.md`
 - LICENSE: `LICENSE`
-- CONTRIBUTING: `CONTRIBUTING.md`
-- CODE_OF_CONDUCT: `CODE_OF_CONDUCT.md`
-- SECURITY.md: `SECURITY.md`
 - .gitignore: `.gitignore`
