@@ -1,4 +1,4 @@
-# Darkness - Astro Dark Theme
+# Michigan Hackathon 2026
 
 A dark-themed Astro portfolio/blog template with Three.js particles and modern animations.
 
@@ -7,7 +7,7 @@ A dark-themed Astro portfolio/blog template with Three.js particles and modern a
 [![Three.js](https://img.shields.io/badge/Three.js-0.160-blue)](https://threejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Deploy by connecting this repository to [Vercel](https://vercel.com/docs/frameworks/astro); GitHub Pages is not used.
+Deploy by connecting this repository to [Vercel](https://vercel.com/docs/frameworks/astro).
 
 Release notes: [CHANGELOG.md](CHANGELOG.md).
 
@@ -15,8 +15,9 @@ Release notes: [CHANGELOG.md](CHANGELOG.md).
 
 - **Dark Theme** - Professional dark color palette with blue/purple accents
 - **Three.js Particles** - 5000 particle system with animated 3D effects
-- **Blog System** - Full-featured blog with Content Collections
-- **Portfolio** - Project showcase with featured projects
+- **HackMI landing sections** - about, sponsors, event details, logistics, signup, and IBM Agentic campaign CTA
+- **Configurable site and partner imagery** (header brand, org logos, footer sponsors)
+- **Richer site footer** - sponsor strip when logos are configured, navigation anchors, and event blurb
 - **Responsive** - Mobile-first design with floating navbar
 - **Animations** - Smooth transitions and hover effects
 - **TypeScript** - Type-safe development
