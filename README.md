@@ -102,6 +102,13 @@ src/
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - Google Fonts (Space Grotesk + DM Sans)
 
+## Design
+
+![design](https://github.com/user-attachments/assets/6cb07159-e8ff-4422-86e8-90dd25f7b6ba)
+
+
+
+
 ## License
 
 MIT - see [LICENSE](LICENSE)
