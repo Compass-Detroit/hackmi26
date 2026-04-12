@@ -2,12 +2,14 @@
 
 A dark-themed Astro portfolio/blog template with Three.js particles and modern animations.
 
-[![Version](https://img.shields.io/badge/version-1.0.1-blue)](https://github.com/kpab/astro-darkness/releases/tag/v1.0.1)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/Compass-Detroit/hackmi26/releases/tag/v1.1.0)
 [![Astro](https://img.shields.io/badge/Astro-5.0-purple)](https://astro.build/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.160-blue)](https://threejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Deploy by connecting this repository to [Vercel](https://vercel.com/docs/frameworks/astro); GitHub Pages is not used.
+
+Release notes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Features
 
