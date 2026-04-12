@@ -3,6 +3,8 @@ import SponsorCTA from './SponsorCTA.astro';
 
 const platinumSlots = [1, 2, 3] as const;
 const communitySlots = [1, 2, 3, 4] as const;
+const platinumSlotTotal = platinumSlots.length;
+const communitySlotTotal = communitySlots.length;
 ---
 
 <section class="sponsors-section" id="sponsors" aria-labelledby="sponsors-heading">
@@ -28,7 +30,7 @@ const communitySlots = [1, 2, 3, 4] as const;
           {platinumSlots.map((n) => (
             <div
               class="sponsor-slot sponsor-slot--card"
-              aria-label={`Platinum sponsor slot ${n} of 3 — logo placeholder`}
+              aria-label={`Platinum sponsor slot ${n} of ${platinumSlotTotal} — logo placeholder`}
             >
               <span class="sponsor-slot__plus" aria-hidden="true">+</span>
             </div>
@@ -42,7 +44,7 @@ const communitySlots = [1, 2, 3, 4] as const;
           {communitySlots.map((n) => (
             <div
               class="sponsor-slot sponsor-slot--square"
-              aria-label={`Community sponsor slot ${n} of 4 — logo placeholder`}
+              aria-label={`Community sponsor slot ${n} of ${communitySlotTotal} — logo placeholder`}
             >
               <span class="sponsor-slot__plus" aria-hidden="true">+</span>
             </div>
