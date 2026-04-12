@@ -9,6 +9,10 @@ This repository builds the **Hack Michigan (HackMI)** marketing site. It started
 
 ## [Unreleased]
 
+### Removed
+
+- `.agents/skills/remotion-best-practices` — Remotion/video skill not used by this Astro site.
+
 ## [1.1.0] - 2026-04-11
 
 First tagged release for the **HackMI** fork (marketing site and Vercel-oriented deploy defaults).
