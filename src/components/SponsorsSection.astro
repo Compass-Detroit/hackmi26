@@ -17,39 +17,39 @@ const communitySlotTotal = communitySlots.length;
     <div class="sponsor-tiers">
       <section class="sponsor-tier sponsor-tier--gold" aria-labelledby="tier-gold-heading">
         <h3 id="tier-gold-heading" class="tier-heading">Gold</h3>
-        <div class="tier-slots tier-slots--gold">
-          <div class="sponsor-slot sponsor-slot--card" aria-label="Gold sponsor — logo placeholder">
+        <ul class="tier-slots tier-slots--gold">
+          <li class="sponsor-slot sponsor-slot--card" aria-label="Gold sponsor — logo placeholder">
             <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-          </div>
-        </div>
+          </li>
+        </ul>
       </section>
 
       <section class="sponsor-tier sponsor-tier--platinum" aria-labelledby="tier-platinum-heading">
         <h3 id="tier-platinum-heading" class="tier-heading">Platinum</h3>
-        <div class="tier-slots tier-slots--platinum">
+        <ul class="tier-slots tier-slots--platinum">
           {platinumSlots.map((n) => (
-            <div
+            <li
               class="sponsor-slot sponsor-slot--card"
               aria-label={`Platinum sponsor slot ${n} of ${platinumSlotTotal} — logo placeholder`}
             >
               <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section class="sponsor-tier sponsor-tier--community" aria-labelledby="tier-community-heading">
         <h3 id="tier-community-heading" class="tier-heading">Community</h3>
-        <div class="tier-slots tier-slots--community">
+        <ul class="tier-slots tier-slots--community">
           {communitySlots.map((n) => (
-            <div
+            <li
               class="sponsor-slot sponsor-slot--square"
               aria-label={`Community sponsor slot ${n} of ${communitySlotTotal} — logo placeholder`}
             >
               <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
     </div>
 
@@ -114,6 +114,9 @@ const communitySlotTotal = communitySlots.length;
     display: grid;
     gap: 1rem;
     width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   /* Gold: single row, one business-card slot (centered) */
@@ -184,7 +187,7 @@ const communitySlotTotal = communitySlots.length;
     }
 
     .tier-slots--community {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .sponsors-section {
