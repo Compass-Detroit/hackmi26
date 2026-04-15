@@ -25,23 +25,6 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
         />
         {wordmark && <span class="logo-wordmark">{wordmark}</span>}
       </a>
-      {orgLogos.length > 0 && (
-        <ul class="nav-org-logos" role="list" aria-label="Partner organizations">
-          {orgLogos.map((logo) => (
-            <li>
-              {logo.href ? (
-                <a href={logo.href} class="nav-org-logo-link" target="_blank" rel="noopener noreferrer">
-                  <img src={publicAssetUrl(base, logo.src)} alt={logo.alt} class="nav-org-logo-img" loading="lazy" decoding="async" />
-                </a>
-              ) : (
-                <span class="nav-org-logo-wrap">
-                  <img src={publicAssetUrl(base, logo.src)} alt={logo.alt} class="nav-org-logo-img" loading="lazy" decoding="async" />
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
 
     <div class="nav-links">
@@ -110,37 +93,6 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
     align-items: center;
     gap: 1rem;
     min-width: 0;
-  }
-
-  .nav-org-logos {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-width: 0;
-  }
-
-  .nav-org-logo-link,
-  .nav-org-logo-wrap {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .nav-org-logo-link {
-    opacity: 0.9;
-    transition: opacity 0.2s ease;
-  }
-
-  .nav-org-logo-link:hover {
-    opacity: 1;
-  }
-
-  .nav-org-logo-img {
-    max-height: 28px;
-    width: auto;
-    max-width: 120px;
-    object-fit: contain;
-    vertical-align: middle;
   }
 
   .logo {
