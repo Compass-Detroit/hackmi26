@@ -35,13 +35,15 @@ const agendaGroup = 'hackmi-agenda';
               checked={i === 0}
             />
           ))}
-          <div class="agenda-tablist" aria-label="Schedule by day">
+          <ul class="agenda-tablist" role="tablist" aria-label="Schedule by day">
             {EVENT_AGENDA.map((day) => (
-              <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
-                {day.tabLabel}
-              </label>
+              <li class="agenda-tab-item" role="none">
+                <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
+                  {day.tabLabel}
+                </label>
+              </li>
             ))}
-          </div>
+          </ul>
           {EVENT_AGENDA.map((day) => (
             <div
               class={`agenda-panel agenda-panel--${day.id}`}
@@ -206,6 +208,7 @@ const agendaGroup = 'hackmi-agenda';
   }
 
   .agenda {
+    position: relative;
     margin-bottom: 1rem;
   }
 
@@ -223,17 +226,26 @@ const agendaGroup = 'hackmi-agenda';
 
   .agenda-tablist {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.35rem;
-    margin-bottom: 0.75rem;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .agenda-tab-item {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
   }
 
   .agenda-tab {
-    flex: 1 1 auto;
-    min-width: 0;
+    display: block;
+    width: 100%;
     text-align: center;
-    padding: 0.5rem 0.65rem;
-    font-size: 0.8rem;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.75rem;
     font-weight: 600;
     font-family: var(--font-body);
     color: var(--color-text-dim);
@@ -247,17 +259,27 @@ const agendaGroup = 'hackmi-agenda';
       background 0.2s ease;
   }
 
+  @media (min-width: 400px) {
+    .agenda-tab {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.65rem;
+    }
+  }
+
   .agenda-tab:hover {
     color: var(--color-text);
     border-color: rgba(59, 130, 246, 0.45);
   }
 
-  #hackmi-agenda-day-1:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-1'],
-  #hackmi-agenda-day-2:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-2'],
-  #hackmi-agenda-day-3:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-3'] {
-    color: white;
-    background: rgba(59, 130, 246, 0.25);
-    border-color: var(--color-primary);
+  @keyframes agenda-panel-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .agenda-panel {
@@ -265,10 +287,31 @@ const agendaGroup = 'hackmi-agenda';
     padding-top: 0.25rem;
   }
 
-  #hackmi-agenda-day-1:checked ~ .agenda-panel--day-1,
-  #hackmi-agenda-day-2:checked ~ .agenda-panel--day-2,
-  #hackmi-agenda-day-3:checked ~ .agenda-panel--day-3 {
+  /*
+   * Radio/tab panel visibility: Astro scoped CSS rewrites class selectors and breaks
+   * `#id:checked ~ .sibling` — use :global() for the ID + sibling chain.
+   */
+  .event-details :global(#hackmi-agenda-day-1:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-1']),
+  .event-details :global(#hackmi-agenda-day-2:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-2']),
+  .event-details :global(#hackmi-agenda-day-3:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-3']) {
+    color: white;
+    background: rgba(59, 130, 246, 0.25);
+    border-color: var(--color-primary);
+  }
+
+  .event-details :global(#hackmi-agenda-day-1:checked ~ .agenda-panel--day-1),
+  .event-details :global(#hackmi-agenda-day-2:checked ~ .agenda-panel--day-2),
+  .event-details :global(#hackmi-agenda-day-3:checked ~ .agenda-panel--day-3) {
     display: block;
+    animation: agenda-panel-reveal 0.4s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-details :global(#hackmi-agenda-day-1:checked ~ .agenda-panel--day-1),
+    .event-details :global(#hackmi-agenda-day-2:checked ~ .agenda-panel--day-2),
+    .event-details :global(#hackmi-agenda-day-3:checked ~ .agenda-panel--day-3) {
+      animation: none;
+    }
   }
 
   .agenda-day-title {
@@ -329,7 +372,7 @@ const agendaGroup = 'hackmi-agenda';
     text-decoration: underline;
     text-decoration-color: rgba(59, 130, 246, 0.45);
     text-underline-offset: 3px;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color 0.3s ease, text-decoration-color 0.3s ease;
   }
 
   .location-map-link:hover {
