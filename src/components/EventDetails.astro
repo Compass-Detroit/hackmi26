@@ -35,7 +35,7 @@ const agendaGroup = 'hackmi-agenda';
               checked={i === 0}
             />
           ))}
-          <div class="agenda-tablist" role="tablist" aria-label="Schedule by day">
+          <div class="agenda-tablist" aria-label="Schedule by day">
             {EVENT_AGENDA.map((day) => (
               <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
                 {day.tabLabel}
@@ -45,7 +45,6 @@ const agendaGroup = 'hackmi-agenda';
           {EVENT_AGENDA.map((day) => (
             <div
               class={`agenda-panel agenda-panel--${day.id}`}
-              role="tabpanel"
               id={`${agendaGroup}-panel-${day.id}`}
               aria-label={day.dayTitle ?? day.tabLabel}
             >
