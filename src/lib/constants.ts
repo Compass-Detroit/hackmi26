@@ -9,8 +9,13 @@ export const EXTERNAL_URLS = {
 
 export const EVENT_DETAILS = {
   NAME: 'Hack Michigan',
-  DATE: 'May 2026',
-  LOCATION: 'Detroit, Michigan',
+  DATE: 'May 15-17 2026',
+  TIME: '8:00 AM - 10:00 PM (EDT)',
+  LOCATION: 'TechTown Detroit, 440 Burroughs Street, Detroit, 48202',
+  LOCATION_URL: 'https://www.google.com/maps/dir//TechTown%20Detroit%20440%20Burroughs%20Street%20Detroit%2048202',
+  /** iframe `src` for embedded map. Replace with the “Embed a map” URL from Google Maps → Share for a pinned place. */
+  LOCATION_MAP_EMBED_URL:
+    'https://maps.google.com/maps?q=440+Burroughs+St%2C+Detroit%2C+MI+48202&output=embed&z=16',
   MISSION:
     'Hack Michigan is a technical-first hackathon focused on engineering excellence and the future of the Detroit tech corridor.',
 } as const;
