@@ -1,7 +1,7 @@
 {
   "name": "hackmichigan",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A dark-themed Astro portfolio/blog template with Three.js particles and modern animations",
   "keywords": [
     "astro",
@@ -24,7 +24,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
@@ -36,7 +40,15 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "@types/three": "^0.160.0",
-    "typescript": "^5.9.3"
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "@typescript-eslint/parser": "^8.58.2",
+    "astro-eslint-parser": "^1.4.0",
+    "eslint": "^10.2.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.2"
   },
   "overrides": {
     "yaml-language-server": {
