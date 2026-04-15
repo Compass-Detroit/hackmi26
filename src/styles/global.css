@@ -15,11 +15,13 @@
   --color-shadow: rgba(59, 130, 246, 0.3);
 
   /* Typography */
-  --font-heading: 'Orbitron', system-ui, sans-serif;
+  --font-heading: Tiny5, system-ui, sans-serif;
   --font-body: 'Nunito', system-ui, sans-serif;
 
   /* Spacing */
   --nav-height: 80px;
+  /* Fixed nav + top offset so #anchor targets aren’t hidden under the bar */
+  --anchor-scroll-margin: calc(var(--nav-height) + 1.25rem);
 }
 
 * {
@@ -34,11 +36,17 @@ html {
   color: var(--color-text);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--anchor-scroll-margin);
 }
 
-/* Headings use Orbitron (self-hosted, see BaseLayout.astro) */
-h1, h2, h3, h4, h5, h6 {
+/* Headings use Tiny5 (self-hosted @font-face in BaseLayout.astro) */
+h1, h2, h3, h4, h5, h6  {
   font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+p {
+  margin-block: 0.5rem 1rem;
 }
 
 body {

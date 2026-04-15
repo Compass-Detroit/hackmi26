@@ -4,18 +4,26 @@
 
 <section class="about-section" id="about" aria-labelledby="about-heading">
   <div class="container">
-    <h2 id="about-heading" class="section-title">About HackMI</h2>
-    <p class="section-subtitle">A Michigan hackathon for builders, students, and curious technologists.</p>
+    <h2 id="about-heading" class="section-title">About Hack Michigan</h2>
+    <p class="section-subtitle">Michigan was built by innovators—<strong>and it’s time to innovate again.</strong> Our state leads in manufacturing, agriculture, and mobility, but too many Michigan businesses still rely on outdated systems, and too many of our brightest minds leave for opportunities elsewhere. Your challenge: use AI and Open Source technologies to build a proof-of-concept AI solution that modernizes a Michigan industry—whether that’s manufacturing, small business, mobility, agriculture, sustainability, education, or urban planning. Show us how AI can solve a real problem, create real value, and keep innovation rooted right here in Michigan. Deliver a working prototype and a brief presentation that tells the story of how your solution strengthens Michigan’s future. </p>
     <div class="about-card glass">
-      <p class="about-lead">
-        HackMI is a weekend-long innovation sprint in <strong>Detroit</strong>, bringing together public participants and
-        students from schools like the <strong>University of Michigan</strong> and <strong>Wayne State University</strong>.
-        Teams ship creative projects that blend software, design, and real-world impact—with room to experiment boldly.
-      </p>
-      <p class="about-body">
-        Whether you are polishing an agentic workflow, crafting a polished UI, or exploring hardware-adjacent ideas, HackMI is
-        built to give you mentorship, momentum, and a memorable community experience in the heart of the Detroit tech corridor.
-      </p>
+      <div class="details">
+          
+          <h3 class="section-title">The Challenge</h3>
+          <p>
+            Michigan stands at a pivotal moment. Once the undisputed engine of American innovation, our state is ready to reclaim its position as a technology leader—not by abandoning our industrial heritage, but by reimagining it for the 21st century.</p>
+			<p>
+				While Michigan ranks among the top states in manufacturing output, we lag behind in technology adoption and digital transformation metrics. Too often, our brightest minds leave for coastal tech hubs, and Michigan jobs get outsourced to other states or overseas. Our challenge is clear: how do we leverage cutting-edge AI to modernize Michigan’s cornerstone industries while keeping opportunities here for Michiganders and creating the innovation ecosystem that makes our state a destination, not a departure point?
+			</p>
+          <h3 class="section-title">The Stats Tell the Story</h3>
+          <ul class="about-list">
+            <li>Michigan graduates leave the state at higher rates than most, seeking tech opportunities elsewhere</li>
+            <li>Many legacy industries still operate with outdated systems and manual processes</li>
+            <li>Small and medium-sized Michigan businesses cite technology adoption as their #1 barrier to growth</li>
+            <li>Brain drain continues as innovators lack the infrastructure and community to build here</li>
+            <li>Immense untapped potential in AI-driven innovation across manufacturing, supply chain, agriculture, sustainability, education, and urban development</li>
+          </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -35,13 +43,15 @@
     font-family: var(--font-heading);
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
+	text-transform: uppercase;
     text-align: center;
     margin-bottom: 0.75rem;
+	margin-block-start: 2rem;
     color: var(--color-text);
   }
 
   .section-subtitle {
-    text-align: center;
+    text-align: start;
     color: var(--color-text-dim);
     font-size: 1.1rem;
     margin-bottom: 2rem;
@@ -50,6 +60,13 @@
   .about-card {
     padding: 2rem 2.25rem;
     border-radius: 1rem;
+  }
+
+  .about-list {
+    margin-block-start: 1rem;
+	list-style-type: disc;
+	list-style-position: outside;
+	padding-left: 1.5rem;
   }
 
   .glass {

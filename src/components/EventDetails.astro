@@ -1,5 +1,8 @@
 ---
 import { EVENT_DETAILS } from '../lib/constants';
+import { EVENT_AGENDA } from '../data/eventAgenda';
+
+const agendaGroup = 'hackmi-agenda';
 ---
 
 <section class="event-details" id="event-details" aria-labelledby="event-heading">
@@ -11,23 +14,89 @@ import { EVENT_DETAILS } from '../lib/constants';
 
     <div class="detail-grid">
       <article class="detail-card glass" id="dates">
-        <div class="detail-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <div class="detail-card-heading">
+          <div class="detail-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <h3 class="detail-title">Dates</h3>
         </div>
-        <h3 class="detail-title">Dates</h3>
         <p class="detail-highlight">{EVENT_DETAILS.DATE}</p>
-        <p class="detail-copy">
-          We are targeting a spring weekend in Detroit. Subscribe via registration for the first announcement of kickoff,
-          judging, and showcase times.
+        <p class="detail-lede">
+          Three days in Detroit—switch tabs for the draft agenda (times subject to change).
+        </p>
+
+        <div class="agenda">
+          {EVENT_AGENDA.map((day, i) => (
+            <input
+              type="radio"
+              class="agenda-state"
+              name={agendaGroup}
+              id={`${agendaGroup}-${day.id}`}
+              checked={i === 0}
+            />
+          ))}
+          <div class="agenda-tablist" aria-label="Schedule by day">
+            {EVENT_AGENDA.map((day) => (
+              <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
+                {day.tabLabel}
+              </label>
+            ))}
+          </div>
+          {EVENT_AGENDA.map((day) => (
+            <div
+              class={`agenda-panel agenda-panel--${day.id}`}
+              id={`${agendaGroup}-panel-${day.id}`}
+              aria-label={day.dayTitle ?? day.tabLabel}
+            >
+              {day.dayTitle && <p class="agenda-day-title">{day.dayTitle}</p>}
+              <ul class="agenda-slots">
+                {day.slots.map((slot) => (
+                  <li class="agenda-slot">
+                    <span class="agenda-time">{slot.time}</span>
+                    <div class="agenda-slot-body">
+                      <span class="agenda-slot-title">{slot.title}</span>
+                      {slot.detail && <span class="agenda-slot-detail">{slot.detail}</span>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <p class="detail-copy detail-copy--after-agenda">
+          Subscribe via registration for final kickoff, judging, and showcase times.
         </p>
       </article>
 
       <article class="detail-card glass" id="location">
-        <div class="detail-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <div class="detail-card-heading">
+          <div class="detail-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <h3 class="detail-title">Location</h3>
         </div>
-        <h3 class="detail-title">Location</h3>
-        <p class="detail-highlight">{EVENT_DETAILS.LOCATION}</p>
+        <p class="detail-highlight">
+          <a
+            href={EVENT_DETAILS.LOCATION_URL}
+            class="location-map-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${EVENT_DETAILS.LOCATION} in maps`}
+          >
+            {EVENT_DETAILS.LOCATION}
+          </a>
+        </p>
+        <div class="location-map-wrap" role="region" aria-label="Map of venue">
+          <iframe
+            class="location-map-embed"
+            title={`Google Map: ${EVENT_DETAILS.LOCATION}`}
+            src={EVENT_DETAILS.LOCATION_MAP_EMBED_URL}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          />
+        </div>
         <p class="detail-copy">
           HackMI is rooted in Detroit’s growing innovation corridor—accessible to students across Southeast Michigan and
           visitors flying into DTW. Venue and transit notes will be shared with registered participants.
@@ -91,7 +160,15 @@ import { EVENT_DETAILS } from '../lib/constants';
     box-shadow: 0 12px 40px rgba(59, 130, 246, 0.1);
   }
 
+  .detail-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
   .detail-icon {
+    flex-shrink: 0;
     width: 44px;
     height: 44px;
     display: flex;
@@ -100,7 +177,10 @@ import { EVENT_DETAILS } from '../lib/constants';
     border-radius: 0.75rem;
     background: rgba(59, 130, 246, 0.12);
     color: var(--color-primary);
-    margin-bottom: 1rem;
+  }
+
+  .detail-card-heading .detail-title {
+    margin-bottom: 0;
   }
 
   .detail-title {
@@ -115,7 +195,169 @@ import { EVENT_DETAILS } from '../lib/constants';
     font-size: 1.35rem;
     font-weight: 700;
     color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .detail-lede {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .agenda {
+    margin-bottom: 1rem;
+  }
+
+  .agenda-state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .agenda-tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
     margin-bottom: 0.75rem;
+  }
+
+  .agenda-tab {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    color: var(--color-text-dim);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .agenda-tab:hover {
+    color: var(--color-text);
+    border-color: rgba(59, 130, 246, 0.45);
+  }
+
+  #hackmi-agenda-day-1:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-1'],
+  #hackmi-agenda-day-2:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-2'],
+  #hackmi-agenda-day-3:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-3'] {
+    color: white;
+    background: rgba(59, 130, 246, 0.25);
+    border-color: var(--color-primary);
+  }
+
+  .agenda-panel {
+    display: none;
+    padding-top: 0.25rem;
+  }
+
+  #hackmi-agenda-day-1:checked ~ .agenda-panel--day-1,
+  #hackmi-agenda-day-2:checked ~ .agenda-panel--day-2,
+  #hackmi-agenda-day-3:checked ~ .agenda-panel--day-3 {
+    display: block;
+  }
+
+  .agenda-day-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.65rem;
+  }
+
+  .agenda-slots {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .agenda-slot {
+    display: grid;
+    grid-template-columns: 5.25rem 1fr;
+    gap: 0.65rem;
+    align-items: start;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .agenda-time {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .agenda-slot-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .agenda-slot-title {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .agenda-slot-detail {
+    font-size: 0.82rem;
+    color: var(--color-text-dim);
+  }
+
+  .detail-copy--after-agenda {
+    margin-top: 0.25rem;
+  }
+
+  .location-map-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(59, 130, 246, 0.45);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .location-map-link:hover {
+    color: var(--color-text);
+    text-decoration-color: var(--color-primary);
+  }
+
+  .location-map-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .location-map-wrap {
+    margin: 1rem 0 1rem;
+    border-radius: 0.65rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: rgba(15, 23, 42, 0.5);
+    aspect-ratio: 16 / 10;
+    min-height: 160px;
+  }
+
+  .location-map-embed {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
   .detail-copy {

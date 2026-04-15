@@ -14,6 +14,52 @@ const {
 } = Astro.props;
 
 const fonts = `${base}fonts`;
+
+/** Literal `url()` in @font-face — `var()` is not allowed in @font-face, so CSS variables never applied. */
+const selfHostedFontFaces = `
+@font-face {
+  font-family: 'Tiny5';
+  src: url('${fonts}/Tiny5-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('${fonts}/Nunito-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('${fonts}/Nunito-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('${fonts}/Nunito-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('${fonts}/Nunito-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('${fonts}/Nunito-SemiBoldItalic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+`;
 ---
 
 <!doctype html>
@@ -24,12 +70,13 @@ const fonts = `${base}fonts`;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
-    <!-- Orbitron (headings) from Google Fonts; Nunito is self-hosted -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href={`${fonts}/Tiny5-Regular.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link
       rel="preload"
@@ -47,56 +94,7 @@ const fonts = `${base}fonts`;
       <slot />
     </div>
 
-    <style
-      is:global
-      define:vars={{
-        nunito400: `url('${fonts}/Nunito-Regular.woff2') format('woff2')`,
-        nunito500: `url('${fonts}/Nunito-Medium.woff2') format('woff2')`,
-        nunito600: `url('${fonts}/Nunito-SemiBold.woff2') format('woff2')`,
-        nunito500i: `url('${fonts}/Nunito-MediumItalic.woff2') format('woff2')`,
-        nunito600i: `url('${fonts}/Nunito-SemiBoldItalic.woff2') format('woff2')`,
-      }}
-    >
-      @font-face {
-        font-family: 'Nunito';
-        src: var(--nunito400);
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'Nunito';
-        src: var(--nunito500);
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'Nunito';
-        src: var(--nunito600);
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'Nunito';
-        src: var(--nunito500i);
-        font-weight: 500;
-        font-style: italic;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'Nunito';
-        src: var(--nunito600i);
-        font-weight: 600;
-        font-style: italic;
-        font-display: swap;
-      }
-    </style>
+    <style is:global set:html={selfHostedFontFaces} />
 
     <style>
       #page-content {
