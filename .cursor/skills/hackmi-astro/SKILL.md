@@ -4,11 +4,14 @@ description: >-
   HackMI marketing site: Astro 5 structure, BaseLayout, constants, logos, sections.
   Use when editing this repo, routes, content, or Vercel deploy for hackmichigan.com.
 ---
+
 # HackMI / Astro
 
 - Stack is Astro + component CSS, not React
 - defer to ui-ux-pro-max for visual ideas only
+
 ## Repo map
+
 - Home: `src/pages/index.astro`
 - URLs & copy: `src/lib/constants.ts`
 - Site logos: `public/images/site/`

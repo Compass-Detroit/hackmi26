@@ -1,8 +1,8 @@
 ---
-title: 'Building Particle Systems with Three.js'
-description: 'A deep dive into creating beautiful particle effects for web backgrounds'
+title: "Building Particle Systems with Three.js"
+description: "A deep dive into creating beautiful particle effects for web backgrounds"
 pubDate: 2025-12-20
-tags: ['three.js', 'webgl', 'particles', 'tutorial']
+tags: ["three.js", "webgl", "particles", "tutorial"]
 ---
 
 # Building Particle Systems with Three.js
@@ -40,7 +40,7 @@ for (let i = 0; i < particlesCount * 3; i += 3) {
     // Pink
     colorArray[i] = 0.93;
     colorArray[i + 1] = 0.28;
-    colorArray[i + 2] = 0.60;
+    colorArray[i + 2] = 0.6;
   } else {
     // Blue
     colorArray[i] = 0.23;
