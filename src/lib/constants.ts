@@ -3,8 +3,8 @@
  * Update when final links are published.
  */
 export const EXTERNAL_URLS = {
-  HACKER_REGISTRATION: 'https://agentic.ibm.com/hackmi-register',
-  SPONSOR_INQUIRY: 'https://agentic.ibm.com/hackmi-sponsor',
+  HACKER_REGISTRATION: 'https://ibm.biz/hack-michigan',
+  SPONSOR_INQUIRY: 'whatupdoe@compass-detroit.com',
 } as const;
 
 export const EVENT_DETAILS = {
