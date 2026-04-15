@@ -7,27 +7,68 @@ description: >-
 
 # HackMI / Astro
 
-- Stack is Astro + component CSS, not React
-- defer to ui-ux-pro-max for visual ideas only
+- Stack: Astro 5 SSG + TypeScript + Three.js. No React, Vue, or Svelte integrations installed.
+- Styling: scoped `<style>` in each `.astro` component + CSS custom properties in `src/styles/global.css`. No Tailwind.
+- Refer to `ui-ux-pro-max` for visual inspiration only (style/color/typography/ux/landing domains).
+  Skip the `--stack` search step from that skill — use `global.css` design tokens directly instead.
+
+<!-- If @astrojs/react is added (npm install @astrojs/react), React components go in src/components/react/
+     and are imported into .astro files with client:load / client:idle / client:visible directives.
+     Add a `react` note here and enable the --stack react search in ui-ux-pro-max.
+     Same pattern applies for @astrojs/vue, @astrojs/svelte, @astrojs/solid-js, @astrojs/preact. -->
+
+---
 
 ## Repo map
 
-- Home: `src/pages/index.astro`
-- URLs & copy: `src/lib/constants.ts`
-- Site logos: `public/images/site/`
-- Org logos: `public/images/org/`
-- Sponsors: `public/images/sponsors/`
-- Footer sponsors: `public/images/footer/`
-- Header sponsors: `public/images/header/`
-- Fonts: `public/fonts/`
-- Styles: `src/styles/global.css`
+- Home page: `src/pages/index.astro`
+- URLs, copy, external links: `src/lib/constants.ts`
+- Logo configuration (which logos appear where): `src/data/siteLogos.ts`
+- Event schedule/agenda: `src/data/eventAgenda.ts`
+- Global CSS custom properties + resets: `src/styles/global.css`
 - Components: `src/components/`
 - Layouts: `src/layouts/`
 - Data: `src/data/`
-- Config: `astro.config.mjs`
+- Site logos (wordmarks, event branding): `public/images/site/`
+- Org logos (NSBE, SHPE, etc.): `public/images/org/`
+- Sponsor logos: `public/images/sponsors/`
+- Fonts: `public/fonts/`
+- Astro config: `astro.config.mjs`
 - Package: `package.json`
-- Dependencies: `package-lock.json`
-- README: `README.md`
-- CHANGELOG: `CHANGELOG.md`
-- LICENSE: `LICENSE`
-- .gitignore: `.gitignore`
+
+---
+
+## Active components
+
+These are imported and rendered in `src/pages/index.astro`. Edit freely.
+
+| Component | Role |
+| --- | --- |
+| `BaseLayout.astro` | HTML shell, meta tags, font imports |
+| `ThreeBackground.astro` | Three.js animated canvas background |
+| `Navigation.astro` | Top nav bar |
+| `Hero.astro` | Above-the-fold headline + CTA |
+| `AboutSection.astro` | Challenge description |
+| `SponsorsSection.astro` | Sponsor logo grid |
+| `EventDetails.astro` | Agenda tabs (Thu/Fri/Sat) |
+| `LogisticsSection.astro` | Rules, deliverables, evaluation |
+| `SignupSection.astro` | Registration / Devpost CTA |
+| `FinalAgenticCTA.astro` | Closing call-to-action |
+| `Footer.astro` | Footer links + org logos |
+
+---
+
+## Legacy / unused components
+
+These exist in `src/components/` but are **not** imported anywhere. Avoid editing unless repurposing.
+
+`EventAbout.astro`, `Features.astro`, `FinalCTA.astro`, `Logistics.astro`, `Skills.astro`,
+`SponsorCTA.astro`, `BlogCard.astro`, `Card.astro`, `ProjectCard.astro`
+
+---
+
+## Design system
+
+CSS custom properties are defined in `src/styles/global.css`. Reference them via `var(--token-name)`
+inside scoped `<style>` blocks. Do not hard-code hex values — use existing tokens or add new ones
+to `global.css` and use them everywhere.
