@@ -4,7 +4,7 @@
  */
 export const EXTERNAL_URLS = {
   HACKER_REGISTRATION: 'https://ibm.biz/hack-michigan',
-  SPONSOR_INQUIRY: 'whatupdoe@compass-detroit.com',
+  SPONSOR_INQUIRY: 'mailto:whatupdoe@compass-detroit.com',
 } as const;
 
 export const EVENT_DETAILS = {
