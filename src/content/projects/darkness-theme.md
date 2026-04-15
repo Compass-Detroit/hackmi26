@@ -1,9 +1,9 @@
 ---
-title: 'Darkness - Astro Theme'
-description: 'A heavily modified dark theme with Three.js particles and intense animations'
-image: '/favicon.svg'
-github: 'https://github.com/yourusername/astro-darkness'
-tags: ['astro', 'three.js', 'dark-theme', 'animations']
+title: "Darkness - Astro Theme"
+description: "A heavily modified dark theme with Three.js particles and intense animations"
+image: "/favicon.svg"
+github: "https://github.com/yourusername/astro-darkness"
+tags: ["astro", "three.js", "dark-theme", "animations"]
 featured: true
 ---
 

@@ -2,6 +2,8 @@
 
 A dark-themed Astro portfolio/blog template with Three.js particles and modern animations.
 
+![alt text](public/social-card.jpg)
+
 [![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/Compass-Detroit/hackmi26/releases/tag/v1.1.0)
 [![Astro](https://img.shields.io/badge/Astro-5.0-purple)](https://astro.build/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.160-blue)](https://threejs.org/)
@@ -27,7 +29,7 @@ Release notes: [CHANGELOG.md](CHANGELOG.md).
 ```bash
 # Clone this template
 git clone https://github.com/Compass-Detroit/hackmi26.git
-cd astro-darkness
+cd hackmi26
 
 # Install dependencies
 npm install
@@ -39,6 +41,29 @@ npm run dev
 npm run build
 ```
 
+## Code Style
+
+This repo uses:
+
+- **Prettier** for formatting (including **double quotes**)
+- **ESLint** for linting (Astro + TypeScript)
+
+Common commands:
+
+```bash
+# Format files
+npm run format
+
+# Check formatting (use in CI)
+npm run format:check
+
+# Lint
+npm run lint
+
+# Lint + auto-fix
+npm run lint:fix
+```
+
 ## Adding Content
 
 ### Blog Posts
@@ -47,10 +72,10 @@ Create markdown files in `src/content/blog/`:
 
 ```markdown
 ---
-title: 'Your Post Title'
-description: 'Brief description'
+title: "Your Post Title"
+description: "Brief description"
 pubDate: 2025-12-15
-tags: ['astro', 'three.js']
+tags: ["astro", "three.js"]
 ---
 
 Your content here...
@@ -62,10 +87,10 @@ Create markdown files in `src/content/projects/`:
 
 ```markdown
 ---
-title: 'Your Project'
-description: 'Project description'
-github: 'https://github.com/...'
-tags: ['react', 'typescript']
+title: "Michigan Hackathon 2026 Launched"
+description: "Project description"
+github: "https://github.com/..."
+tags: ["react", "typescript"]
 featured: true
 ---
 ```
@@ -76,11 +101,11 @@ Edit CSS variables in `src/styles/global.css`:
 
 ```css
 :root {
-  --color-bg-dark: #0F172A;
-  --color-primary: #3B82F6;
-  --color-accent-purple: #8B5CF6;
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --color-bg-dark: #0f172a;
+  --color-primary: #3b82f6;
+  --color-accent-purple: #8b5cf6;
+  --font-heading: "Tiny5", sans-serif;
+  --font-body: "Nunito", sans-serif;
 }
 ```
 
@@ -101,13 +126,6 @@ src/
 - [Three.js](https://threejs.org/) - 3D graphics
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - Google Fonts (Space Grotesk + DM Sans)
-
-## Design
-
-![design](https://github.com/user-attachments/assets/6cb07159-e8ff-4422-86e8-90dd25f7b6ba)
-
-
-
 
 ## License
 

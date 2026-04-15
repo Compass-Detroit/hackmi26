@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repository builds the **Hack Michigan (HackMI)** marketing site. It started from the **Darkness** Astro template; entries below include both upstream template history and HackMI-specific work.
 
-## [Unreleased]
+## [1.1.1] - 2026-04-15
+
+### Added
+
+- Prettier formatting config (`prettier.config.mjs`) with a double-quote standard.
+- ESLint flat config (`eslint.config.mjs`) for Astro + TypeScript, plus `lint`/`lint:fix` scripts.
+- Social card image (`public/social-card.jpg`) in README.md.
+- Replaced logos and images with more performant versions.
+- Replaced content in various areas of the site with more relevant content.
+
+### Changed
+
+- README Quick Start now points to `cd hackmi26` (was `cd astro-darkness`) and documents `format`/`lint` commands.
 
 ## [1.1.0] - 2026-04-11
 
@@ -72,7 +84,7 @@ _Initial [astro-darkness](https://github.com/kpab/astro-darkness) template relea
 - @astrojs/rss for feed generation
 - @astrojs/sitemap for SEO optimization
 
-[Unreleased]: https://github.com/Compass-Detroit/hackmi26/compare/v1.1.0...HEAD
+[1.1.1]: https://github.com/Compass-Detroit/hackmi26/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Compass-Detroit/hackmi26/releases/tag/v1.1.0
 [1.0.1]: https://github.com/kpab/astro-darkness/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kpab/astro-darkness/releases/tag/v1.0.0

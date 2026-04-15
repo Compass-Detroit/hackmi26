@@ -1,8 +1,8 @@
 ---
-title: 'Mastering CSS Animations in Dark Themes'
-description: 'Advanced CSS animation techniques for creating motion-rich dark interfaces'
+title: "Mastering CSS Animations in Dark Themes"
+description: "Advanced CSS animation techniques for creating motion-rich dark interfaces"
 pubDate: 2025-12-25
-tags: ['css', 'animations', 'design', 'dark-theme']
+tags: ["css", "animations", "design", "dark-theme"]
 ---
 
 # Mastering CSS Animations in Dark Themes
@@ -15,7 +15,8 @@ One of the most elegant effects is the subtle float:
 
 ```css
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -34,7 +35,8 @@ In dark themes, glow effects create depth:
 
 ```css
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
   }
   50% {
