@@ -5,7 +5,7 @@ interface Props {
   icon?: string;
 }
 
-const { title, description, icon = 'star' } = Astro.props;
+const { title, description, icon = "star" } = Astro.props;
 
 // SVG icons map
 const icons: Record<string, string> = {
@@ -20,11 +20,13 @@ const isEmoji = !icons[icon];
 ---
 
 <div class="card">
-  {isEmoji ? (
-    <div class="card-icon emoji">{iconContent}</div>
-  ) : (
-    <div class="card-icon" set:html={iconContent} />
-  )}
+  {
+    isEmoji ? (
+      <div class="card-icon emoji">{iconContent}</div>
+    ) : (
+      <div class="card-icon" set:html={iconContent} />
+    )
+  }
   <h3 class="card-title">{title}</h3>
   <p class="card-description">{description}</p>
 </div>

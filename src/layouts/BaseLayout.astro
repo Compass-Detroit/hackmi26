@@ -1,6 +1,6 @@
 ---
-import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string;
@@ -9,8 +9,8 @@ interface Props {
 
 const base = import.meta.env.BASE_URL;
 const {
-  title = 'Darkness - Dark Theme',
-  description = 'An intense motion-filled dark theme Astro site'
+  title = "Darkness - Dark Theme",
+  description = "An intense motion-filled dark theme Astro site",
 } = Astro.props;
 
 const fonts = `${base}fonts`;
@@ -70,7 +70,7 @@ const selfHostedFontFaces = `
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
-    
+
     <link
       rel="preload"
       href={`${fonts}/Tiny5-Regular.woff2`}
@@ -94,7 +94,7 @@ const selfHostedFontFaces = `
       <slot />
     </div>
 
-    <style is:global set:html={selfHostedFontFaces} />
+    <style is:global set:html={selfHostedFontFaces}></style>
 
     <style>
       #page-content {
@@ -117,7 +117,7 @@ const selfHostedFontFaces = `
       }
 
       .cursor-follower::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -131,26 +131,26 @@ const selfHostedFontFaces = `
 
     <script>
       // Custom cursor
-      const cursor = document.querySelector('.cursor-follower') as HTMLElement;
+      const cursor = document.querySelector(".cursor-follower") as HTMLElement;
 
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
       });
 
       // Cursor expand on hover
-      const interactiveElements = document.querySelectorAll('a, button, .card');
-      interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          cursor.style.width = '40px';
-          cursor.style.height = '40px';
-          cursor.style.backgroundColor = 'rgba(168, 85, 247, 0.2)';
+      const interactiveElements = document.querySelectorAll("a, button, .card");
+      interactiveElements.forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.width = "40px";
+          cursor.style.height = "40px";
+          cursor.style.backgroundColor = "rgba(168, 85, 247, 0.2)";
         });
 
-        el.addEventListener('mouseleave', () => {
-          cursor.style.width = '20px';
-          cursor.style.height = '20px';
-          cursor.style.backgroundColor = 'transparent';
+        el.addEventListener("mouseleave", () => {
+          cursor.style.width = "20px";
+          cursor.style.height = "20px";
+          cursor.style.backgroundColor = "transparent";
         });
       });
     </script>

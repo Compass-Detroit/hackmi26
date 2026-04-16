@@ -1,6 +1,6 @@
 ---
-import SponsorCTA from './SponsorCTA.astro';
-import { sponsorLogosByTier } from '../data/sponsorLogos';
+import SponsorCTA from "./SponsorCTA.astro";
+import { sponsorLogosByTier } from "../data/sponsorLogos";
 
 const diamondSlotTotal = 3;
 const goldSlotTotal = 4;
@@ -9,11 +9,18 @@ const hostLogos = sponsorLogosByTier.host;
 const diamondLogos = sponsorLogosByTier.diamond;
 const goldLogos = sponsorLogosByTier.gold;
 
-const diamondPlaceholderCount = Math.max(0, diamondSlotTotal - diamondLogos.length);
+const diamondPlaceholderCount = Math.max(
+  0,
+  diamondSlotTotal - diamondLogos.length,
+);
 const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
 ---
 
-<section class="sponsors-section" id="sponsors" aria-labelledby="sponsors-heading">
+<section
+  class="sponsors-section"
+  id="sponsors"
+  aria-labelledby="sponsors-heading"
+>
   <div class="container">
     <h2 id="sponsors-heading" class="section-title">Sponsors</h2>
     <p class="section-subtitle">
@@ -21,91 +28,170 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
     </p>
 
     <div class="sponsor-tiers">
-      <section class="sponsor-tier sponsor-tier--host" aria-labelledby="tier-host-heading">
+      <section
+        class="sponsor-tier sponsor-tier--host"
+        aria-labelledby="tier-host-heading"
+      >
         <h3 id="tier-host-heading" class="tier-heading">Host</h3>
         <ul class="tier-slots tier-slots--host">
-          {hostLogos.map((logo) => (
-            <li
-              class:list={[
-                'sponsor-slot',
-                'sponsor-slot--card',
-                logo.surface === 'light' && 'sponsor-slot--surface-light',
-              ]}
-              aria-label={`Host sponsor — ${logo.alt}`}
-            >
-              {logo.href ? (
-                <a class="sponsor-logo-link" href={logo.href} target="_blank" rel="noopener noreferrer">
-                  <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-                </a>
-              ) : (
-                <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-              )}
-            </li>
-          ))}
+          {
+            hostLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--card",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Host sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={logo.src}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
         </ul>
       </section>
 
-      <section class="sponsor-tier sponsor-tier--diamond" aria-labelledby="tier-diamond-heading">
+      <section
+        class="sponsor-tier sponsor-tier--diamond"
+        aria-labelledby="tier-diamond-heading"
+      >
         <h3 id="tier-diamond-heading" class="tier-heading">Diamond</h3>
         <ul class="tier-slots tier-slots--diamond">
-          {diamondLogos.map((logo) => (
-            <li
-              class:list={[
-                'sponsor-slot',
-                'sponsor-slot--card',
-                logo.surface === 'light' && 'sponsor-slot--surface-light',
-              ]}
-              aria-label={`Diamond sponsor — ${logo.alt}`}
-            >
-              {logo.href ? (
-                <a class="sponsor-logo-link" href={logo.href} target="_blank" rel="noopener noreferrer">
-                  <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-                </a>
-              ) : (
-                <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-              )}
-            </li>
-          ))}
-          {Array.from({ length: diamondPlaceholderCount }, (_, i) => i + 1).map((n) => (
-            <li
-              class="sponsor-slot sponsor-slot--card"
-              aria-label={`Diamond sponsor slot ${diamondLogos.length + n} of ${diamondSlotTotal} — logo placeholder`}
-            >
-              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </li>
-          ))}
+          {
+            diamondLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--card",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Diamond sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={logo.src}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+          {
+            Array.from(
+              { length: diamondPlaceholderCount },
+              (_, i) => i + 1,
+            ).map((n) => (
+              <li
+                class="sponsor-slot sponsor-slot--card"
+                aria-label={`Diamond sponsor slot ${diamondLogos.length + n} of ${diamondSlotTotal} — logo placeholder`}
+              >
+                <span class="sponsor-slot__plus" aria-hidden="true">
+                  +
+                </span>
+              </li>
+            ))
+          }
         </ul>
       </section>
 
-      <section class="sponsor-tier sponsor-tier--gold" aria-labelledby="tier-gold-heading">
+      <section
+        class="sponsor-tier sponsor-tier--gold"
+        aria-labelledby="tier-gold-heading"
+      >
         <h3 id="tier-gold-heading" class="tier-heading">Gold</h3>
         <ul class="tier-slots tier-slots--gold">
-          {goldLogos.map((logo) => (
-            <li
-              class:list={[
-                'sponsor-slot',
-                'sponsor-slot--square',
-                logo.surface === 'light' && 'sponsor-slot--surface-light',
-              ]}
-              aria-label={`Gold sponsor — ${logo.alt}`}
-            >
-              {logo.href ? (
-                <a class="sponsor-logo-link" href={logo.href} target="_blank" rel="noopener noreferrer">
-                  <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-                </a>
-              ) : (
-                <img class="sponsor-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
-              )}
-            </li>
-          ))}
-          {Array.from({ length: goldPlaceholderCount }, (_, i) => i + 1).map((n) => (
-            <li
-              class="sponsor-slot sponsor-slot--square"
-              aria-label={`Gold sponsor slot ${goldLogos.length + n} of ${goldSlotTotal} — logo placeholder`}
-            >
-              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </li>
-          ))}
+          {
+            goldLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--square",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Gold sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={logo.src}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+          {
+            Array.from({ length: goldPlaceholderCount }, (_, i) => i + 1).map(
+              (n) => (
+                <li
+                  class="sponsor-slot sponsor-slot--square"
+                  aria-label={`Gold sponsor slot ${goldLogos.length + n} of ${goldSlotTotal} — logo placeholder`}
+                >
+                  <span class="sponsor-slot__plus" aria-hidden="true">
+                    +
+                  </span>
+                </li>
+              ),
+            )
+          }
         </ul>
       </section>
     </div>

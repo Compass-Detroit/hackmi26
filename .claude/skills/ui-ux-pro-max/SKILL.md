@@ -120,8 +120,10 @@ use a `<script>` block inside the component:
 
 ```astro
 <script>
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => { /* ... */ });
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      /* ... */
+    });
   });
 </script>
 ```
@@ -144,11 +146,15 @@ Use CSS media queries inside scoped `<style>` blocks. No breakpoint utility clas
   }
 
   @media (min-width: 768px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (min-width: 1024px) {
-    .grid { grid-template-columns: repeat(3, 1fr); }
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 </style>
 ```
@@ -172,8 +178,8 @@ Use CSS media queries inside scoped `<style>` blocks. No breakpoint utility clas
 
 ### Stack
 
-| Stack   | Focus                                                                  |
-| ------- | ---------------------------------------------------------------------- |
+| Stack   | Focus                                                                 |
+| ------- | --------------------------------------------------------------------- |
 | `astro` | Scoped `<style>`, CSS custom properties, `<script>` for interactivity |
 
 <!-- To add a framework stack, install the integration and add a row here:
@@ -234,29 +240,29 @@ These are frequently overlooked issues that make UI look unprofessional:
 
 ### Icons & Visual Elements
 
-| Rule                       | Do                                                     | Don't                                  |
-| -------------------------- | ------------------------------------------------------ | -------------------------------------- |
-| **No emoji icons**         | Use inline SVG icons (Heroicons, Lucide, Simple Icons) | Use emojis like 🎨 🚀 ⚙️ as UI icons   |
-| **Stable hover states**    | Use `transition: color 200ms` or opacity               | Scale transforms that shift layout     |
-| **Correct brand logos**    | Research official SVG from Simple Icons                | Guess or use incorrect logo paths      |
-| **Consistent icon sizing** | Fixed `width`/`height` (e.g. 24px) via CSS            | Mix different icon sizes randomly      |
+| Rule                       | Do                                                     | Don't                                |
+| -------------------------- | ------------------------------------------------------ | ------------------------------------ |
+| **No emoji icons**         | Use inline SVG icons (Heroicons, Lucide, Simple Icons) | Use emojis like 🎨 🚀 ⚙️ as UI icons |
+| **Stable hover states**    | Use `transition: color 200ms` or opacity               | Scale transforms that shift layout   |
+| **Correct brand logos**    | Research official SVG from Simple Icons                | Guess or use incorrect logo paths    |
+| **Consistent icon sizing** | Fixed `width`/`height` (e.g. 24px) via CSS             | Mix different icon sizes randomly    |
 
 ### Interaction & Cursor
 
-| Rule                   | Do                                                        | Don't                                        |
-| ---------------------- | --------------------------------------------------------- | -------------------------------------------- |
-| **Cursor pointer**     | `cursor: pointer` on all clickable/hoverable elements     | Leave default cursor on interactive elements |
-| **Hover feedback**     | Provide visual feedback (color, shadow, border change)    | No indication element is interactive         |
-| **Smooth transitions** | `transition: <property> 150ms–300ms ease`                 | Instant state changes or too slow (>500ms)   |
+| Rule                   | Do                                                     | Don't                                        |
+| ---------------------- | ------------------------------------------------------ | -------------------------------------------- |
+| **Cursor pointer**     | `cursor: pointer` on all clickable/hoverable elements  | Leave default cursor on interactive elements |
+| **Hover feedback**     | Provide visual feedback (color, shadow, border change) | No indication element is interactive         |
+| **Smooth transitions** | `transition: <property> 150ms–300ms ease`              | Instant state changes or too slow (>500ms)   |
 
 ### Light/Dark Mode Contrast
 
-| Rule                      | Do                                                    | Don't                                       |
-| ------------------------- | ----------------------------------------------------- | ------------------------------------------- |
-| **Glass card light mode** | `background: rgba(255,255,255,0.8)` or higher opacity | `rgba(255,255,255,0.1)` (too transparent)   |
-| **Text contrast light**   | Dark text matching `var(--color-text)` token          | Low-contrast gray for body text             |
-| **Muted text light**      | At least 4.5:1 contrast ratio vs. background          | Lighter-than-minimum muted text             |
-| **Border visibility**     | Visible border using `var(--color-border)` token      | `rgba(255,255,255,0.1)` border (invisible)  |
+| Rule                      | Do                                                    | Don't                                      |
+| ------------------------- | ----------------------------------------------------- | ------------------------------------------ |
+| **Glass card light mode** | `background: rgba(255,255,255,0.8)` or higher opacity | `rgba(255,255,255,0.1)` (too transparent)  |
+| **Text contrast light**   | Dark text matching `var(--color-text)` token          | Low-contrast gray for body text            |
+| **Muted text light**      | At least 4.5:1 contrast ratio vs. background          | Lighter-than-minimum muted text            |
+| **Border visibility**     | Visible border using `var(--color-border)` token      | `rgba(255,255,255,0.1)` border (invisible) |
 
 ### Layout & Spacing
 

@@ -1,15 +1,19 @@
 ---
-import { headerOrganizationalLogos, publicAssetUrl, siteHeaderBrand } from '../data/siteLogos';
-import { EXTERNAL_URLS } from '../lib/constants';
+import {
+  headerOrganizationalLogos,
+  publicAssetUrl,
+  siteHeaderBrand,
+} from "../data/siteLogos";
+import { EXTERNAL_URLS } from "../lib/constants";
 
 const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
-const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
+const relativePath = currentPath.replace(base.slice(0, -1), "") || "/";
 
 const orgLogos = headerOrganizationalLogos;
 const brand = siteHeaderBrand;
 const homeLabel = `${brand.logoAlt} — Home`;
-const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
+const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 ---
 
 <nav class="nav">
@@ -19,7 +23,7 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
         <img
           class="site-logo-img"
           src={publicAssetUrl(base, brand.logoSrc)}
-          alt={wordmark ? '' : brand.logoAlt}
+          alt={wordmark ? "" : brand.logoAlt}
           loading="eager"
           decoding="async"
         />
@@ -28,21 +32,49 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
     </div>
 
     <div class="nav-links">
-      <a href={base} class:list={['nav-link', { active: relativePath === '/' }]}>
+      <a
+        href={base}
+        class:list={["nav-link", { active: relativePath === "/" }]}
+      >
         Home
       </a>
       <a href={`${base}#about`} class="nav-link">About</a>
       <a href={`${base}#sponsors`} class="nav-link">Sponsors</a>
       <a href={`${base}#event-details`} class="nav-link">Event</a>
       <a href={`${base}#logistics`} class="nav-link">Logistics</a>
-      <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="nav-link nav-link-external" target="_blank" rel="noopener noreferrer">
+      <a
+        href={EXTERNAL_URLS.HACKER_REGISTRATION}
+        class="nav-link nav-link-external"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Register
       </a>
-      <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="nav-cta" target="_blank" rel="noopener noreferrer">Sponsor</a>
+      <a
+        href={EXTERNAL_URLS.SPONSOR_INQUIRY}
+        class="nav-cta"
+        target="_blank"
+        rel="noopener noreferrer">Sponsor</a
+      >
     </div>
 
-    <button class="mobile-menu-btn" aria-label="Toggle menu" id="mobile-menu-btn">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button
+      class="mobile-menu-btn"
+      aria-label="Toggle menu"
+      id="mobile-menu-btn"
+    >
+      <svg
+        class="icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -53,13 +85,26 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
 
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-content">
-    <a href={base} class:list={['mobile-nav-link', { active: relativePath === '/' }]}>Home</a>
+    <a
+      href={base}
+      class:list={["mobile-nav-link", { active: relativePath === "/" }]}>Home</a
+    >
     <a href={`${base}#about`} class="mobile-nav-link">About</a>
     <a href={`${base}#sponsors`} class="mobile-nav-link">Sponsors</a>
     <a href={`${base}#event-details`} class="mobile-nav-link">Event</a>
     <a href={`${base}#logistics`} class="mobile-nav-link">Logistics</a>
-    <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Register</a>
-    <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="mobile-nav-cta" target="_blank" rel="noopener noreferrer">Become a sponsor</a>
+    <a
+      href={EXTERNAL_URLS.HACKER_REGISTRATION}
+      class="mobile-nav-link"
+      target="_blank"
+      rel="noopener noreferrer">Register</a
+    >
+    <a
+      href={EXTERNAL_URLS.SPONSOR_INQUIRY}
+      class="mobile-nav-cta"
+      target="_blank"
+      rel="noopener noreferrer">Become a sponsor</a
+    >
   </div>
 </div>
 
@@ -150,7 +195,7 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
   }
 
   .nav-link::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -4px;
     left: 0;
@@ -185,7 +230,9 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
     color: white;
     background: var(--color-primary);
     text-decoration: none;
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease;
     white-space: nowrap;
   }
 
@@ -313,19 +360,21 @@ const wordmark = 'wordmark' in brand ? brand.wordmark : undefined;
 </style>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+  document.addEventListener("astro:page-load", () => {
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
 
     if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('open');
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("open");
       });
 
-      const mobileLinks = mobileMenu.querySelectorAll('.mobile-nav-link, .mobile-nav-cta');
+      const mobileLinks = mobileMenu.querySelectorAll(
+        ".mobile-nav-link, .mobile-nav-cta",
+      );
       mobileLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.remove('open');
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("open");
         });
       });
     }

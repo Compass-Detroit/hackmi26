@@ -1,21 +1,31 @@
 ---
-import { EXTERNAL_URLS } from '../lib/constants';
+import { EXTERNAL_URLS } from "../lib/constants";
 
 const base = import.meta.env.BASE_URL;
 ---
 
-<section class="sponsor-cta" id="sponsor-cta" aria-labelledby="sponsor-cta-heading">
+<section
+  class="sponsor-cta"
+  id="sponsor-cta"
+  aria-labelledby="sponsor-cta-heading"
+>
   <div class="sponsor-cta-inner glass">
     <p class="eyebrow">Partners &amp; supporters</p>
     <h2 id="sponsor-cta-heading" class="headline">
       Support the Next Wave of Michigan Innovation
     </h2>
     <p class="lede">
-      Help us bring students and builders from the University of Michigan, Wayne State, and the wider region together for an
-      unforgettable weekend in Detroit.
+      Help us bring students and builders from the University of Michigan, Wayne
+      State, and the wider region together for an unforgettable weekend in
+      Detroit.
     </p>
     <div class="actions">
-      <a href={EXTERNAL_URLS.SPONSOR_INQUIRY} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+      <a
+        href={EXTERNAL_URLS.SPONSOR_INQUIRY}
+        class="btn btn-primary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Become a Sponsor
       </a>
       <a href={`${base}#event-details`} class="btn btn-ghost">Event details</a>
