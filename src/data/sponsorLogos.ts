@@ -42,5 +42,5 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
       href: 'https://littlecaesars.com',
     },
   ],
-} as const;
+};
 
