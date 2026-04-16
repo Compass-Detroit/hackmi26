@@ -1,6 +1,5 @@
 ---
 import {
-  headerOrganizationalLogos,
   publicAssetUrl,
   siteHeaderBrand,
 } from "../data/siteLogos";
@@ -10,7 +9,6 @@ const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
 const relativePath = currentPath.replace(base.slice(0, -1), "") || "/";
 
-const orgLogos = headerOrganizationalLogos;
 const brand = siteHeaderBrand;
 const homeLabel = `${brand.logoAlt} — Home`;
 const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
@@ -201,7 +199,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--color-primary);
+    background: var(--color-primary-button);
     transition: width 0.2s ease;
   }
 
@@ -228,11 +226,11 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-size: 0.9rem;
     font-weight: 600;
     color: white;
-    background: var(--color-primary);
+    background: var(--color-primary-button);
     text-decoration: none;
     transition:
-      background 0.2s ease,
-      box-shadow 0.2s ease;
+      background: 0.2s ease,
+      box-shadow: 0.2s ease;
     white-space: nowrap;
   }
 
@@ -306,7 +304,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-size: 1.25rem;
     font-weight: 700;
     color: white;
-    background: var(--color-primary);
+    background: var(--color-primary-button);
     text-decoration: none;
   }
 
