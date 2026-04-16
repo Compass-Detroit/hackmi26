@@ -15,6 +15,7 @@ export default {
     "property-no-vendor-prefix": null,
     "rule-empty-line-before": null,
     "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-no-duplicate-properties": null,
     "keyframes-name-pattern": null,
     "selector-class-pattern": null,
     "selector-pseudo-class-no-unknown": [
