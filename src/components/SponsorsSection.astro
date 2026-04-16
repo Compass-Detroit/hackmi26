@@ -1,6 +1,7 @@
 ---
 import SponsorCTA from "./SponsorCTA.astro";
 import { sponsorLogosByTier } from "../data/sponsorLogos";
+import { publicAssetUrl } from "../data/siteLogos";
 
 const diamondSlotTotal = 3;
 const goldSlotTotal = 4;
@@ -8,6 +9,8 @@ const goldSlotTotal = 4;
 const hostLogos = sponsorLogosByTier.host;
 const diamondLogos = sponsorLogosByTier.diamond;
 const goldLogos = sponsorLogosByTier.gold;
+
+const base = import.meta.env.BASE_URL;
 
 const diamondPlaceholderCount = Math.max(
   0,
@@ -53,7 +56,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                   >
                     <img
                       class="sponsor-logo"
-                      src={logo.src}
+                      src={publicAssetUrl(base, logo.src)}
                       alt={logo.alt}
                       loading="lazy"
                       decoding="async"
@@ -62,7 +65,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                 ) : (
                   <img
                     class="sponsor-logo"
-                    src={logo.src}
+                    src={publicAssetUrl(base, logo.src)}
                     alt={logo.alt}
                     loading="lazy"
                     decoding="async"
@@ -99,7 +102,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                   >
                     <img
                       class="sponsor-logo"
-                      src={logo.src}
+                      src={publicAssetUrl(base, logo.src)}
                       alt={logo.alt}
                       loading="lazy"
                       decoding="async"
@@ -108,7 +111,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                 ) : (
                   <img
                     class="sponsor-logo"
-                    src={logo.src}
+                    src={publicAssetUrl(base, logo.src)}
                     alt={logo.alt}
                     loading="lazy"
                     decoding="async"
@@ -160,7 +163,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                   >
                     <img
                       class="sponsor-logo"
-                      src={logo.src}
+                      src={publicAssetUrl(base, logo.src)}
                       alt={logo.alt}
                       loading="lazy"
                       decoding="async"
@@ -169,7 +172,7 @@ const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
                 ) : (
                   <img
                     class="sponsor-logo"
-                    src={logo.src}
+                    src={publicAssetUrl(base, logo.src)}
                     alt={logo.alt}
                     loading="lazy"
                     decoding="async"
