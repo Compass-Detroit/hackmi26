@@ -19,21 +19,10 @@ export const siteHeaderBrand = {
 
 /** Shown in the main nav (e.g. host org, chapter, venue). */
 export const headerOrganizationalLogos: SiteLogo[] = [
-  // TODO: Removed the display of these in the nav. They all appeared in the header and caused duplicate with compass logo and would cause responsiveness issues even when compass logo was removed. Can re-add if we want to show GDG Detroit and Detroit Hacker House in the header as well, but for now just keeping compass logo in the header and all three in the footer.
   {
     src: "/images/org/compass-logo.svg",
     alt: "Compass Detroit",
     href: "https://compassdetroit.com",
-  },
-  {
-    src: "/images/site/gdg-detroit-logo.svg",
-    alt: "GDG Detroit",
-    href: "https://gdg.community.dev/gdg-detroit/",
-  },
-  {
-    src: "/images/site/detroit-hacker-house-logo.png",
-    alt: "Detroit Hacker House",
-    href: "https://detroithackerhouse.com",
   },
 ];
 
