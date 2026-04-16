@@ -25,7 +25,7 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
       surface: "light",
     },
     {
-      src: "/images/sponsors/dia-google.webp",
+      src: "/images/sponsors/dia-google-300x.webp",
       alt: "Google",
       href: "https://www.google.com",
     },
