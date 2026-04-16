@@ -1,5 +1,5 @@
 ---
-// Three.js による3D背景アニメーション
+// 3D background animation powered by Three.js
 ---
 
 <canvas id="three-canvas"></canvas>
@@ -12,28 +12,49 @@
   title="Pause background animation"
 >
   <span class="three-pause-icon three-pause-icon--pause" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <rect x="6" y="5" width="4" height="14" rx="1"></rect>
       <rect x="14" y="5" width="4" height="14" rx="1"></rect>
     </svg>
   </span>
-  <span class="three-pause-icon three-pause-icon--play" aria-hidden="true" hidden>
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+  <span
+    class="three-pause-icon three-pause-icon--play"
+    aria-hidden="true"
+    hidden
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M8 5v14l11-7-11-7z"></path>
     </svg>
   </span>
 </button>
 
 <script>
-  import * as THREE from 'three';
+  import * as THREE from "three";
 
-  // Three.js アニメーションの初期化と管理
+  // Three.js animation setup and lifecycle management
   let scene: THREE.Scene | null = null;
   let camera: THREE.PerspectiveCamera | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
-  let particlesMesh: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial> | null = null;
-  let torus: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null = null;
-  let torus2: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null = null;
+  let particlesMesh: THREE.Points<
+    THREE.BufferGeometry,
+    THREE.PointsMaterial
+  > | null = null;
+  let torus: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null =
+    null;
+  let torus2: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null =
+    null;
   let animationId: number | null = null;
   let mouseX = 0;
   let mouseY = 0;
@@ -41,13 +62,13 @@
   let isPaused = false;
   let pauseButtonHandler: (() => void) | null = null;
 
-  // マウスムーブハンドラー
+  // Mouse move handler
   const handleMouseMove = (event: MouseEvent) => {
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
   };
 
-  // リサイズハンドラー
+  // Resize handler
   const handleResize = () => {
     if (!camera || !renderer) return;
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -55,81 +76,74 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
-  // Toggle animation state
-  const toggleAnimation = () => {
-    isPaused = !isPaused;
-    const pauseIcon = document.getElementById('pause-icon');
-    const playIcon = document.getElementById('play-icon');
-    
-    if (isPaused) {
-      pauseIcon?.classList.add('hidden');
-      playIcon?.classList.remove('hidden');
-    } else {
-      pauseIcon?.classList.remove('hidden');
-      playIcon?.classList.add('hidden');
-      // Restart the loop if it was stopped
-      if (animationId === null) {
-        animate();
-      }
-    }
-  };
-
-  // Three.jsアニメーションの初期化
+  // Initialize the Three.js scene
   function initThreeAnimation() {
-    const canvas = document.getElementById('three-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById("three-canvas") as HTMLCanvasElement;
     if (!canvas) return;
 
-    // 既存のアニメーションをクリーンアップ
+    // Clean up any previous instance (important for Astro view transitions)
     cleanupThreeAnimation();
 
-    const toggleBtn = document.getElementById('toggle-animation');
-    toggleBtn?.addEventListener('click', toggleAnimation);
-
-    // シーン、カメラ、レンダラーの設定
+    // Scene, camera, and renderer
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+    });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     camera.position.z = 5;
 
-    // パーティクルシステムの作成
+    // Particle system
     const particlesGeometry = new THREE.BufferGeometry();
     const particlesCount = 5000;
     const posArray = new Float32Array(particlesCount * 3);
     const colorArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // ランダムな位置
+      // Random positions
       posArray[i] = (Math.random() - 0.5) * 100;
       posArray[i + 1] = (Math.random() - 0.5) * 100;
       posArray[i + 2] = (Math.random() - 0.5) * 100;
 
-      // ランダムな色（紫、ピンク、青の系統）
+      // Random colors (purple, pink, blue family)
       const colorType = Math.random();
       if (colorType < 0.33) {
-        // 紫
+        // Purple
         colorArray[i] = 0.66;
         colorArray[i + 1] = 0.33;
         colorArray[i + 2] = 0.97;
       } else if (colorType < 0.66) {
-        // ピンク
+        // Pink
         colorArray[i] = 0.93;
         colorArray[i + 1] = 0.28;
-        colorArray[i + 2] = 0.60;
+        colorArray[i + 2] = 0.6;
       } else {
-        // 青
+        // Blue
         colorArray[i] = 0.23;
         colorArray[i + 1] = 0.51;
         colorArray[i + 2] = 0.96;
       }
     }
 
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+    particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(posArray, 3),
+    );
+    particlesGeometry.setAttribute(
+      "color",
+      new THREE.BufferAttribute(colorArray, 3),
+    );
 
-    // パーティクル用マテリアル
+    // Particle material
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.15,
       vertexColors: true,
@@ -141,7 +155,7 @@
     particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    // 回転するトーラス（ドーナツ型）の追加
+    // Rotating torus (donut)
     const torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100);
     const torusMaterial = new THREE.MeshBasicMaterial({
       color: 0xa855f7,
@@ -152,7 +166,7 @@
     torus = new THREE.Mesh(torusGeometry, torusMaterial);
     scene.add(torus);
 
-    // 2つ目のトーラス
+    // Second torus
     const torus2Geometry = new THREE.TorusGeometry(15, 2, 16, 100);
     const torus2Material = new THREE.MeshBasicMaterial({
       color: 0xec4899,
@@ -164,11 +178,11 @@
     torus2.rotation.x = Math.PI / 4;
     scene.add(torus2);
 
-    // イベントリスナーの追加
-    document.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
+    // Event listeners
+    document.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
 
-    // アニメーションループの開始
+    // Start animation loop
     time = 0;
     isPaused = false;
     animate();
@@ -176,21 +190,21 @@
   }
 
   function syncPauseButton() {
-    const btn = document.getElementById('three-pause-toggle');
+    const btn = document.getElementById("three-pause-toggle");
     if (!btn) return;
-    const pauseIcon = btn.querySelector('.three-pause-icon--pause');
-    const playIcon = btn.querySelector('.three-pause-icon--play');
-    btn.setAttribute('aria-pressed', isPaused ? 'true' : 'false');
+    const pauseIcon = btn.querySelector(".three-pause-icon--pause");
+    const playIcon = btn.querySelector(".three-pause-icon--play");
+    btn.setAttribute("aria-pressed", isPaused ? "true" : "false");
     if (isPaused) {
-      btn.setAttribute('aria-label', 'Resume background animation');
-      btn.setAttribute('title', 'Resume background animation');
+      btn.setAttribute("aria-label", "Resume background animation");
+      btn.setAttribute("title", "Resume background animation");
     } else {
-      btn.setAttribute('aria-label', 'Pause background animation');
-      btn.setAttribute('title', 'Pause background animation');
+      btn.setAttribute("aria-label", "Pause background animation");
+      btn.setAttribute("title", "Pause background animation");
     }
     if (pauseIcon && playIcon) {
-      pauseIcon.toggleAttribute('hidden', isPaused);
-      playIcon.toggleAttribute('hidden', !isPaused);
+      pauseIcon.toggleAttribute("hidden", isPaused);
+      playIcon.toggleAttribute("hidden", !isPaused);
     }
   }
 
@@ -208,28 +222,29 @@
   }
 
   function setupPauseButton() {
-    const btn = document.getElementById('three-pause-toggle');
+    const btn = document.getElementById("three-pause-toggle");
     if (!btn) return;
     if (pauseButtonHandler) {
-      btn.removeEventListener('click', pauseButtonHandler);
+      btn.removeEventListener("click", pauseButtonHandler);
     }
     pauseButtonHandler = () => setPaused(!isPaused);
-    btn.addEventListener('click', pauseButtonHandler);
+    btn.addEventListener("click", pauseButtonHandler);
     syncPauseButton();
   }
 
   function cleanupPauseButton() {
-    const btn = document.getElementById('three-pause-toggle');
+    const btn = document.getElementById("three-pause-toggle");
     if (btn && pauseButtonHandler) {
-      btn.removeEventListener('click', pauseButtonHandler);
+      btn.removeEventListener("click", pauseButtonHandler);
     }
     pauseButtonHandler = null;
     isPaused = false;
   }
 
-  // アニメーションループ
+  // Animation loop
   function animate() {
-    if (!scene || !camera || !renderer || !particlesMesh || !torus || !torus2) return;
+    if (!scene || !camera || !renderer || !particlesMesh || !torus || !torus2)
+      return;
 
     if (isPaused) {
       animationId = null;
@@ -260,24 +275,21 @@
     renderer.render(scene, camera);
   }
 
-  // クリーンアップ
+  // Cleanup
   function cleanupThreeAnimation() {
     cleanupPauseButton();
 
-    // アニメーションループの停止
+    // Stop animation loop
     if (animationId !== null) {
       cancelAnimationFrame(animationId);
       animationId = null;
     }
 
-    // イベントリスナーの削除
-    document.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('resize', handleResize);
-    
-    const toggleBtn = document.getElementById('toggle-animation');
-    toggleBtn?.removeEventListener('click', toggleAnimation);
+    // Remove event listeners
+    document.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("resize", handleResize);
 
-    // Three.jsオブジェクトのクリーンアップ
+    // Dispose Three.js objects
     if (particlesMesh) {
       particlesMesh.geometry.dispose();
       particlesMesh.material.dispose();
@@ -305,13 +317,13 @@
     camera = null;
   }
 
-  // Astro View Transitionsに対応した初期化
-  document.addEventListener('astro:page-load', () => {
+  // Initialize on Astro page load (view transitions safe)
+  document.addEventListener("astro:page-load", () => {
     initThreeAnimation();
   });
 
-  // ページ離脱時のクリーンアップ
-  document.addEventListener('astro:before-preparation', () => {
+  // Cleanup before navigating away
+  document.addEventListener("astro:before-preparation", () => {
     cleanupThreeAnimation();
   });
 </script>
@@ -325,40 +337,6 @@
     height: 100%;
     z-index: -1;
     pointer-events: none;
-  }
-
-  .animation-controls {
-    position: fixed;
-    bottom: 8rem;
-    right: 2rem;
-    z-index: 1001;
-  }
-
-  .control-btn {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-dim);
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .control-btn:hover {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-    background: rgba(15, 23, 42, 0.8);
-    transform: scale(1.1);
-  }
-
-  .hidden {
-    display: none;
   }
 
   .three-pause-btn {
@@ -380,7 +358,10 @@
     color: var(--color-text);
     cursor: pointer;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background 0.2s ease;
     touch-action: manipulation;
   }
 

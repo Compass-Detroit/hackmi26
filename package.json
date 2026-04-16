@@ -19,6 +19,9 @@
     "url": "https://github.com/kpab/astro-darkness"
   },
   "homepage": "https://hackmichigan.com",
+  "engines": {
+    "node": ">=22.22.2"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -28,7 +31,9 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "lint:css": "stylelint \"src/**/*.{css,astro}\"",
+    "lint:css:fix": "stylelint \"src/**/*.{css,astro}\" --fix"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
@@ -45,8 +50,11 @@
     "astro-eslint-parser": "^1.4.0",
     "eslint": "^10.2.0",
     "eslint-plugin-astro": "^1.7.0",
+    "postcss-html": "^1.8.1",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
+    "stylelint": "^17.8.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.2"
   },

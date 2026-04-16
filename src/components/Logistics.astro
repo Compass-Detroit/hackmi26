@@ -1,5 +1,5 @@
 ---
-import Card from './Card.astro';
+import Card from "./Card.astro";
 ---
 
 <section id="logistics" class="logistics">
@@ -25,7 +25,9 @@ import Card from './Card.astro';
         <ul class="logistics-list">
           <li><strong>Grand Prize:</strong> $5,000 + Engineering Mentorship</li>
           <li><strong>Agentic Systems Track:</strong> $2,500 + API Credits</li>
-          <li><strong>Infrastructure Track:</strong> $2,500 + Hardware Access</li>
+          <li>
+            <strong>Infrastructure Track:</strong> $2,500 + Hardware Access
+          </li>
           <li><strong>Community Award:</strong> Local Ecosystem Visibility</li>
         </ul>
       </div>
@@ -33,10 +35,18 @@ import Card from './Card.astro';
       <div class="logistics-section">
         <h3 class="logistics-title">Judging Criteria</h3>
         <ul class="logistics-list">
-          <li><strong>Technical Complexity:</strong> Depth of engineering skill.</li>
-          <li><strong>Impact:</strong> Real-world utility and problem-solving.</li>
-          <li><strong>Execution:</strong> Polish, performance, and stability.</li>
-          <li><strong>Innovation:</strong> Novel approach to existing challenges.</li>
+          <li>
+            <strong>Technical Complexity:</strong> Depth of engineering skill.
+          </li>
+          <li>
+            <strong>Impact:</strong> Real-world utility and problem-solving.
+          </li>
+          <li>
+            <strong>Execution:</strong> Polish, performance, and stability.
+          </li>
+          <li>
+            <strong>Innovation:</strong> Novel approach to existing challenges.
+          </li>
         </ul>
       </div>
     </div>
@@ -114,7 +124,7 @@ import Card from './Card.astro';
   }
 
   .logistics-list li::before {
-    content: '→';
+    content: "→";
     position: absolute;
     left: 0;
     color: var(--color-primary);

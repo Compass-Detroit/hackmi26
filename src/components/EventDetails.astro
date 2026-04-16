@@ -1,80 +1,127 @@
 ---
-import { EVENT_DETAILS } from '../lib/constants';
-import { EVENT_AGENDA } from '../data/eventAgenda';
+import { EVENT_DETAILS } from "../lib/constants";
+import { EVENT_AGENDA } from "../data/eventAgenda";
 
-const agendaGroup = 'hackmi-agenda';
+const agendaGroup = "hackmi-agenda";
 ---
 
-<section class="event-details" id="event-details" aria-labelledby="event-heading">
+<section
+  class="event-details"
+  id="event-details"
+  aria-labelledby="event-heading"
+>
   <div class="container">
     <h2 id="event-heading" class="section-title">Event details</h2>
     <p class="section-subtitle">
-      Save the window—exact schedule and venue will be posted as we finalize logistics.
+      Save the window—exact schedule and venue will be posted as we finalize
+      logistics.
     </p>
 
     <div class="detail-grid">
       <article class="detail-card glass" id="dates">
         <div class="detail-card-heading">
           <div class="detail-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><rect x="3" y="4" width="18" height="18" rx="2" ry="2"
+              ></rect><line x1="16" y1="2" x2="16" y2="6"></line><line
+                x1="8"
+                y1="2"
+                x2="8"
+                y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg
+            >
           </div>
           <h3 class="detail-title">Dates</h3>
         </div>
         <p class="detail-highlight">{EVENT_DETAILS.DATE}</p>
         <p class="detail-lede">
-          Three days in Detroit—switch tabs for the draft agenda (times subject to change).
+          Three days in Detroit—switch tabs for the draft agenda (times subject
+          to change).
         </p>
 
         <div class="agenda">
-          {EVENT_AGENDA.map((day, i) => (
-            <input
-              type="radio"
-              class="agenda-state"
-              name={agendaGroup}
-              id={`${agendaGroup}-${day.id}`}
-              checked={i === 0}
-            />
-          ))}
-          <ul class="agenda-tablist" role="tablist" aria-label="Schedule by day">
-            {EVENT_AGENDA.map((day) => (
-              <li class="agenda-tab-item" role="none">
-                <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
-                  {day.tabLabel}
-                </label>
-              </li>
-            ))}
+          {
+            EVENT_AGENDA.map((day, i) => (
+              <input
+                type="radio"
+                class="agenda-state"
+                name={agendaGroup}
+                id={`${agendaGroup}-${day.id}`}
+                checked={i === 0}
+              />
+            ))
+          }
+          <ul
+            class="agenda-tablist"
+            role="tablist"
+            aria-label="Schedule by day"
+          >
+            {
+              EVENT_AGENDA.map((day) => (
+                <li class="agenda-tab-item" role="none">
+                  <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
+                    {day.tabLabel}
+                  </label>
+                </li>
+              ))
+            }
           </ul>
-          {EVENT_AGENDA.map((day) => (
-            <div
-              class={`agenda-panel agenda-panel--${day.id}`}
-              id={`${agendaGroup}-panel-${day.id}`}
-              aria-label={day.dayTitle ?? day.tabLabel}
-            >
-              {day.dayTitle && <p class="agenda-day-title">{day.dayTitle}</p>}
-              <ul class="agenda-slots">
-                {day.slots.map((slot) => (
-                  <li class="agenda-slot">
-                    <span class="agenda-time">{slot.time}</span>
-                    <div class="agenda-slot-body">
-                      <span class="agenda-slot-title">{slot.title}</span>
-                      {slot.detail && <span class="agenda-slot-detail">{slot.detail}</span>}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {
+            EVENT_AGENDA.map((day) => (
+              <div
+                class={`agenda-panel agenda-panel--${day.id}`}
+                id={`${agendaGroup}-panel-${day.id}`}
+                aria-label={day.dayTitle ?? day.tabLabel}
+              >
+                {day.dayTitle && <p class="agenda-day-title">{day.dayTitle}</p>}
+                <ul class="agenda-slots">
+                  {day.slots.map((slot) => (
+                    <li class="agenda-slot">
+                      <span class="agenda-time">{slot.time}</span>
+                      <div class="agenda-slot-body">
+                        <span class="agenda-slot-title">{slot.title}</span>
+                        {slot.detail && (
+                          <span class="agenda-slot-detail">{slot.detail}</span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </div>
 
         <p class="detail-copy detail-copy--after-agenda">
-          Subscribe via registration for final kickoff, judging, and showcase times.
+          Subscribe via registration for final kickoff, judging, and showcase
+          times.
         </p>
       </article>
 
       <article class="detail-card glass" id="location">
         <div class="detail-card-heading">
           <div class="detail-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+              ></path><circle cx="12" cy="10" r="3"></circle></svg
+            >
           </div>
           <h3 class="detail-title">Location</h3>
         </div>
@@ -96,12 +143,12 @@ const agendaGroup = 'hackmi-agenda';
             src={EVENT_DETAILS.LOCATION_MAP_EMBED_URL}
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen
-          />
+            allowfullscreen></iframe>
         </div>
         <p class="detail-copy">
-          HackMI is rooted in Detroit’s growing innovation corridor — accessible to students across Southeast Michigan and
-          visitors flying into DTW. Venue and transit notes will be shared with registered participants.
+          HackMI is rooted in Detroit’s growing innovation corridor — accessible
+          to students across Southeast Michigan and visitors flying into DTW.
+          Venue and transit notes will be shared with registered participants.
         </p>
       </article>
     </div>
@@ -147,7 +194,9 @@ const agendaGroup = 'hackmi-agenda';
   .detail-card {
     padding: 2rem;
     border-radius: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .glass {
@@ -202,14 +251,17 @@ const agendaGroup = 'hackmi-agenda';
 
   .detail-lede {
     font-size: 0.95rem;
-    line-height: 1.55;
     color: var(--color-text-dim);
     margin-bottom: 1rem;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .agenda {
     position: relative;
     margin-bottom: 1rem;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .agenda-state {
@@ -222,6 +274,8 @@ const agendaGroup = 'hackmi-agenda';
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .agenda-tablist {
@@ -231,6 +285,8 @@ const agendaGroup = 'hackmi-agenda';
     margin: 0 0 0.75rem;
     padding: 0;
     list-style: none;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .agenda-tab-item {
@@ -238,6 +294,8 @@ const agendaGroup = 'hackmi-agenda';
     min-width: 0;
     margin: 0;
     padding: 0;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .agenda-tab {
@@ -256,7 +314,9 @@ const agendaGroup = 'hackmi-agenda';
     transition:
       color 0.2s ease,
       border-color 0.2s ease,
-      background 0.2s ease;
+      background-color 0.2s ease;
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   @media (min-width: 400px) {
@@ -291,9 +351,24 @@ const agendaGroup = 'hackmi-agenda';
    * Radio/tab panel visibility: Astro scoped CSS rewrites class selectors and breaks
    * `#id:checked ~ .sibling` — use :global() for the ID + sibling chain.
    */
-  .event-details :global(#hackmi-agenda-day-1:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-1']),
-  .event-details :global(#hackmi-agenda-day-2:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-2']),
-  .event-details :global(#hackmi-agenda-day-3:checked ~ .agenda-tablist .agenda-tab[for='hackmi-agenda-day-3']) {
+  .event-details
+    :global(
+      #hackmi-agenda-day-1:checked
+        ~ .agenda-tablist
+        .agenda-tab[for="hackmi-agenda-day-1"]
+    ),
+  .event-details
+    :global(
+      #hackmi-agenda-day-2:checked
+        ~ .agenda-tablist
+        .agenda-tab[for="hackmi-agenda-day-2"]
+    ),
+  .event-details
+    :global(
+      #hackmi-agenda-day-3:checked
+        ~ .agenda-tablist
+        .agenda-tab[for="hackmi-agenda-day-3"]
+    ) {
     color: white;
     background: rgba(59, 130, 246, 0.25);
     border-color: var(--color-primary);
@@ -309,7 +384,8 @@ const agendaGroup = 'hackmi-agenda';
   @media (prefers-reduced-motion: reduce) {
     .event-details :global(#hackmi-agenda-day-1:checked ~ .agenda-panel--day-1),
     .event-details :global(#hackmi-agenda-day-2:checked ~ .agenda-panel--day-2),
-    .event-details :global(#hackmi-agenda-day-3:checked ~ .agenda-panel--day-3) {
+    .event-details
+      :global(#hackmi-agenda-day-3:checked ~ .agenda-panel--day-3) {
       animation: none;
     }
   }
@@ -372,7 +448,9 @@ const agendaGroup = 'hackmi-agenda';
     text-decoration: underline;
     text-decoration-color: rgba(59, 130, 246, 0.45);
     text-underline-offset: 3px;
-    transition: color 0.3s ease, text-decoration-color 0.3s ease;
+    transition:
+      color 0.3s ease,
+      text-decoration-color 0.3s ease;
   }
 
   .location-map-link:hover {
@@ -406,6 +484,7 @@ const agendaGroup = 'hackmi-agenda';
   .detail-copy {
     font-size: 0.98rem;
     line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
     color: var(--color-text-dim);
   }
 

@@ -1,5 +1,5 @@
 ---
-import { EXTERNAL_URLS } from '../lib/constants';
+import { EXTERNAL_URLS } from "../lib/constants";
 ---
 
 <section class="final-cta">
@@ -7,11 +7,16 @@ import { EXTERNAL_URLS } from '../lib/constants';
     <div class="cta-card">
       <h2 class="cta-title">Ready to Build?</h2>
       <p class="cta-description">
-        Join 500+ engineers in Detroit for the most technical event of the year. 
+        Join 500+ engineers in Detroit for the most technical event of the year.
         Registration is now open through the IBM Agentic platform.
       </p>
       <div class="cta-buttons">
-        <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        <a
+          href={EXTERNAL_URLS.HACKER_REGISTRATION}
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Register on IBM Agentic
         </a>
       </div>
@@ -31,7 +36,7 @@ import { EXTERNAL_URLS } from '../lib/constants';
   }
 
   .cta-card {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #1E40AF 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1e40af 100%);
     border-radius: 2rem;
     padding: 5rem 3rem;
     text-align: center;
@@ -41,13 +46,17 @@ import { EXTERNAL_URLS } from '../lib/constants';
   }
 
   .cta-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 
@@ -75,7 +84,7 @@ import { EXTERNAL_URLS } from '../lib/constants';
     font-size: 1.25rem;
     font-weight: 700;
     background: white;
-    color: var(--color-primary);
+    color: var(--color-primary-button);
     border-radius: 0.75rem;
     text-decoration: none;
     transition: all 0.3s ease;

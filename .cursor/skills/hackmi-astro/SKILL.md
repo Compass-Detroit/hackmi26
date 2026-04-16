@@ -42,19 +42,19 @@ description: >-
 
 These are imported and rendered in `src/pages/index.astro`. Edit freely.
 
-| Component | Role |
-| --- | --- |
-| `BaseLayout.astro` | HTML shell, meta tags, font imports |
-| `ThreeBackground.astro` | Three.js animated canvas background |
-| `Navigation.astro` | Top nav bar |
-| `Hero.astro` | Above-the-fold headline + CTA |
-| `AboutSection.astro` | Challenge description |
-| `SponsorsSection.astro` | Sponsor logo grid |
-| `EventDetails.astro` | Agenda tabs (Thu/Fri/Sat) |
-| `LogisticsSection.astro` | Rules, deliverables, evaluation |
-| `SignupSection.astro` | Registration / Devpost CTA |
-| `FinalAgenticCTA.astro` | Closing call-to-action |
-| `Footer.astro` | Footer links + org logos |
+| Component                | Role                                |
+| ------------------------ | ----------------------------------- |
+| `BaseLayout.astro`       | HTML shell, meta tags, font imports |
+| `ThreeBackground.astro`  | Three.js animated canvas background |
+| `Navigation.astro`       | Top nav bar                         |
+| `Hero.astro`             | Above-the-fold headline + CTA       |
+| `AboutSection.astro`     | Challenge description               |
+| `SponsorsSection.astro`  | Sponsor logo grid                   |
+| `EventDetails.astro`     | Agenda tabs (Thu/Fri/Sat)           |
+| `LogisticsSection.astro` | Rules, deliverables, evaluation     |
+| `SignupSection.astro`    | Registration / Devpost CTA          |
+| `FinalAgenticCTA.astro`  | Closing call-to-action              |
+| `Footer.astro`           | Footer links + org logos            |
 
 ---
 

@@ -1,13 +1,35 @@
 ---
-import SponsorCTA from './SponsorCTA.astro';
+import SponsorCTA from "./SponsorCTA.astro";
+import { sponsorLogosByTier } from "../data/sponsorLogos";
+import { publicAssetUrl } from "../data/siteLogos";
 
-const platinumSlots = [1, 2, 3] as const;
-const communitySlots = [1, 2, 3, 4] as const;
-const platinumSlotTotal = platinumSlots.length;
-const communitySlotTotal = communitySlots.length;
+const diamondSlotTotal = 2;
+const goldSlotTotal = 2;
+const communitySlotTotal = 4;
+
+const hostLogos = sponsorLogosByTier.host;
+const diamondLogos = sponsorLogosByTier.diamond;
+const goldLogos = sponsorLogosByTier.gold;
+const communityLogos = sponsorLogosByTier.community;
+
+const base = import.meta.env.BASE_URL;
+
+const diamondPlaceholderCount = Math.max(
+  0,
+  diamondSlotTotal - diamondLogos.length,
+);
+const goldPlaceholderCount = Math.max(0, goldSlotTotal - goldLogos.length);
+const communityPlaceholderCount = Math.max(
+  0,
+  communitySlotTotal - communityLogos.length,
+);
 ---
 
-<section class="sponsors-section" id="sponsors" aria-labelledby="sponsors-heading">
+<section
+  class="sponsors-section"
+  id="sponsors"
+  aria-labelledby="sponsors-heading"
+>
   <div class="container">
     <h2 id="sponsors-heading" class="section-title">Sponsors</h2>
     <p class="section-subtitle">
@@ -15,40 +37,231 @@ const communitySlotTotal = communitySlots.length;
     </p>
 
     <div class="sponsor-tiers">
-      <section class="sponsor-tier sponsor-tier--gold" aria-labelledby="tier-gold-heading">
+      <section
+        class="sponsor-tier sponsor-tier--host"
+        aria-labelledby="tier-host-heading"
+      >
+        <h3 id="tier-host-heading" class="tier-heading">Host</h3>
+        <ul class="tier-slots tier-slots--host">
+          {
+            hostLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--card",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Host sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section
+        class="sponsor-tier sponsor-tier--diamond"
+        aria-labelledby="tier-diamond-heading"
+      >
+        <h3 id="tier-diamond-heading" class="tier-heading">Diamond</h3>
+        <ul class="tier-slots tier-slots--diamond">
+          {
+            diamondLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--card",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Diamond sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+          {
+            Array.from(
+              { length: diamondPlaceholderCount },
+              (_, i) => i + 1,
+            ).map((n) => (
+              <li
+                class="sponsor-slot sponsor-slot--card"
+                aria-label={`Diamond sponsor slot ${diamondLogos.length + n} of ${diamondSlotTotal} — logo placeholder`}
+              >
+                <span class="sponsor-slot__plus" aria-hidden="true">
+                  +
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section
+        class="sponsor-tier sponsor-tier--gold"
+        aria-labelledby="tier-gold-heading"
+      >
         <h3 id="tier-gold-heading" class="tier-heading">Gold</h3>
         <ul class="tier-slots tier-slots--gold">
-          <li class="sponsor-slot sponsor-slot--card" aria-label="Gold sponsor — logo placeholder">
-            <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-          </li>
+          {
+            goldLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--card",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Gold sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+          {
+            Array.from({ length: goldPlaceholderCount }, (_, i) => i + 1).map(
+              (n) => (
+                <li
+                  class="sponsor-slot sponsor-slot--card"
+                  aria-label={`Gold sponsor slot ${goldLogos.length + n} of ${goldSlotTotal} — logo placeholder`}
+                >
+                  <span class="sponsor-slot__plus" aria-hidden="true">
+                    +
+                  </span>
+                </li>
+              ),
+            )
+          }
         </ul>
       </section>
 
-      <section class="sponsor-tier sponsor-tier--platinum" aria-labelledby="tier-platinum-heading">
-        <h3 id="tier-platinum-heading" class="tier-heading">Platinum</h3>
-        <ul class="tier-slots tier-slots--platinum">
-          {platinumSlots.map((n) => (
-            <li
-              class="sponsor-slot sponsor-slot--card"
-              aria-label={`Platinum sponsor slot ${n} of ${platinumSlotTotal} — logo placeholder`}
-            >
-              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="sponsor-tier sponsor-tier--community" aria-labelledby="tier-community-heading">
+      <section
+        class="sponsor-tier sponsor-tier--community"
+        aria-labelledby="tier-community-heading"
+      >
         <h3 id="tier-community-heading" class="tier-heading">Community</h3>
         <ul class="tier-slots tier-slots--community">
-          {communitySlots.map((n) => (
-            <li
-              class="sponsor-slot sponsor-slot--square"
-              aria-label={`Community sponsor slot ${n} of ${communitySlotTotal} — logo placeholder`}
-            >
-              <span class="sponsor-slot__plus" aria-hidden="true">+</span>
-            </li>
-          ))}
+          {
+            communityLogos.map((logo) => (
+              <li
+                class:list={[
+                  "sponsor-slot",
+                  "sponsor-slot--square",
+                  logo.surface === "light" && "sponsor-slot--surface-light",
+                ]}
+                aria-label={`Community sponsor — ${logo.alt}`}
+              >
+                {logo.href ? (
+                  <a
+                    class="sponsor-logo-link"
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="sponsor-logo"
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="sponsor-logo"
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))
+          }
+          {
+            Array.from(
+              { length: communityPlaceholderCount },
+              (_, i) => i + 1,
+            ).map((n) => (
+              <li
+                class="sponsor-slot sponsor-slot--square"
+                aria-label={`Community sponsor slot ${communityLogos.length + n} of ${communitySlotTotal} — logo placeholder`}
+              >
+                <span class="sponsor-slot__plus" aria-hidden="true">
+                  +
+                </span>
+              </li>
+            ))
+          }
         </ul>
       </section>
     </div>
@@ -64,7 +277,7 @@ const communitySlotTotal = communitySlots.length;
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -102,7 +315,7 @@ const communitySlotTotal = communitySlots.length;
 
   .tier-heading {
     font-family: var(--font-heading);
-    font-size: 0.75rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -120,20 +333,25 @@ const communitySlotTotal = communitySlots.length;
     padding: 0;
   }
 
-  /* Gold: single row, one business-card slot (centered) */
-  .tier-slots--gold {
+  /* Host: single row, one business-card slot (centered) */
+  .tier-slots--host {
     grid-template-columns: 1fr;
     justify-items: center;
-    max-width: min(400px, 100%);
+    max-width: min(640px, 100%);
     margin: 0 auto;
   }
 
-  /* Platinum: three across */
-  .tier-slots--platinum {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Diamond: two across */
+  .tier-slots--diamond {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Community: four across */
+  /* Gold: two across */
+  .tier-slots--gold {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Community: one row, four across */
   .tier-slots--community {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -146,10 +364,38 @@ const communitySlotTotal = communitySlots.length;
     box-sizing: border-box;
     border-radius: 0.75rem;
     border: 1px dashed rgba(148, 163, 184, 0.45);
-    background: rgba(15, 23, 42, 0.5);
+    background-color: rgba(15, 23, 42, 0.5);
     transition:
       border-color 0.2s ease,
-      background 0.2s ease;
+      background-color 0.2s ease;
+  }
+
+  .sponsor-logo-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+  }
+
+  .tier-slots--host .sponsor-slot {
+    padding-inline: 2rem;
+    padding-block: 0.75rem;
+  }
+
+  .tier-slots--community .sponsor-slot {
+    padding: 2rem;
+  }
+
+  .sponsor-logo {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: saturate(1.02) contrast(1.02);
   }
 
   /* 3.5″ × 2″ business card (landscape) */
@@ -163,7 +409,18 @@ const communitySlotTotal = communitySlots.length;
 
   .sponsor-slot:hover {
     border-color: rgba(59, 130, 246, 0.55);
-    background: rgba(30, 41, 59, 0.55);
+    background-color: rgba(30, 41, 59, 0.55);
+  }
+
+  .sponsor-slot--surface-light {
+    border-style: solid;
+    border-color: rgba(226, 232, 240, 0.75);
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  .sponsor-slot--surface-light:hover {
+    border-color: rgba(148, 163, 184, 0.95);
+    background: rgba(255, 255, 255, 1);
   }
 
   .sponsor-slot__plus {
@@ -177,17 +434,17 @@ const communitySlotTotal = communitySlots.length;
   }
 
   @media (max-width: 900px) {
-    .tier-slots--community {
+    .tier-slots--gold {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 640px) {
-    .tier-slots--platinum {
+    .tier-slots--diamond {
       grid-template-columns: 1fr;
     }
 
-    .tier-slots--community {
+    .tier-slots--gold {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 

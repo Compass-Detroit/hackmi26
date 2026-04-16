@@ -1,23 +1,45 @@
 ---
-import { EXTERNAL_URLS } from '../lib/constants';
+import { EXTERNAL_URLS } from "../lib/constants";
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero">
   <div class="hero-content">
-    <div class="greeting">Detroit · Michigan · May 15-17 2026 · Powered by IBM watsonx</div>
+    <div class="greeting">
+      Detroit · Michigan · May 15-17 2026 · Powered by IBM watsonx
+    </div>
     <h1 class="hero-title">
       <span class="title-text">HACK MICHIGAN</span>
     </h1>
     <p class="hero-subtitle">REGISTRATION IS NOW OPEN</p>
     <p class="hero-description">
-      Michigan was built by innovators—and it's time to innovate again. Use AI and Open Source technologies to build a proof-of-concept AI solution that modernizes a Michigan industry—whether that's manufacturing, small business, mobility, agriculture, sustainability, education, or urban planning. Show us how AI can solve a real problem, create real value, and keep innovation rooted right here in Michigan.
+      Michigan was built by innovators—and it's time to innovate again. Use AI
+      and Open Source technologies to build a proof-of-concept AI solution that
+      modernizes a Michigan industry—whether that's manufacturing, small
+      business, mobility, agriculture, sustainability, education, or urban
+      planning. Show us how AI can solve a real problem, create real value, and
+      keep innovation rooted right here in Michigan.
     </p>
     <div class="hero-buttons">
-      <a href={EXTERNAL_URLS.HACKER_REGISTRATION} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+      <a
+        href={EXTERNAL_URLS.HACKER_REGISTRATION}
+        class="btn btn-primary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span>Register Now</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
@@ -80,7 +102,12 @@ const base = import.meta.env.BASE_URL;
   }
 
   .title-text {
-    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 50%, var(--color-accent-purple) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-text) 0%,
+      var(--color-primary) 50%,
+      var(--color-accent-purple) 100%
+    );
     background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
@@ -107,7 +134,7 @@ const base = import.meta.env.BASE_URL;
   }
 
   .hero-description {
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    font-size: clamp(1.25rem, 1.5vw, 1.125rem);
     color: var(--color-text-dim);
     margin-bottom: 2.5rem;
     line-height: 1.7;
@@ -140,7 +167,7 @@ const base = import.meta.env.BASE_URL;
   }
 
   .btn-primary {
-    background: var(--color-primary);
+    background: var(--color-primary-button);
     color: white;
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
   }
@@ -229,7 +256,7 @@ const base = import.meta.env.BASE_URL;
   .glow-1 {
     width: 400px;
     height: 400px;
-    background: var(--color-primary);
+    background: var(--color-primary-button);
     top: 10%;
     left: 10%;
     animation: float 8s ease-in-out infinite;

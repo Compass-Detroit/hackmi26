@@ -1,8 +1,8 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import ThreeBackground from '../components/ThreeBackground.astro';
-import Navigation from '../components/Navigation.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from "./BaseLayout.astro";
+import ThreeBackground from "../components/ThreeBackground.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
@@ -15,16 +15,16 @@ interface Props {
 const base = import.meta.env.BASE_URL;
 const { title, description, pubDate, updatedDate, tags } = Astro.props;
 
-const formattedPubDate = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+const formattedPubDate = pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 
-const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+const formattedUpdatedDate = updatedDate?.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
 
@@ -39,17 +39,21 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
         <h1 class="post-title shimmer-text">{title}</h1>
         <div class="post-meta">
           <time class="post-date">{formattedPubDate}</time>
-          {formattedUpdatedDate && (
-            <span class="post-updated">Updated: {formattedUpdatedDate}</span>
-          )}
+          {
+            formattedUpdatedDate && (
+              <span class="post-updated">Updated: {formattedUpdatedDate}</span>
+            )
+          }
         </div>
-        {tags && tags.length > 0 && (
-          <div class="post-tags">
-            {tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        )}
+        {
+          tags && tags.length > 0 && (
+            <div class="post-tags">
+              {tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )
+        }
       </header>
 
       <div class="post-content">
@@ -150,7 +154,11 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
 
   .post-content :global(h2) {
     font-size: 2rem;
-    background: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-pink));
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-purple),
+      var(--color-accent-pink)
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -182,7 +190,7 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
     background: rgba(168, 85, 247, 0.1);
     padding: 0.2rem 0.4rem;
     border-radius: 0.25rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.9em;
     color: var(--color-accent-purple);
   }

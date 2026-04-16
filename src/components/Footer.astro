@@ -1,6 +1,6 @@
 ---
-import { footerSponsorLogos, publicAssetUrl } from '../data/siteLogos';
-import { EVENT_DETAILS } from '../lib/constants';
+import { footerSponsorLogos, publicAssetUrl } from "../data/siteLogos";
+import { EVENT_DETAILS } from "../lib/constants";
 
 const base = import.meta.env.BASE_URL;
 const sponsors = footerSponsorLogos;
@@ -8,52 +8,56 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  {sponsors.length > 0 && (
-    <div class="sponsor-strip">
-      <div class="sponsor-strip-inner">
-        <p class="sponsor-strip-label">Partners &amp; sponsors</p>
-        <ul class="sponsor-strip-logos" role="list">
-          {sponsors.map((logo) => (
-            <li>
-              {logo.href ? (
-                <a
-                  href={logo.href}
-                  class="sponsor-strip-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={publicAssetUrl(base, logo.src)}
-                    alt={logo.alt}
-                    class="sponsor-strip-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </a>
-              ) : (
-                <span class="sponsor-strip-wrap">
-                  <img
-                    src={publicAssetUrl(base, logo.src)}
-                    alt={logo.alt}
-                    class="sponsor-strip-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+  {
+    sponsors.length > 0 && (
+      <div class="sponsor-strip">
+        <div class="sponsor-strip-inner">
+          <p class="sponsor-strip-label">Partners &amp; sponsors</p>
+          <ul class="sponsor-strip-logos" role="list">
+            {sponsors.map((logo) => (
+              <li>
+                {logo.href ? (
+                  <a
+                    href={logo.href}
+                    class="sponsor-strip-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      class="sponsor-strip-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <span class="sponsor-strip-wrap">
+                    <img
+                      src={publicAssetUrl(base, logo.src)}
+                      alt={logo.alt}
+                      class="sponsor-strip-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
-  )}
+    )
+  }
 
   <div class="footer-main">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-info">
           <h3 class="footer-logo">HACKMI</h3>
-          <p class="footer-tagline">Building the future of Michigan's tech corridor.</p>
+          <p class="footer-tagline">
+            Building the future of Michigan's tech corridor.
+          </p>
           <p class="footer-event-details">
             {EVENT_DETAILS.LOCATION}<br />
             {EVENT_DETAILS.DATE}
@@ -73,8 +77,24 @@ const currentYear = new Date().getFullYear();
         <div class="footer-social">
           <h4 class="footer-title">Connect</h4>
           <ul>
-            <li><a href="https://www.linkedin.com/company/compass-detroit/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="https://github.com/Compass-Detroit/" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li>
+              <a
+                href="https://www.linkedin.com/company/compass-detroit/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/Compass-Detroit/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
           </ul>
         </div>
       </div>
