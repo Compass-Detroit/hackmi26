@@ -5,7 +5,7 @@ export type SponsorLogo = {
   surface?: "light";
 };
 
-export type SponsorTierKey = "host" | "diamond" | "gold";
+export type SponsorTierKey = "host" | "diamond" | "gold" | "community";
 
 export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
   /** Use optional surface: "light" for light background logos */
@@ -13,7 +13,6 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
     {
       src: "/images/sponsors/host-techtown-300x.webp",
       alt: "TechTown Detroit",
-      href: "https://techtowndetroit.org",
       surface: "light",
     },
   ],
@@ -27,19 +26,34 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
     {
       src: "/images/sponsors/dia-google-300x.webp",
       alt: "Google",
-      href: "https://www.google.com",
     },
   ],
   gold: [
     {
       src: "/images/sponsors/gold-dte-300x.webp",
       alt: "DTE Energy",
-      href: "https://www.dteenergy.com",
     },
     {
-      src: "/images/sponsors/gold-littlecaesars-300x.webp",
+      src: "/images/sponsors/gold-littleceasars-300x.webp",
       alt: "Little Caesars",
-      href: "https://littlecaesars.com",
+    },
+  ],
+  community: [
+    {
+      src: "/images/sponsors/com-nsbe-300x.webp",
+      alt: "NSBE",
+    },
+    {
+      src: "/images/site/gdg-detroit-logo.svg",
+      alt: "GDG Detroit",
+    },
+    {
+      src: "/images/sponsors/com-dhh-300x.webp",
+      alt: "Detroit Hacker House",
+    },
+    {
+      src: "/images/sponsors/com-shpe-600x.webp",
+      alt: "SHPE",
     },
   ],
 };
