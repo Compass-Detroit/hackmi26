@@ -19,6 +19,9 @@
     "url": "https://github.com/kpab/astro-darkness"
   },
   "homepage": "https://hackmichigan.com",
+  "engines": {
+    "node": ">=22.22.2"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
