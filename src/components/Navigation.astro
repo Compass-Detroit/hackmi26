@@ -1,8 +1,5 @@
 ---
-import {
-  publicAssetUrl,
-  siteHeaderBrand,
-} from "../data/siteLogos";
+import { publicAssetUrl, siteHeaderBrand } from "../data/siteLogos";
 import { EXTERNAL_URLS } from "../lib/constants";
 
 const base = import.meta.env.BASE_URL;
@@ -229,8 +226,8 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     background: var(--color-primary-button);
     text-decoration: none;
     transition:
-      background: 0.2s ease,
-      box-shadow: 0.2s ease;
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
     white-space: nowrap;
   }
 
