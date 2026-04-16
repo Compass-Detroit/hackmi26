@@ -17,7 +17,10 @@ export default {
     "declaration-block-no-redundant-longhand-properties": null,
     "keyframes-name-pattern": null,
     "selector-class-pattern": null,
-    "selector-pseudo-class-no-unknown": [true, { ignorePseudoClasses: ["global"] }],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      { ignorePseudoClasses: ["global"] },
+    ],
     "shorthand-property-no-redundant-values": null,
     "length-zero-no-unit": null,
     "value-keyword-case": null,
@@ -29,4 +32,3 @@ export default {
     },
   ],
 };
-
