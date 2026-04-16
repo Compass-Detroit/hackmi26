@@ -34,7 +34,7 @@ export const footerSponsorLogos: SiteLogo[] = [
     href: "https://compassdetroit.com",
   },
   {
-    src: "/images/site/gdg-detroit-logo-footer.svg",
+    src: "/images/site/gdg-detroit-logo.svg",
     alt: "GDG Detroit",
     href: "https://gdg.community.dev/gdg-detroit/",
   },

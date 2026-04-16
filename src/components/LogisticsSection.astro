@@ -13,7 +13,7 @@
     <div class="logistics-grid">
       <article class="log-card glass" id="rules">
         <h3 class="log-title">Rules</h3>
-        <p class="log-copy">
+        <ul class="log-list">
           <li>
             <strong>Team Size:</strong> Participate individually or in teams of up
             to 5 people.
@@ -41,11 +41,11 @@
             code of conduct and detailed rules available in the official rules
             document.
           </li>
-        </p>
+        </ul>
       </article>
       <article class="log-card glass" id="prizes">
         <h3 class="log-title">Prizes</h3>
-        <p class="log-copy">
+        <ul class="log-list">
           <li>
             Top teams will receive cash prizes, IBM and partner swag, mentorship
             opportunities with Michigan tech leaders, and exclusive access to
@@ -59,53 +59,53 @@
             Full prize details and tiers will be announced at the opening
             ceremony on May 15, 2026.
           </li>
-        </p>
+        </ul>
       </article>
       <article class="log-card glass" id="judges">
         <h3 class="log-title">Judges</h3>
-        <p class="log-copy">
+        <ul class="log-list">
           <li>
             Judges from industry and academia will join us in Detroit. Names and
             backgrounds will be listed once the panel is confirmed.
           </li>
-        </p>
+        </ul>
       </article>
       <article class="log-card glass" id="judging-criteria">
         <h3 class="log-title">Judging criteria</h3>
-        <p class="log-copy">
+        <ul class="log-list">
           Each submission will be scored on the following criteria (maximum 25
           points total):
           <li>
-            Completeness and Feasibility (5 points) — Is the solution complete
-            and realistic?
+            <strong>Completeness and Feasibility (5 points)</strong> — Is the solution
+            complete and realistic?
           </li>
           <li>
-            Effectiveness and Efficiency (5 points) — Does it solve the problem
-            well?
+            <strong>Effectiveness and Efficiency (5 points)</strong> — Does it solve
+            the problem well?
           </li>
           <li>
-            Design and Usability (5 points) — Is it well-designed and
-            user-friendly?
+            <strong>Design and Usability (5 points)</strong> — Is it well-designed
+            and user-friendly?
           </li>
           <li>
-            Creativity and Innovation (5 points) — Is it innovative and
-            creative?
+            <strong>Creativity and Innovation (5 points)</strong> — Is it innovative
+            and creative?
           </li>
           <li>
-            Michigan Impact (5 points) — Does it keep value, jobs, and
-            opportunity in Michigan?
+            <strong>Michigan Impact (5 points)</strong> — Does it keep value, jobs,
+            and opportunity in Michigan?
           </li>
           <li>
-            Your solution should also demonstrate: practical application solving
-            a real Michigan challenge, clear business value, implementability as
-            a working proof-of-concept, and strong storytelling that positions
+            <strong>Your solution should also demonstrate:</strong> practical application
+            solving a real Michigan challenge, clear business value, implementability
+            as a working proof-of-concept, and strong storytelling that positions
             Michigan as a technology innovator.
           </li>
           <li>
-            Final scores will be the average of judges' scores based on your
-            submitted deliverables.
+            <strong>Final scores</strong> will be the average of judges' scores based
+            on your submitted deliverables.
           </li>
-        </p>
+        </ul>
       </article>
     </div>
   </div>
@@ -179,6 +179,21 @@
     font-size: 0.95rem;
     line-height: 1.65;
     color: var(--color-text-dim);
+  }
+
+  .log-list {
+    list-style: none;
+    line-height: 1.65;
+    padding: 0;
+    margin: 0;
+  }
+
+  .log-list strong {
+    color: var(--color-accent-orange);
+    font-weight: 600;
+  }
+  .log-list li {
+    margin-bottom: 1.2rem;
   }
 
   @media (max-width: 768px) {

@@ -21,7 +21,7 @@
     <div class="about-card glass">
       <div class="details">
         <h3 class="section-title">The Challenge</h3>
-        <p>
+        <p class="about-description">
           Michigan stands at a pivotal moment. Once the undisputed engine of
           American innovation, our state is ready to reclaim its position as a
           technology leader—not by abandoning our industrial heritage, but by
@@ -139,6 +139,14 @@
     position: relative;
   }
 
+  .about-description {
+    font-family: var(--font-body);
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
   .container {
     max-width: 900px;
     margin: 0 auto;
@@ -157,6 +165,7 @@
 
   .section-subtitle {
     text-align: start;
+    line-height: 1.65;
     color: var(--color-text-dim);
     font-size: 1.1rem;
     margin-bottom: 2rem;
@@ -172,6 +181,17 @@
     list-style-type: disc;
     list-style-position: outside;
     padding-left: 1.5rem;
+    line-height: 1.65;
+  }
+
+  .about-list li {
+    margin-bottom: 1rem;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
+  }
+
+  .details p {
+    line-height: 1.65;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
   }
 
   .glass {
