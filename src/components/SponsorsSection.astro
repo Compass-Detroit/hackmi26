@@ -215,7 +215,7 @@ const communityPlaceholderCount = Math.max(
               <li
                 class:list={[
                   "sponsor-slot",
-                  "sponsor-slot--square",
+                  "sponsor-slot--tile",
                   logo.surface === "light" && "sponsor-slot--surface-light",
                 ]}
                 aria-label={`Community sponsor — ${logo.alt}`}
@@ -253,7 +253,7 @@ const communityPlaceholderCount = Math.max(
               (_, i) => i + 1,
             ).map((n) => (
               <li
-                class="sponsor-slot sponsor-slot--square"
+                class="sponsor-slot sponsor-slot--tile"
                 aria-label={`Community sponsor slot ${communityLogos.length + n} of ${communitySlotTotal} — logo placeholder`}
               >
                 <span class="sponsor-slot__plus" aria-hidden="true">
@@ -402,7 +402,7 @@ const communityPlaceholderCount = Math.max(
     aspect-ratio: 7 / 3;
   }
 
-  .sponsor-slot--square {
+  .sponsor-slot--tile {
     aspect-ratio: 1 / 1;
   }
 
@@ -461,7 +461,7 @@ const communityPlaceholderCount = Math.max(
       grid-template-columns: 1fr;
     }
 
-    .sponsor-slot--square {
+    .sponsor-slot--tile {
       aspect-ratio: 2 / 1;
     }
   }
