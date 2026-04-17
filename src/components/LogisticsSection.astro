@@ -72,9 +72,11 @@
       </article>
       <article class="log-card glass" id="judging-criteria">
         <h3 class="log-title">Judging criteria</h3>
-        <ul class="log-list">
+        <p class="log-copy">
           Each submission will be scored on the following criteria (maximum 25
           points total):
+        </p>
+        <ul class="log-list">
           <li>
             <strong>Completeness and Feasibility (5 points)</strong> — Is the solution
             complete and realistic?
@@ -128,13 +130,13 @@
     font-weight: 700;
     text-align: center;
     margin-bottom: 0.75rem;
-    color: var(--color-text);
+    color: var(--color-accent-green);
   }
 
   .section-subtitle {
     text-align: center;
     color: var(--color-text-dim);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-bottom: 2.5rem;
     max-width: 720px;
     margin-left: auto;
@@ -169,14 +171,14 @@
 
   .log-title {
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-accent-green);
     margin-bottom: 0.65rem;
   }
 
   .log-copy {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     line-height: 1.65;
     color: var(--color-text-dim);
   }
@@ -189,16 +191,25 @@
   }
 
   .log-list strong {
-    color: var(--color-accent-orange);
+    color: var(--color-accent-green);
     font-weight: 600;
   }
   .log-list li {
     margin-bottom: 1.2rem;
   }
 
+  @media (max-width: 1185px) {
+    .logistics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 768px) {
     .logistics {
       padding: 3rem 1.25rem 4rem;
+    }
+
+    .logistics-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

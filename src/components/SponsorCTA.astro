@@ -105,25 +105,28 @@ const base = import.meta.env.BASE_URL;
   }
 
   .btn-primary {
-    background: var(--color-primary-button);
-    color: white;
+    background: var(--color-accent-orange);
+    color: #000;
+    text-transform: uppercase;
+
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
   }
 
   .btn-primary:hover {
-    background: #2563eb;
+    background: var(--color-accent-orange-hover);
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
   }
 
   .btn-ghost {
     background: transparent;
-    color: var(--color-text);
-    border-color: var(--color-border);
+    color: var(--color-accent-orange);
+    border: 3px solid var(--color-accent-orange);
+    text-transform: uppercase;
   }
 
   .btn-ghost:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--color-accent-orange-hover);
+    color: var(--color-accent-orange-hover);
   }
 
   @media (max-width: 768px) {

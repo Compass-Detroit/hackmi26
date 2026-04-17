@@ -3,6 +3,17 @@ import { EVENT_DETAILS } from "../lib/constants";
 import { EVENT_AGENDA } from "../data/eventAgenda";
 
 const agendaGroup = "hackmi-agenda";
+
+const splitAgendaTabLabel = (tabLabel: string) => {
+  const parts = tabLabel.split("·");
+  if (parts.length < 2) return { prefix: tabLabel, date: "" };
+
+  const first = parts[0] ?? "";
+  return {
+    prefix: `${first.trim()} ·`,
+    date: parts.slice(1).join("·").trim(),
+  };
+};
 ---
 
 <section
@@ -59,16 +70,22 @@ const agendaGroup = "hackmi-agenda";
               />
             ))
           }
-          <ul
-            class="agenda-tablist"
-            role="tablist"
-            aria-label="Schedule by day"
-          >
+          <ul class="agenda-tablist" aria-label="Schedule by day">
             {
               EVENT_AGENDA.map((day) => (
-                <li class="agenda-tab-item" role="none">
+                <li class="agenda-tab-item">
                   <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
-                    {day.tabLabel}
+                    {(() => {
+                      const { prefix, date } = splitAgendaTabLabel(day.tabLabel);
+                      return date ? (
+                        <>
+                          <span class="agenda-tab-prefix">{prefix}</span>{" "}
+                          <span class="agenda-tab-date">{date}</span>
+                        </>
+                      ) : (
+                        prefix
+                      );
+                    })()}
                   </label>
                 </li>
               ))
@@ -172,7 +189,7 @@ const agendaGroup = "hackmi-agenda";
     font-weight: 700;
     text-align: center;
     margin-bottom: 0.75rem;
-    color: var(--color-text);
+    color: var(--color-accent-green);
   }
 
   .section-subtitle {
@@ -296,6 +313,7 @@ const agendaGroup = "hackmi-agenda";
     padding: 0;
     line-height: 1.65;
     font-size: clamp(0.9rem, 1.5vw, 1.125rem);
+    text-transform: uppercase;
   }
 
   .agenda-tab {
@@ -306,9 +324,9 @@ const agendaGroup = "hackmi-agenda";
     font-size: 0.75rem;
     font-weight: 600;
     font-family: var(--font-body);
-    color: var(--color-text-dim);
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid var(--color-border);
+    color: #000;
+    background: var(--color-accent-orange);
+    border: 3px solid var(--color-accent-orange-hover);
     border-radius: 0.5rem;
     cursor: pointer;
     transition:
@@ -317,6 +335,11 @@ const agendaGroup = "hackmi-agenda";
       background-color 0.2s ease;
     line-height: 1.65;
     font-size: clamp(0.9rem, 1.5vw, 1.125rem);
+    text-transform: uppercase;
+  }
+
+  .agenda-tab-date {
+    white-space: nowrap;
   }
 
   @media (min-width: 400px) {
@@ -327,8 +350,8 @@ const agendaGroup = "hackmi-agenda";
   }
 
   .agenda-tab:hover {
-    color: var(--color-text);
-    border-color: rgba(59, 130, 246, 0.45);
+    color: #000;
+    border-color: var(--color-accent-orange-hover);
   }
 
   @keyframes agenda-panel-reveal {
