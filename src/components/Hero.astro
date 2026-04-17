@@ -7,20 +7,13 @@ const base = import.meta.env.BASE_URL;
 <section class="hero">
   <div class="hero-content">
     <div class="greeting">
-      Detroit · Michigan · May 15-17 2026 · Powered by IBM watsonx
+      Detroit · Michigan · May 15-17 2026 · Powered by AI
     </div>
     <h1 class="hero-title">
       <span class="title-text">HACK MICHIGAN</span>
     </h1>
     <p class="hero-subtitle">REGISTRATION IS NOW OPEN</p>
-    <p class="hero-description">
-      Michigan was built by innovators—and it's time to innovate again. Use AI
-      and Open Source technologies to build a proof-of-concept AI solution that
-      modernizes a Michigan industry—whether that's manufacturing, small
-      business, mobility, agriculture, sustainability, education, or urban
-      planning. Show us how AI can solve a real problem, create real value, and
-      keep innovation rooted right here in Michigan.
-    </p>
+
     <div class="hero-buttons">
       <a
         href={EXTERNAL_URLS.HACKER_REGISTRATION}
@@ -51,6 +44,12 @@ const base = import.meta.env.BASE_URL;
         <span>Become a Sponsor</span>
       </a>
     </div>
+    <p class="hero-description">
+      Michigan was built by innovators—and it's time to innovate again. Build an
+      AI + open-source proof of concept that modernizes a Michigan industry.
+      Solve a real problem, create real value, and keep innovation rooted right
+      here at home.
+    </p>
 
     <div class="hero-chips">
       <a href={`${base}#sponsors`} class="hero-chip">Call for sponsors</a>
@@ -141,6 +140,7 @@ const base = import.meta.env.BASE_URL;
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
+    text-align: start;
   }
 
   .hero-buttons {
@@ -148,7 +148,7 @@ const base = import.meta.env.BASE_URL;
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 2.5rem;
+    margin-block: 3rem;
   }
 
   .btn {
@@ -167,13 +167,14 @@ const base = import.meta.env.BASE_URL;
   }
 
   .btn-primary {
-    background: var(--color-primary-button);
-    color: white;
+    background: var(--color-accent-orange);
+    color: #000;
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    text-transform: uppercase;
   }
 
   .btn-primary:hover {
-    background: #2563eb;
+    background: var(--color-accent-orange-hover);
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
   }
 
@@ -188,7 +189,8 @@ const base = import.meta.env.BASE_URL;
   .btn-secondary {
     background: transparent;
     color: var(--color-text);
-    border: 1px solid var(--color-border);
+    border: 3px solid var(--color-border);
+    text-transform: uppercase;
   }
 
   .btn-secondary:hover {
@@ -223,17 +225,18 @@ const base = import.meta.env.BASE_URL;
   .hero-chip {
     padding: 0.5rem 1rem;
     background: rgba(59, 130, 246, 0.1);
-    border: 1px solid var(--color-border);
+    border: 3px solid var(--color-accent-orange);
     border-radius: 2rem;
     font-size: 0.875rem;
     color: var(--color-text-dim);
     transition: all 0.2s ease;
     text-decoration: none;
+    text-transform: uppercase;
   }
 
   .hero-chip:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--color-accent-orange-hover);
+    color: var(--color-accent-orange-hover);
   }
 
   .hero-decoration {
