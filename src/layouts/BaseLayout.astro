@@ -90,14 +90,14 @@ const selfHostedFontFaces = `
   </head>
   <body>
     <div class="cursor-follower"></div>
-    <main id="main-content" tabindex="-1">
+    <div id="content-root">
       <slot />
-    </main>
+    </div>
 
     <style is:global set:html={selfHostedFontFaces}></style>
 
     <style>
-      #main-content {
+      #content-root {
         position: relative;
         z-index: 1;
       }
