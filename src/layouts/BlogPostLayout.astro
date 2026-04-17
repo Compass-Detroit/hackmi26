@@ -42,7 +42,9 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString("en-US", {
             <time class="post-date">{formattedPubDate}</time>
             {
               formattedUpdatedDate && (
-                <span class="post-updated">Updated: {formattedUpdatedDate}</span>
+                <span class="post-updated">
+                  Updated: {formattedUpdatedDate}
+                </span>
               )
             }
           </div>
