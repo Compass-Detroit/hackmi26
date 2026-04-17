@@ -11,7 +11,12 @@ const homeLabel = `${brand.logoAlt} — Home`;
 const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 ---
 
-<nav class="nav">
+<nav
+  class="site-nav"
+  id="site-navigation"
+  aria-label="Main navigation"
+>
+  <div class="nav">
   <div class="nav-container">
     <div class="nav-brand">
       <a href={base} class="logo" aria-label={homeLabel}>
@@ -78,9 +83,9 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       </svg>
     </button>
   </div>
-</nav>
+  </div>
 
-<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-content">
     <a
       href={base}
@@ -109,7 +114,8 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       Become a sponsor
     </a>
   </div>
-</div>
+  </div>
+</nav>
 
 <style>
   .nav {
