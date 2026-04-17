@@ -32,35 +32,39 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString("en-US", {
   <ThreeBackground />
   <Navigation />
 
-  <article class="blog-post">
-    <div class="container">
-      <header class="post-header">
-        <a href={`${base}blog`} class="back-link">← Back to Blog</a>
-        <h1 class="post-title shimmer-text">{title}</h1>
-        <div class="post-meta">
-          <time class="post-date">{formattedPubDate}</time>
+  <main id="main-content" class="blog-post" tabindex="-1">
+    <article>
+      <div class="container">
+        <header class="post-header">
+          <a href={`${base}blog`} class="back-link">← Back to Blog</a>
+          <h1 class="post-title shimmer-text">{title}</h1>
+          <div class="post-meta">
+            <time class="post-date">{formattedPubDate}</time>
+            {
+              formattedUpdatedDate && (
+                <span class="post-updated">
+                  Updated: {formattedUpdatedDate}
+                </span>
+              )
+            }
+          </div>
           {
-            formattedUpdatedDate && (
-              <span class="post-updated">Updated: {formattedUpdatedDate}</span>
+            tags && tags.length > 0 && (
+              <div class="post-tags">
+                {tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
             )
           }
-        </div>
-        {
-          tags && tags.length > 0 && (
-            <div class="post-tags">
-              {tags.map((tag) => (
-                <span class="tag">{tag}</span>
-              ))}
-            </div>
-          )
-        }
-      </header>
+        </header>
 
-      <div class="post-content">
-        <slot />
+        <div class="post-content">
+          <slot />
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </main>
 
   <Footer />
 </BaseLayout>

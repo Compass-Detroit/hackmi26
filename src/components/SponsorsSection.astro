@@ -215,7 +215,7 @@ const communityPlaceholderCount = Math.max(
               <li
                 class:list={[
                   "sponsor-slot",
-                  "sponsor-slot--square",
+                  "sponsor-slot--tile",
                   logo.surface === "light" && "sponsor-slot--surface-light",
                 ]}
                 aria-label={`Community sponsor — ${logo.alt}`}
@@ -253,7 +253,7 @@ const communityPlaceholderCount = Math.max(
               (_, i) => i + 1,
             ).map((n) => (
               <li
-                class="sponsor-slot sponsor-slot--square"
+                class="sponsor-slot sponsor-slot--tile"
                 aria-label={`Community sponsor slot ${communityLogos.length + n} of ${communitySlotTotal} — logo placeholder`}
               >
                 <span class="sponsor-slot__plus" aria-hidden="true">
@@ -287,7 +287,7 @@ const communityPlaceholderCount = Math.max(
     font-weight: 700;
     text-align: center;
     margin-bottom: 0.75rem;
-    color: var(--color-text);
+    color: var(--color-accent-green);
   }
 
   .section-subtitle {
@@ -315,11 +315,11 @@ const communityPlaceholderCount = Math.max(
 
   .tier-heading {
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: var(--color-accent-green);
     text-align: center;
     margin-bottom: 1rem;
   }
@@ -398,12 +398,11 @@ const communityPlaceholderCount = Math.max(
     filter: saturate(1.02) contrast(1.02);
   }
 
-  /* 3.5″ × 2″ business card (landscape) */
   .sponsor-slot--card {
-    aspect-ratio: 7 / 4;
+    aspect-ratio: 7 / 3;
   }
 
-  .sponsor-slot--square {
+  .sponsor-slot--tile {
     aspect-ratio: 1 / 1;
   }
 
@@ -437,19 +436,33 @@ const communityPlaceholderCount = Math.max(
     .tier-slots--gold {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .tier-slots--community {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   @media (max-width: 640px) {
     .tier-slots--diamond {
       grid-template-columns: 1fr;
+      aspect-ratio: 2 / 1;
     }
 
     .tier-slots--gold {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
+      aspect-ratio: 2 / 1;
     }
 
     .sponsors-section {
       padding: 1.5rem 1.25rem 4rem;
+    }
+
+    .tier-slots--community {
+      grid-template-columns: 1fr;
+    }
+
+    .sponsor-slot--tile {
+      aspect-ratio: 2 / 1;
     }
   }
 </style>

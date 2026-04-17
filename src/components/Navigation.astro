@@ -11,35 +11,91 @@ const homeLabel = `${brand.logoAlt} — Home`;
 const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 ---
 
-<nav class="nav">
-  <div class="nav-container">
-    <div class="nav-brand">
-      <a href={base} class="logo" aria-label={homeLabel}>
-        <img
-          class="site-logo-img"
-          src={publicAssetUrl(base, brand.logoSrc)}
-          alt={wordmark ? "" : brand.logoAlt}
-          loading="eager"
-          decoding="async"
-        />
-        {wordmark && <span class="logo-wordmark">{wordmark}</span>}
-      </a>
-    </div>
+<nav class="site-nav" id="site-navigation" aria-label="Main navigation">
+  <div class="nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href={base} class="logo" aria-label={homeLabel}>
+          <img
+            class="site-logo-img"
+            src={publicAssetUrl(base, brand.logoSrc)}
+            alt={wordmark ? "" : brand.logoAlt}
+            loading="eager"
+            decoding="async"
+          />
+          {wordmark && <span class="logo-wordmark">{wordmark}</span>}
+        </a>
+      </div>
 
-    <div class="nav-links">
+      <div class="nav-links">
+        <a
+          href={base}
+          class:list={["nav-link", { active: relativePath === "/" }]}
+        >
+          Home
+        </a>
+        <a href={`${base}#about`} class="nav-link">About</a>
+        <a href={`${base}#sponsors`} class="nav-link">Sponsors</a>
+        <a href={`${base}#event-details`} class="nav-link">Event</a>
+        <a href={`${base}#logistics`} class="nav-link">Logistics</a>
+        <a
+          href={EXTERNAL_URLS.HACKER_REGISTRATION}
+          class="nav-link nav-link-external"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Register
+        </a>
+        <a
+          href={EXTERNAL_URLS.SPONSOR_INQUIRY}
+          class="nav-cta"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Sponsor
+        </a>
+      </div>
+
+      <button
+        class="mobile-menu-btn"
+        aria-label="Toggle menu"
+        id="mobile-menu-btn"
+      >
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu-content">
       <a
         href={base}
-        class:list={["nav-link", { active: relativePath === "/" }]}
+        class:list={["mobile-nav-link", { active: relativePath === "/" }]}
       >
         Home
       </a>
-      <a href={`${base}#about`} class="nav-link">About</a>
-      <a href={`${base}#sponsors`} class="nav-link">Sponsors</a>
-      <a href={`${base}#event-details`} class="nav-link">Event</a>
-      <a href={`${base}#logistics`} class="nav-link">Logistics</a>
+      <a href={`${base}#about`} class="mobile-nav-link">About</a>
+      <a href={`${base}#sponsors`} class="mobile-nav-link">Sponsors</a>
+      <a href={`${base}#event-details`} class="mobile-nav-link">Event</a>
+      <a href={`${base}#logistics`} class="mobile-nav-link">Logistics</a>
       <a
         href={EXTERNAL_URLS.HACKER_REGISTRATION}
-        class="nav-link nav-link-external"
+        class="mobile-nav-link"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -47,69 +103,15 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       </a>
       <a
         href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-        class="nav-cta"
+        class="mobile-nav-cta"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Sponsor
+        Become a sponsor
       </a>
     </div>
-
-    <button
-      class="mobile-menu-btn"
-      aria-label="Toggle menu"
-      id="mobile-menu-btn"
-    >
-      <svg
-        class="icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
   </div>
 </nav>
-
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mobile-menu-content">
-    <a
-      href={base}
-      class:list={["mobile-nav-link", { active: relativePath === "/" }]}
-    >
-      Home
-    </a>
-    <a href={`${base}#about`} class="mobile-nav-link">About</a>
-    <a href={`${base}#sponsors`} class="mobile-nav-link">Sponsors</a>
-    <a href={`${base}#event-details`} class="mobile-nav-link">Event</a>
-    <a href={`${base}#logistics`} class="mobile-nav-link">Logistics</a>
-    <a
-      href={EXTERNAL_URLS.HACKER_REGISTRATION}
-      class="mobile-nav-link"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Register
-    </a>
-    <a
-      href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-      class="mobile-nav-cta"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Become a sponsor
-    </a>
-  </div>
-</div>
 
 <style>
   .nav {
@@ -125,6 +127,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     border: 1px solid var(--color-border);
     border-radius: 1rem;
     animation: slideDown 0.5s ease-out;
+    text-transform: uppercase;
   }
 
   .nav-container {
@@ -171,11 +174,11 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
   }
 
   .logo:hover .logo-wordmark {
-    color: var(--color-primary);
+    color: var(--color-accent-orange);
   }
 
   .logo:hover {
-    color: var(--color-primary);
+    color: var(--color-accent-orange-hover);
   }
 
   .nav-links {
@@ -204,12 +207,12 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--color-primary-button);
+    background: var(--color-accent-orange);
     transition: width 0.2s ease;
   }
 
   .nav-link:hover {
-    color: var(--color-text);
+    color: var(--color-accent-orange-hover);
   }
 
   .nav-link:hover::after,
@@ -218,7 +221,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
   }
 
   .nav-link.active {
-    color: var(--color-primary);
+    color: var(--color-accent-orange-hover);
   }
 
   .nav-link-external {
@@ -230,8 +233,8 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     border-radius: 0.5rem;
     font-size: 0.9rem;
     font-weight: 600;
-    color: white;
-    background: var(--color-primary-button);
+    color: #000;
+    background: var(--color-accent-orange);
     text-decoration: none;
     transition:
       background-color 0.2s ease,
@@ -240,7 +243,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
   }
 
   .nav-cta:hover {
-    background: #2563eb;
+    background: var(--color-accent-orange-hover);
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
   }
 
@@ -291,14 +294,14 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-family: var(--font-heading);
     font-size: 1.65rem;
     font-weight: 600;
-    color: var(--color-text-dim);
+    color: var(--color-accent-orange-hover);
     text-decoration: none;
     transition: color 0.2s ease;
   }
 
   .mobile-nav-link:hover,
   .mobile-nav-link.active {
-    color: var(--color-primary);
+    color: var(--color-accent-orange-hover);
   }
 
   .mobile-nav-cta {
@@ -308,8 +311,8 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
-    background: var(--color-primary-button);
+    color: #000;
+    background: var(--color-accent-orange);
     text-decoration: none;
   }
 
