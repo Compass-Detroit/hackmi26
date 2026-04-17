@@ -89,6 +89,7 @@ const selfHostedFontFaces = `
     <ClientRouter />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="cursor-follower"></div>
     <div id="content-root">
       <slot />
@@ -97,6 +98,29 @@ const selfHostedFontFaces = `
     <style is:global set:html={selfHostedFontFaces}></style>
 
     <style>
+      .skip-link {
+        position: fixed;
+        left: 1rem;
+        top: -100vh;
+        z-index: 10002;
+        padding: 0.65rem 1rem;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--color-text);
+        background: var(--color-bg-card);
+        border: 2px solid var(--color-accent-orange);
+        border-radius: 0.5rem;
+        text-decoration: none;
+      }
+
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        top: 1rem;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.45);
+      }
+
       #content-root {
         position: relative;
         z-index: 1;
