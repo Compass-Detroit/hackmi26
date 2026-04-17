@@ -76,7 +76,9 @@ const splitAgendaTabLabel = (tabLabel: string) => {
                 <li class="agenda-tab-item">
                   <label class="agenda-tab" for={`${agendaGroup}-${day.id}`}>
                     {(() => {
-                      const { prefix, date } = splitAgendaTabLabel(day.tabLabel);
+                      const { prefix, date } = splitAgendaTabLabel(
+                        day.tabLabel,
+                      );
                       return date ? (
                         <>
                           <span class="agenda-tab-prefix">{prefix}</span>{" "}
