@@ -34,6 +34,8 @@
 }
 
 html {
+  /* Force dark native UI (scrollbars, form controls) regardless of OS theme */
+  color-scheme: dark;
   font-family: var(--font-body);
   background: var(--color-bg-dark);
   color: var(--color-text);
