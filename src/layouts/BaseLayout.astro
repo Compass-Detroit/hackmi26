@@ -13,6 +13,8 @@ const {
   description = "An intense motion-filled dark theme Astro site",
 } = Astro.props;
 
+const fbAppId = import.meta.env.PUBLIC_FB_APP_ID?.trim();
+
 const fonts = `${base}fonts`;
 
 /** Literal `url()` in @font-face — `var()` is not allowed in @font-face, so CSS variables never applied. */
@@ -70,6 +72,7 @@ const selfHostedFontFaces = `
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
+    {fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 
     <link
       rel="preload"
