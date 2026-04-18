@@ -19,6 +19,8 @@ const {
   ogType = "website",
 } = Astro.props;
 
+const fbAppId = import.meta.env.PUBLIC_FB_APP_ID?.trim();
+
 const defaultOgPath = `${base}social-card.jpg`;
 const image = imageProp ?? defaultOgPath;
 
@@ -52,7 +54,6 @@ const canonicalUrl =
     : Astro.url.href;
 const ogImageUrl = toAbsoluteUrl(image, site);
 const ogImageMime = getOgMimeType(ogImageUrl);
-
 const fonts = `${base}fonts`;
 
 /** Literal `url()` in @font-face — `var()` is not allowed in @font-face, so CSS variables never applied. */
@@ -106,6 +107,8 @@ const selfHostedFontFaces = `
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0f172a" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
@@ -120,6 +123,7 @@ const selfHostedFontFaces = `
     <meta property="og:image" content={ogImageUrl} />
     {ogImageMime && <meta property="og:image:type" content={ogImageMime} />}
     <meta property="og:locale" content="en_US" />
+    {fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
