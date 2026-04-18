@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { EVENT_DETAILS } from "../lib/constants";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title?: string;
@@ -31,7 +32,9 @@ function toAbsoluteUrl(href: string, site: URL | undefined): string {
   const path = href.startsWith("/") ? href : `/${href}`;
   if (!site) {
     if (import.meta.env.DEV) {
-      console.warn("[BaseLayout] Astro.site is not set — og:image will be a relative URL, which crawlers will silently drop.");
+      console.warn(
+        "[BaseLayout] Astro.site is not set — og:image will be a relative URL, which crawlers will silently drop.",
+      );
     }
     return href;
   }
@@ -49,9 +52,7 @@ function getOgMimeType(url: string): string | undefined {
 
 const site = Astro.site;
 const canonicalUrl =
-  site != null
-    ? new URL(Astro.url.pathname, site).href
-    : Astro.url.href;
+  site != null ? new URL(Astro.url.pathname, site).href : Astro.url.href;
 const ogImageUrl = toAbsoluteUrl(image, site);
 const ogImageMime = getOgMimeType(ogImageUrl);
 const fonts = `${base}fonts`;
@@ -217,7 +218,7 @@ const selfHostedFontFaces = `
       // cached reference becomes stale after the first view-transition.
       document.addEventListener("mousemove", (e) => {
         const cursor = document.querySelector(
-          ".cursor-follower"
+          ".cursor-follower",
         ) as HTMLElement | null;
         if (!cursor) return;
         cursor.style.left = e.clientX + "px";
@@ -226,7 +227,7 @@ const selfHostedFontFaces = `
 
       function initCursorHover() {
         const cursor = document.querySelector(
-          ".cursor-follower"
+          ".cursor-follower",
         ) as HTMLElement | null;
         if (!cursor) return;
 
@@ -247,5 +248,6 @@ const selfHostedFontFaces = `
       // astro:page-load fires on initial load and after every ClientRouter navigation.
       document.addEventListener("astro:page-load", initCursorHover);
     </script>
+    <Analytics />
   </body>
 </html>
