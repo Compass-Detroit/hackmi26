@@ -19,7 +19,7 @@ const {
   ogType = "website",
 } = Astro.props;
 
-const defaultOgPath = `${base}social-card.jpg`.replaceAll(/\/+/g, "/");
+const defaultOgPath = `${base}social-card.jpg`;
 const image = imageProp ?? defaultOgPath;
 
 function toAbsoluteUrl(href: string, site: URL | undefined): string {
@@ -28,25 +28,30 @@ function toAbsoluteUrl(href: string, site: URL | undefined): string {
   }
   const path = href.startsWith("/") ? href : `/${href}`;
   if (!site) {
+    if (import.meta.env.DEV) {
+      console.warn("[BaseLayout] Astro.site is not set — og:image will be a relative URL, which crawlers will silently drop.");
+    }
     return href;
   }
   return new URL(path, site).href;
 }
 
-const site = Astro.site;
-const canonicalUrl =
-  site != null
-    ? new URL(Astro.url.pathname + Astro.url.search, site).href
-    : Astro.url.href;
-const ogImageUrl = toAbsoluteUrl(image, site);
-const ogImageMime = (() => {
-  const path = ogImageUrl.split("?")[0]?.toLowerCase() ?? "";
+function getOgMimeType(url: string): string | undefined {
+  const path = url.split("?")[0]?.toLowerCase() ?? "";
   if (path.endsWith(".png")) return "image/png";
   if (path.endsWith(".webp")) return "image/webp";
   if (path.endsWith(".gif")) return "image/gif";
   if (path.endsWith(".jpg") || path.endsWith(".jpeg")) return "image/jpeg";
   return undefined;
-})();
+}
+
+const site = Astro.site;
+const canonicalUrl =
+  site != null
+    ? new URL(Astro.url.pathname, site).href
+    : Astro.url.href;
+const ogImageUrl = toAbsoluteUrl(image, site);
+const ogImageMime = getOgMimeType(ogImageUrl);
 
 const fonts = `${base}fonts`;
 
@@ -204,29 +209,39 @@ const selfHostedFontFaces = `
     </style>
 
     <script>
-      // Custom cursor
-      const cursor = document.querySelector(".cursor-follower") as HTMLElement;
-
+      // Re-query cursor on each navigation — ClientRouter swaps the body, so the
+      // cached reference becomes stale after the first view-transition.
       document.addEventListener("mousemove", (e) => {
+        const cursor = document.querySelector(
+          ".cursor-follower"
+        ) as HTMLElement | null;
+        if (!cursor) return;
         cursor.style.left = e.clientX + "px";
         cursor.style.top = e.clientY + "px";
       });
 
-      // Cursor expand on hover
-      const interactiveElements = document.querySelectorAll("a, button, .card");
-      interactiveElements.forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-          cursor.style.width = "40px";
-          cursor.style.height = "40px";
-          cursor.style.backgroundColor = "rgba(168, 85, 247, 0.2)";
-        });
+      function initCursorHover() {
+        const cursor = document.querySelector(
+          ".cursor-follower"
+        ) as HTMLElement | null;
+        if (!cursor) return;
 
-        el.addEventListener("mouseleave", () => {
-          cursor.style.width = "20px";
-          cursor.style.height = "20px";
-          cursor.style.backgroundColor = "transparent";
+        document.querySelectorAll("a, button, .card").forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            cursor.style.width = "40px";
+            cursor.style.height = "40px";
+            cursor.style.backgroundColor = "rgba(168, 85, 247, 0.2)";
+          });
+          el.addEventListener("mouseleave", () => {
+            cursor.style.width = "20px";
+            cursor.style.height = "20px";
+            cursor.style.backgroundColor = "transparent";
+          });
         });
-      });
+      }
+
+      // astro:page-load fires on initial load and after every ClientRouter navigation.
+      document.addEventListener("astro:page-load", initCursorHover);
     </script>
   </body>
 </html>
