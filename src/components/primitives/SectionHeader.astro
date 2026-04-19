@@ -1,0 +1,50 @@
+---
+/**
+ * SectionHeader - eyebrow + title + optional subtitle.
+ *
+ * The `id` is attached to the heading so a parent `<section aria-labelledby>`
+ * can reference it. Pairs with the <Section> primitive.
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  /** Heading id (also exposed for aria-labelledby on ancestor). */
+  id?: string;
+  /** Heading level (defaults to 2). */
+  level?: 1 | 2 | 3;
+  align?: "center" | "start";
+  class?: string;
+}
+
+const {
+  title,
+  subtitle,
+  eyebrow,
+  id,
+  level = 2,
+  align = "center",
+  class: className,
+} = Astro.props;
+
+const Heading = `h${level}` as const;
+const alignStyle = align === "start" ? "text-align: start;" : undefined;
+---
+
+<header class:list={["section-header", className]} style={alignStyle}>
+  {eyebrow && <p class="section-eyebrow">{eyebrow}</p>}
+  <Heading id={id} class="section-title">{title}</Heading>
+  {
+    subtitle && (
+      <p class="section-subtitle">
+        <slot name="subtitle">{subtitle}</slot>
+      </p>
+    )
+  }
+</header>
+
+<style>
+  .section-header {
+    margin-bottom: var(--space-lg);
+  }
+</style>

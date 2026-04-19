@@ -1,0 +1,42 @@
+---
+/**
+ * Icon - inlines SVGs from `src/icons/` with normalized size + a11y.
+ *
+ * Reference icons by filename (without `.svg`).
+ * Pass `label` for meaningful icons; omit for decorative.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+  name: string;
+  size?: number | string;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 20, label, class: className } = Astro.props;
+
+const svgPath = path.resolve(`src/icons/${name}.svg`);
+let raw = fs.readFileSync(svgPath, "utf-8");
+
+// inject size + a11y attrs into the opening <svg> tag
+const attrs = [
+  `width="${size}"`,
+  `height="${size}"`,
+  `class="${["icon", className].filter(Boolean).join(" ")}"`,
+  label ? `aria-label="${label}" role="img"` : `aria-hidden="true"`,
+].join(" ");
+
+raw = raw.replace("<svg", `<svg ${attrs}`);
+---
+
+<Fragment set:html={raw} />
+
+<style>
+  .icon {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+</style>

@@ -1,169 +1,144 @@
 ---
-// About HackMI — mission copy (refine when programming is finalized)
+import GlassCard from "./primitives/GlassCard.astro";
+import Section from "./primitives/Section.astro";
+import SectionHeader from "./primitives/SectionHeader.astro";
 ---
 
-<section class="about-section" id="about" aria-labelledby="about-heading">
-  <div class="container">
-    <h2 id="about-heading" class="section-title">About Hack Michigan</h2>
-    <p class="section-subtitle">
-      Michigan was built by innovators and it's time to innovate again. Our
-      state leads in manufacturing, agriculture, and mobility, but too many
-      Michigan businesses still rely on outdated systems, and too many of our
-      brightest minds leave for opportunities elsewhere. Your challenge: use AI
-      and Open Source technologies to build a proof-of-concept AI solution that
-      modernizes a Michigan industry whether that's manufacturing, small
-      business, mobility, agriculture, sustainability, education, or urban
-      planning. Show us how AI can solve a real problem, create real value, and
-      keep innovation rooted right here in Michigan. Deliver a working prototype
-      and a brief presentation that tells the story of how your solution
-      strengthens Michigan's future.
-    </p>
-    <div class="about-card glass">
-      <div class="details">
-        <h3 class="section-title">The Challenge</h3>
-        <p class="about-description">
-          Michigan stands at a pivotal moment. Once the undisputed engine of
-          American innovation, our state is ready to reclaim its position as a
-          technology leader—not by abandoning our industrial heritage, but by
-          reimagining it for the 21st century.
-        </p>
-        <p>
-          While Michigan ranks among the top states in manufacturing output, we
-          lag behind in technology adoption and digital transformation metrics.
-          Too often, our brightest minds leave for coastal tech hubs, and
-          Michigan jobs get outsourced to other states or overseas. Our
-          challenge is clear: how do we leverage cutting-edge AI to modernize
-          Michigan’s cornerstone industries while keeping opportunities here for
-          Michiganders and creating the innovation ecosystem that makes our
-          state a destination, not a departure point?
-        </p>
-        <h3 class="section-title">The Stats Tell the Story</h3>
-        <ul class="about-list">
-          <li>
-            Michigan graduates leave the state at higher rates than most,
-            seeking tech opportunities elsewhere
-          </li>
-          <li>
-            Many legacy industries still operate with outdated systems and
-            manual processes
-          </li>
-          <li>
-            Small and medium-sized Michigan businesses cite technology adoption
-            as their #1 barrier to growth
-          </li>
-          <li>
-            Brain drain continues as innovators lack the infrastructure and
-            community to build here
-          </li>
-          <li>
-            Immense untapped potential in AI-driven innovation across
-            manufacturing, supply chain, agriculture, sustainability, education,
-            and urban development
-          </li>
-        </ul>
+<Section
+  id="about"
+  labelledBy="about-heading"
+  width="narrow"
+  padding="default"
+  style="padding-bottom: 3rem;"
+>
+  <SectionHeader
+    id="about-heading"
+    title="About Hack Michigan"
+    align="center"
+  />
+  <p class="about-mission">
+    Michigan was built by innovators and it's time to innovate again. Our state
+    leads in manufacturing, agriculture, and mobility, but too many Michigan
+    businesses still rely on outdated systems, and too many of our brightest
+    minds leave for opportunities elsewhere. Your challenge: use AI and Open
+    Source technologies to build a proof-of-concept AI solution that modernizes
+    a Michigan industry whether that's manufacturing, small business, mobility,
+    agriculture, sustainability, education, or urban planning. Show us how AI
+    can solve a real problem, create real value, and keep innovation rooted
+    right here in Michigan. Deliver a working prototype and a brief presentation
+    that tells the story of how your solution strengthens Michigan's future.
+  </p>
 
-        <h3 class="section-title">What We're Asking You To Build</h3>
-        <p>
-          Using AI and Open Source technologies, build an innovative
-          proof-of-concept solution that addresses one of the following focus
-          areas:
-        </p>
+  <GlassCard class="about-card">
+    <div class="details">
+      <h3 class="section-title">The Challenge</h3>
+      <p class="about-description">
+        Michigan stands at a pivotal moment. Once the undisputed engine of
+        American innovation, our state is ready to reclaim its position as a
+        technology leader—not by abandoning our industrial heritage, but by
+        reimagining it for the 21st century.
+      </p>
+      <p>
+        While Michigan ranks among the top states in manufacturing output, we
+        lag behind in technology adoption and digital transformation metrics.
+        Too often, our brightest minds leave for coastal tech hubs, and Michigan
+        jobs get outsourced to other states or overseas. Our challenge is clear:
+        how do we leverage cutting-edge AI to modernize Michigan's cornerstone
+        industries while keeping opportunities here for Michiganders and
+        creating the innovation ecosystem that makes our state a destination,
+        not a departure point?
+      </p>
 
-        <ul class="about-list">
-          <li>
-            Modernizing Michigan Manufacturing — Transform traditional
-            manufacturing processes with AI-powered automation, predictive
-            maintenance, quality control, or supply chain optimization that
-            keeps production and jobs in Michigan.
-          </li>
+      <h3 class="section-title">The Stats Tell the Story</h3>
+      <ul class="about-list">
+        <li>
+          Michigan graduates leave the state at higher rates than most, seeking
+          tech opportunities elsewhere
+        </li>
+        <li>
+          Many legacy industries still operate with outdated systems and manual
+          processes
+        </li>
+        <li>
+          Small and medium-sized Michigan businesses cite technology adoption as
+          their #1 barrier to growth
+        </li>
+        <li>
+          Brain drain continues as innovators lack the infrastructure and
+          community to build here
+        </li>
+        <li>
+          Immense untapped potential in AI-driven innovation across
+          manufacturing, supply chain, agriculture, sustainability, education,
+          and urban development
+        </li>
+      </ul>
 
-          <li>
-            Reinvigorating Main Street — Empower Michigan's small businesses and
-            retailers with accessible AI tools for customer engagement,
-            inventory management, market analysis, or operations that help them
-            compete without outsourcing.
-          </li>
+      <h3 class="section-title">What We're Asking You To Build</h3>
+      <p>
+        Using AI and Open Source technologies, build an innovative
+        proof-of-concept solution that addresses one of the following focus
+        areas:
+      </p>
 
-          <li>
-            Next-Gen Mobility — Reimagine transportation and logistics for
-            Michigan's automotive future through autonomous systems, smart
-            infrastructure, or connected vehicle technologies developed and
-            deployed here.
-          </li>
-
-          <li>
-            Agricultural Innovation — Enhance Michigan's agricultural sector
-            with AI-driven solutions for crop management, sustainability,
-            precision farming, or food supply chain optimization.
-          </li>
-
-          <li>
-            Building Michigan's Innovation Ecosystem — Create tools, platforms,
-            or solutions that help Michigan entrepreneurs, developers, and
-            innovators collaborate, access resources, prototype ideas, or scale
-            their ventures without leaving the state.
-          </li>
-
-          <li>
-            Sustainability & Clean Energy — Develop AI solutions that advance
-            environmental sustainability in Michigan from optimizing energy
-            consumption in manufacturing to monitoring Great Lakes water
-            quality, managing renewable energy grids, reducing waste, or
-            supporting Michigan's transition to a greener economy.
-          </li>
-
-          <li>
-            Education & Workforce Development — Build AI-powered tools that
-            transform learning for Michigan's K-12 students and adult learners
-            alike whether through personalized tutoring, skills gap analysis,
-            workforce retraining platforms, career pathway guidance, or making
-            quality education more accessible across rural and urban Michigan.
-          </li>
-
-          <li>
-            Smart Urban Planning & Community Development — Leverage AI to help
-            Michigan cities and communities plan smarter from optimizing public
-            transit routes and predicting infrastructure needs to revitalizing
-            neighborhoods, improving public safety, managing housing data, or
-            making city services more responsive and equitable.
-          </li>
-        </ul>
-      </div>
+      <ul class="about-list">
+        <li>
+          Modernizing Michigan Manufacturing — Transform traditional
+          manufacturing processes with AI-powered automation, predictive
+          maintenance, quality control, or supply chain optimization that keeps
+          production and jobs in Michigan.
+        </li>
+        <li>
+          Reinvigorating Main Street — Empower Michigan's small businesses and
+          retailers with accessible AI tools for customer engagement, inventory
+          management, market analysis, or operations that help them compete
+          without outsourcing.
+        </li>
+        <li>
+          Next-Gen Mobility — Reimagine transportation and logistics for
+          Michigan's automotive future through autonomous systems, smart
+          infrastructure, or connected vehicle technologies developed and
+          deployed here.
+        </li>
+        <li>
+          Agricultural Innovation — Enhance Michigan's agricultural sector with
+          AI-driven solutions for crop management, sustainability, precision
+          farming, or food supply chain optimization.
+        </li>
+        <li>
+          Building Michigan's Innovation Ecosystem — Create tools, platforms, or
+          solutions that help Michigan entrepreneurs, developers, and innovators
+          collaborate, access resources, prototype ideas, or scale their
+          ventures without leaving the state.
+        </li>
+        <li>
+          Sustainability & Clean Energy — Develop AI solutions that advance
+          environmental sustainability in Michigan from optimizing energy
+          consumption in manufacturing to monitoring Great Lakes water quality,
+          managing renewable energy grids, reducing waste, or supporting
+          Michigan's transition to a greener economy.
+        </li>
+        <li>
+          Education & Workforce Development — Build AI-powered tools that
+          transform learning for Michigan's K-12 students and adult learners
+          alike whether through personalized tutoring, skills gap analysis,
+          workforce retraining platforms, career pathway guidance, or making
+          quality education more accessible across rural and urban Michigan.
+        </li>
+        <li>
+          Smart Urban Planning & Community Development — Leverage AI to help
+          Michigan cities and communities plan smarter from optimizing public
+          transit routes and predicting infrastructure needs to revitalizing
+          neighborhoods, improving public safety, managing housing data, or
+          making city services more responsive and equitable.
+        </li>
+      </ul>
     </div>
-  </div>
-</section>
+  </GlassCard>
+</Section>
 
 <style>
-  .about-section {
-    padding: 5rem 2rem 3rem;
-    position: relative;
-  }
-
-  .about-description {
-    font-family: var(--font-body);
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
-    color: var(--color-text);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .section-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 0.75rem;
-    margin-block-start: 2rem;
-    color: var(--color-accent-green);
-  }
-
-  .section-subtitle {
+  .about-mission {
     text-align: start;
     line-height: 1.85;
     color: var(--color-text-dim);
@@ -171,9 +146,14 @@
     margin-bottom: 2rem;
   }
 
-  .about-card {
-    padding: 2rem 2.25rem;
-    border-radius: 1rem;
+  /* .about-card padding is in global.css (cross-component override) */
+
+  .about-description {
+    font-family: var(--font-body);
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
   }
 
   .about-list {
@@ -192,39 +172,5 @@
   .details p {
     line-height: 1.65;
     font-size: clamp(0.9rem, 1.5vw, 1.125rem);
-  }
-
-  .glass {
-    background: rgba(30, 41, 59, 0.55);
-    border: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .about-lead,
-  .about-body {
-    font-size: 1.05rem;
-    line-height: 1.75;
-    color: var(--color-text-dim);
-  }
-
-  .about-lead {
-    margin-bottom: 1.25rem;
-  }
-
-  .about-lead strong,
-  .about-body strong {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    .about-section {
-      padding: 4rem 1.25rem 2.5rem;
-    }
-
-    .about-card {
-      padding: 1.5rem 1.25rem;
-    }
   }
 </style>

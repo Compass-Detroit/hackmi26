@@ -33,7 +33,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
-    "lint:css:fix": "stylelint \"src/**/*.{css,astro}\" --fix"
+    "lint:css:fix": "stylelint \"src/**/*.{css,astro}\" --fix",
+    "typecheck": "astro check",
+    "verify": "npm run format:check && npm run lint && npm run lint:css && npm run typecheck && npm run build"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
@@ -56,6 +58,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "stylelint": "^17.8.0",
     "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.2"
   },

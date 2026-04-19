@@ -1,54 +1,33 @@
 ---
-import { HACKER_REGISTRATION_URL } from "../lib/constants";
+import Button from "./primitives/Button.astro";
+import GlassCard from "./primitives/GlassCard.astro";
+import Section from "./primitives/Section.astro";
+import { EVENT_URLS } from "../data/event";
 ---
 
-<section class="signup" id="signup" aria-labelledby="signup-heading">
-  <div class="container">
-    <div class="signup-card glass">
-      <h2 id="signup-heading" class="signup-title">Join the list</h2>
-      <p class="signup-copy">
-        Registration runs through our IBM Agentic campaign page—no on-site forms
-        here. Save your spot and get schedule updates as we lock venue and
-        tracks.
-      </p>
-      <a
-        href={HACKER_REGISTRATION_URL}
-        class="btn btn-primary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Register for Hack Michigan
-      </a>
-    </div>
-  </div>
-</section>
+<Section
+  id="signup"
+  labelledBy="signup-heading"
+  width="narrow"
+  padding="none"
+  style="padding: 0 2rem 4rem;"
+>
+  <GlassCard as="div" class="signup-card">
+    <h2 id="signup-heading" class="signup-title">Join the list</h2>
+    <p class="signup-copy">
+      Registration runs through our IBM Agentic campaign page—no on-site forms
+      here. Save your spot and get schedule updates as we lock venue and tracks.
+    </p>
+    <Button href={EVENT_URLS.hackerRegistration}>
+      Register for Hack Michigan
+    </Button>
+  </GlassCard>
+</Section>
 
 <style>
-  .signup {
-    padding: 0 2rem 4rem;
-    position: relative;
-  }
-
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .signup-card {
-    padding: 2.25rem 2rem;
-    border-radius: 1rem;
-    text-align: center;
-  }
-
-  .glass {
-    background: rgba(30, 41, 59, 0.55);
-    border: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
+  /* .signup-card padding + text-align is in global.css (cross-component override) */
 
   .signup-title {
-    font-family: var(--font-heading);
     font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 700;
     color: var(--color-text);
@@ -60,36 +39,5 @@ import { HACKER_REGISTRATION_URL } from "../lib/constants";
     font-size: 1.05rem;
     line-height: 1.65;
     margin-bottom: 1.5rem;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.9rem 1.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-body);
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .btn-primary {
-    background: var(--color-accent-orange);
-    color: #000;
-    text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
-  }
-
-  .btn:hover {
-    background: var(--color-accent-orange-hover);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
-  }
-
-  @media (max-width: 768px) {
-    .signup {
-      padding: 0 1.25rem 3rem;
-    }
   }
 </style>

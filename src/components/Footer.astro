@@ -1,6 +1,9 @@
 ---
 import { footerSponsorLogos, publicAssetUrl } from "../data/siteLogos";
-import { EVENT_DETAILS } from "../lib/constants";
+import { EVENT } from "../data/event";
+import { SECTION_ANCHORS, withBase } from "../data/nav";
+import { SOCIAL_LINKS } from "../data/socials";
+import MaybeLink from "./primitives/MaybeLink.astro";
 
 const base = import.meta.env.BASE_URL;
 const sponsors = footerSponsorLogos;
@@ -16,32 +19,15 @@ const currentYear = new Date().getFullYear();
           <ul class="sponsor-strip-logos" role="list">
             {sponsors.map((logo) => (
               <li>
-                {logo.href ? (
-                  <a
-                    href={logo.href}
-                    class="sponsor-strip-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={publicAssetUrl(base, logo.src)}
-                      alt={logo.alt}
-                      class="sponsor-strip-img"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </a>
-                ) : (
-                  <span class="sponsor-strip-wrap">
-                    <img
-                      src={publicAssetUrl(base, logo.src)}
-                      alt={logo.alt}
-                      class="sponsor-strip-img"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </span>
-                )}
+                <MaybeLink href={logo.href ?? null} class="sponsor-strip-link">
+                  <img
+                    src={publicAssetUrl(base, logo.src)}
+                    alt={logo.alt}
+                    class="sponsor-strip-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </MaybeLink>
               </li>
             ))}
           </ul>
@@ -55,52 +41,44 @@ const currentYear = new Date().getFullYear();
       <div class="footer-grid">
         <div class="footer-info">
           <h3 class="footer-logo">HACKMI</h3>
-          <p class="footer-tagline">
-            Building the future of Michigan's tech corridor.
-          </p>
+          <p class="footer-tagline">{EVENT.tagline}</p>
           <p class="footer-event-details">
-            {EVENT_DETAILS.LOCATION}<br />
-            {EVENT_DETAILS.DATE}
+            {EVENT.location}<br />
+            {EVENT.date}
           </p>
         </div>
 
         <div class="footer-links">
           <h4 class="footer-title">Navigation</h4>
           <ul>
-            <li><a href={`${base}#about`}>About</a></li>
-            <li><a href={`${base}#sponsors`}>Sponsors</a></li>
-            <li><a href={`${base}#event-details`}>Details</a></li>
-            <li><a href={`${base}#logistics`}>Logistics</a></li>
+            {
+              SECTION_ANCHORS.map((a) => (
+                <li>
+                  <a href={withBase(base, a.href)}>{a.footer}</a>
+                </li>
+              ))
+            }
           </ul>
         </div>
 
         <div class="footer-social">
           <h4 class="footer-title">Connect</h4>
           <ul>
-            <li>
-              <a
-                href="https://www.linkedin.com/company/compass-detroit/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/Compass-Detroit/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>
-            </li>
+            {
+              SOCIAL_LINKS.map((s) => (
+                <li>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer">
+                    {s.label}
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; {currentYear} {EVENT_DETAILS.NAME}. All rights reserved.</p>
+        <p>&copy; {currentYear} {EVENT.name}. All rights reserved.</p>
       </div>
     </div>
   </div>
@@ -110,11 +88,11 @@ const currentYear = new Date().getFullYear();
   .sponsor-strip {
     padding: 2rem 1.5rem 0;
     border-top: 1px solid var(--color-border);
-    background: rgba(15, 23, 42, 0.5);
+    background: rgb(15 23 42 / 50%);
   }
 
   .sponsor-strip-inner {
-    max-width: 1200px;
+    max-width: var(--container-max);
     margin: 0 auto;
     text-align: center;
   }
@@ -138,19 +116,15 @@ const currentYear = new Date().getFullYear();
     padding-bottom: 2rem;
   }
 
-  .sponsor-strip-link,
-  .sponsor-strip-wrap {
+  :global(.sponsor-strip-link) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .sponsor-strip-link {
     opacity: 0.85;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--duration-fast) ease;
   }
 
-  .sponsor-strip-link:hover {
+  :global(a.sponsor-strip-link:hover) {
     opacity: 1;
   }
 
@@ -162,7 +136,7 @@ const currentYear = new Date().getFullYear();
     filter: grayscale(0.15) brightness(1.05);
   }
 
-  .sponsor-strip-link:hover .sponsor-strip-img {
+  :global(a.sponsor-strip-link:hover) .sponsor-strip-img {
     filter: grayscale(0) brightness(1.1);
   }
 
@@ -173,12 +147,12 @@ const currentYear = new Date().getFullYear();
 
   .footer-main {
     padding: 4rem 2rem 3rem;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgb(15 23 42 / 90%);
     border-top: 1px solid var(--color-border);
   }
 
   .container {
-    max-width: 1200px;
+    max-width: var(--container-max);
     margin: 0 auto;
   }
 
@@ -190,7 +164,6 @@ const currentYear = new Date().getFullYear();
   }
 
   .footer-logo {
-    font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -231,7 +204,7 @@ const currentYear = new Date().getFullYear();
   .footer-social a {
     color: var(--color-text-dim);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
   }
 
   .footer-links a:hover,
@@ -241,13 +214,13 @@ const currentYear = new Date().getFullYear();
 
   .footer-bottom {
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgb(255 255 255 / 5%);
     text-align: center;
     color: var(--color-text-dim);
     font-size: 0.9rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .footer-grid {
       grid-template-columns: 1fr;
       gap: 3rem;

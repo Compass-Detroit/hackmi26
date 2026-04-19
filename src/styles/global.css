@@ -1,31 +1,85 @@
-/* Global styles for dark abyss theme */
+/* Hack Michigan Global Styles
+   --------------------------------------------------------------------------
+   Design tokens, element defaults, shared utilities, and keyframes.
+   Component-specific styles live in the component's <style> block.
+*/
+
 :root {
-  /* Color Palette - Developer Dark Theme */
+  /* ---- Color -- surfaces ---- */
   --color-bg-dark: #0f172a;
   --color-bg-darker: #020617;
   --color-bg-card: #1e293b;
+
+  /* ---- Color -- brand / accents ---- */
   --color-primary: #82b1fe;
   --color-primary-button: #3b82f6;
+  --color-primary-button-hover: #2563eb;
   --color-accent-purple: #8b5cf6;
   --color-accent-pink: #ec4899;
   --color-accent-orange: #fbbf24;
   --color-accent-orange-hover: #e6a800;
-  --color-accent-green: rgb(29, 255, 37);
+  --color-accent-green: rgb(29 255 37);
   --color-accent-blue: #3b82f6;
   --color-accent-cyan: #06b6d4;
-  --color-text: #f1f5f9;
-  --color-text-dim: rgb(193, 195, 197 / 100%);
-  --color-border: #334155;
-  --color-shadow: rgb(59, 130, 246 / 30%);
 
-  /* Typography */
+  /* ---- Color -- text & borders ---- */
+  --color-text: #f1f5f9;
+  --color-text-dim: #f1f5f9;
+  --color-border: #334155;
+  --color-shadow: rgb(59 130 246 / 30%);
+
+  /* ---- Typography ---- */
   --font-heading: "Tiny5", system-ui, sans-serif;
   --font-body: "Nunito", system-ui, sans-serif;
 
-  /* Spacing */
+  /* ---- Spacing scale (t-shirt) ---- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 5rem;
+
+  /* ---- Radius ---- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-pill: 2rem;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 4px 14px rgb(59 130 246 / 35%);
+  --shadow-md: 0 6px 20px rgb(59 130 246 / 45%);
+  --shadow-lg: 0 12px 40px rgb(59 130 246 / 10%);
+  --shadow-glass: 0 20px 50px rgb(0 0 0 / 35%);
+
+  /* ---- Surfaces ---- */
+  --surface-glass-bg: rgb(30 41 59 / 55%);
+  --surface-glass-blur: 12px;
+
+  /* ---- Layout ---- */
   --nav-height: 80px;
   --anchor-scroll-margin: calc(var(--nav-height) + 1.25rem);
+  --container-max: 1200px;
+  --container-narrow: 900px;
+  --container-wide: 1400px;
+
+  /* ---- Breakpoints (reference; use in @media raw) ---- */
+  --bp-sm: 40rem; /* 640px */
+  --bp-md: 48rem; /* 768px */
+  --bp-lg: 64rem; /* 1024px */
+  --bp-xl: 80rem; /* 1280px */
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 0.2s;
+  --duration-base: 0.3s;
 }
+
+/* Element defaults / Style Resets */
 
 * {
   box-sizing: border-box;
@@ -34,7 +88,6 @@
 }
 
 html {
-  /* Force dark native UI (scrollbars, form controls) regardless of OS theme */
   color-scheme: dark;
   font-family: var(--font-body);
   background: var(--color-bg-dark);
@@ -44,7 +97,12 @@ html {
   scroll-padding-top: var(--anchor-scroll-margin);
 }
 
-/* Headings use Tiny5 (self-hosted @font-face in BaseLayout.astro) */
+body {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
 h1,
 h2,
 h3,
@@ -59,18 +117,12 @@ p {
   margin-block: 0.5rem 1rem;
 }
 
-body {
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-}
-
 /* Animated background gradient */
+
 body::before {
   content: "";
   position: fixed;
-  top: -50%;
-  left: -50%;
+  inset: -50% auto auto -50%;
   width: 200%;
   height: 200%;
   background:
@@ -93,17 +145,8 @@ body::before {
   z-index: -1;
 }
 
-@keyframes "gradient-shift" {
-  0% {
-    background-position: 0% 50%;
-  }
+/* Scrollbar */
 
-  100% {
-    background-position: 100% 50%;
-  }
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -125,11 +168,22 @@ body::before {
   background: linear-gradient(
     180deg,
     var(--color-accent-pink),
-    var(--color-accent-blue)
+    var(--color-primary-button)
   );
 }
 
-/* Global animations */
+/* Shared keyframes */
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
 @keyframes float {
   0%,
   100% {
@@ -138,6 +192,17 @@ body::before {
 
   50% {
     transform: translateY(-20px);
+  }
+}
+
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(20px, -20px);
   }
 }
 
@@ -168,12 +233,50 @@ body::before {
   }
 }
 
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes panel-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shared utilities */
+
 .shimmer-text {
   background: linear-gradient(
     90deg,
     var(--color-accent-purple),
     var(--color-accent-pink),
-    var(--color-accent-blue),
+    var(--color-primary-button),
     var(--color-accent-purple)
   );
   background-size: 200% auto;
@@ -181,4 +284,247 @@ body::before {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: text-shimmer 3s linear infinite;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced-motion guardrail */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Shared surfaces -- glass card */
+
+.glass-card {
+  background: var(--surface-glass-bg);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(var(--surface-glass-blur));
+  -webkit-backdrop-filter: blur(var(--surface-glass-blur));
+  border-radius: var(--radius-lg);
+}
+
+.glass-card--raised {
+  background: rgb(30 41 59 / 65%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-card--interactive {
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.glass-card--interactive:hover {
+  border-color: rgb(59 130 246 / 35%);
+  box-shadow: 0 12px 40px rgb(59 130 246 / 10%);
+}
+
+.glass-card--interactive-violet:hover {
+  border-color: rgb(139 92 246 / 35%);
+  box-shadow: 0 12px 40px rgb(139 92 246 / 8%);
+}
+
+/* Shared containers & section rhythm */
+
+.section-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.section-container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.section-container--wide {
+  max-width: var(--container-wide);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--color-accent-green);
+}
+
+#about .section-title {
+  margin-block-start: 2rem;
+}
+
+/*
+ * Cross-component card overrides
+ * Astro scoped styles can't target classes rendered by child components
+ * (GlassCard gets a different data-astro-cid scope). Use section IDs to
+ * keep specificity tight.
+ */
+
+#about .about-card {
+  padding: 2rem 2.25rem;
+}
+
+#event-details .detail-card {
+  padding: 2rem;
+}
+
+#logistics .log-card {
+  padding: 1.75rem;
+}
+
+#signup .section-container--narrow {
+  max-width: 720px;
+}
+
+#signup .signup-card {
+  padding: 2.25rem 2rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--color-text);
+  font-size: 1.1rem;
+  line-height: normal;
+  margin: 0.5rem auto 2rem;
+  max-width: 720px;
+}
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+/* Shared action -- buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.btn-primary {
+  background: var(--color-accent-orange);
+  color: #000;
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-orange-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary svg {
+  transition: transform var(--duration-fast) ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent-orange);
+  border: 3px solid var(--color-accent-orange);
+}
+
+.btn-secondary:hover {
+  background: rgb(251 191 36 / 8%);
+  border-color: rgb(252 211 77 / 85%);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-mega {
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-bg-dark);
+  background: #f8fafc;
+  border: none;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 25%);
+  text-transform: none;
+  gap: normal;
+}
+
+.btn-mega:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 35%);
+}
+
+.btn-sponsor-glow {
+  border-color: rgb(251 191 36 / 55%);
+  box-shadow:
+    0 0 0 1px rgb(251 191 36 / 12%),
+    0 0 20px rgb(251 191 36 / 35%),
+    0 0 44px rgb(245 158 11 / 22%);
+}
+
+.btn-sponsor-glow:hover {
+  background: rgb(251 191 36 / 8%);
+  border-color: rgb(252 211 77 / 85%);
+  box-shadow:
+    0 0 0 1px rgb(252 211 77 / 20%),
+    0 0 26px rgb(251 191 36 / 50%),
+    0 0 52px rgb(245 158 11 / 32%);
+}
+
+@media (max-width: 48rem) {
+  .btn-block-on-mobile {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  #about .about-card {
+    padding: 1.5rem 1.25rem;
+  }
 }

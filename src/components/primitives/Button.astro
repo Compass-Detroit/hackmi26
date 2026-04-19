@@ -1,0 +1,57 @@
+---
+/**
+ * Button - polymorphic anchor/button primitive.
+ *
+ * Renders `<a>` when `href` is provided, otherwise `<button>`. External links
+ * (absolute http(s) URLs) auto-open in a new tab with safe `rel` by default.
+ * Variants map to shared `.btn-*` utility classes in `global.css`.
+ */
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "primary" | "secondary" | "ghost" | "mega";
+type ExtraClass = "sponsor-glow" | "block-on-mobile";
+
+interface Props extends Omit<HTMLAttributes<"a">, "type"> {
+  variant?: Variant;
+  /** Additional decorative classes (e.g. "sponsor-glow"). */
+  accent?: ExtraClass | ExtraClass[];
+  /** Force external behaviour (target=_blank + safe rel). Auto-detected for http(s) hrefs. */
+  external?: boolean;
+  /** When rendering a `<button>`, its type attribute. */
+  type?: "button" | "submit" | "reset";
+}
+
+const {
+  variant = "primary",
+  accent,
+  external,
+  href,
+  type = "button",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const accents = Array.isArray(accent) ? accent : accent ? [accent] : [];
+const accentClasses = accents.map((a) => `btn-${a}`);
+
+const isExternalHref = typeof href === "string" && /^https?:\/\//i.test(href);
+const treatAsExternal = external ?? isExternalHref;
+
+const linkAttrs = treatAsExternal
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+
+const classes = ["btn", `btn-${variant}`, ...accentClasses, className];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...linkAttrs} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

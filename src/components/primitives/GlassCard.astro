@@ -1,0 +1,40 @@
+---
+/**
+ * GlassCard - frosted-panel surface primitive.
+ *
+ * Emits an `<article>` by default; pass `as` to override. Variants map to
+ * shared `.glass-card*` utilities in `global.css`.
+ */
+import type { HTMLTag } from "astro/types";
+
+interface Props {
+  as?: HTMLTag;
+  elevation?: "flat" | "raised";
+  interactive?: boolean;
+  /** Hover accent color family. */
+  hover?: "blue" | "violet";
+  id?: string;
+  class?: string;
+}
+
+const {
+  as: Tag = "article",
+  elevation = "flat",
+  interactive = false,
+  hover = "blue",
+  id,
+  class: className,
+}: Props = Astro.props;
+
+const classes = [
+  "glass-card",
+  elevation === "raised" && "glass-card--raised",
+  interactive && "glass-card--interactive",
+  interactive && hover === "violet" && "glass-card--interactive-violet",
+  className,
+];
+---
+
+<Tag id={id} class:list={classes}>
+  <slot />
+</Tag>

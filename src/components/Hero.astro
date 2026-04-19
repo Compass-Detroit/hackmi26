@@ -1,5 +1,7 @@
 ---
-import { EXTERNAL_URLS } from "../lib/constants";
+import Button from "./primitives/Button.astro";
+import Icon from "./primitives/Icon.astro";
+import { EVENT_URLS } from "../data/event";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -15,35 +17,23 @@ const base = import.meta.env.BASE_URL;
     <p class="hero-subtitle">REGISTRATION IS NOW OPEN</p>
 
     <div class="hero-buttons">
-      <a
-        href={EXTERNAL_URLS.HACKER_REGISTRATION}
-        class="btn btn-primary"
-        target="_blank"
-        rel="noopener noreferrer"
+      <Button
+        href={EVENT_URLS.hackerRegistration}
+        variant="primary"
+        accent="block-on-mobile"
       >
         <span>Register Now</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
-      <a
-        href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-        class="btn btn-secondary hero-btn-sponsor"
+        <Icon name="arrow-right" size={20} />
+      </Button>
+      <Button
+        href={EVENT_URLS.sponsorInquiry}
+        variant="ghost"
+        accent={["sponsor-glow", "block-on-mobile"]}
       >
         <span>Become a Sponsor</span>
-      </a>
+      </Button>
     </div>
+
     <p class="hero-description">
       Michigan was built by innovators—and it's time to innovate again. Build an
       AI + open-source proof of concept that modernizes a Michigan industry.
@@ -79,7 +69,7 @@ const base = import.meta.env.BASE_URL;
     text-align: center;
     z-index: 10;
     max-width: 800px;
-    animation: fadeInUp 0.8s ease-out;
+    animation: fade-in-up 0.8s var(--ease-out);
   }
 
   .greeting {
@@ -92,7 +82,6 @@ const base = import.meta.env.BASE_URL;
   }
 
   .hero-title {
-    font-family: var(--font-heading);
     font-size: clamp(3rem, 12vw, 7rem);
     font-weight: 700;
     margin-bottom: 1rem;
@@ -111,17 +100,7 @@ const base = import.meta.env.BASE_URL;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientFlow 4s ease infinite;
-  }
-
-  @keyframes gradientFlow {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
+    animation: text-shimmer 4s ease infinite;
   }
 
   .hero-subtitle {
@@ -151,70 +130,6 @@ const base = import.meta.env.BASE_URL;
     margin-block: 3rem;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-body);
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .btn-primary {
-    background: var(--color-accent-orange);
-    color: #000;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-    text-transform: uppercase;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-accent-orange-hover);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-  }
-
-  .btn-primary svg {
-    transition: transform 0.2s ease;
-  }
-
-  .btn-primary:hover svg {
-    transform: translateX(4px);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-text);
-    border: 3px solid var(--color-border);
-    text-transform: uppercase;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--color-primary);
-  }
-
-  .hero-btn-sponsor {
-    border-color: rgba(251, 191, 36, 0.55);
-    box-shadow:
-      0 0 0 1px rgba(251, 191, 36, 0.12),
-      0 0 20px rgba(251, 191, 36, 0.35),
-      0 0 44px rgba(245, 158, 11, 0.22);
-  }
-
-  .hero-btn-sponsor:hover {
-    background: rgba(251, 191, 36, 0.08);
-    border-color: rgba(252, 211, 77, 0.85);
-    box-shadow:
-      0 0 0 1px rgba(252, 211, 77, 0.2),
-      0 0 26px rgba(251, 191, 36, 0.5),
-      0 0 52px rgba(245, 158, 11, 0.32);
-  }
-
   .hero-chips {
     display: flex;
     gap: 0.75rem;
@@ -224,12 +139,14 @@ const base = import.meta.env.BASE_URL;
 
   .hero-chip {
     padding: 0.5rem 1rem;
-    background: rgba(59, 130, 246, 0.1);
+    background: rgb(59 130 246 / 10%);
     border: 3px solid var(--color-accent-orange);
-    border-radius: 2rem;
+    border-radius: var(--radius-pill);
     font-size: 0.875rem;
     color: var(--color-text-dim);
-    transition: all 0.2s ease;
+    transition:
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
     text-decoration: none;
     text-transform: uppercase;
   }
@@ -262,7 +179,7 @@ const base = import.meta.env.BASE_URL;
     background: var(--color-primary-button);
     top: 10%;
     left: 10%;
-    animation: float 8s ease-in-out infinite;
+    animation: float-drift 8s ease-in-out infinite;
   }
 
   .glow-2 {
@@ -271,44 +188,10 @@ const base = import.meta.env.BASE_URL;
     background: var(--color-accent-purple);
     bottom: 20%;
     right: 10%;
-    animation: float 6s ease-in-out infinite reverse;
+    animation: float-drift 6s ease-in-out infinite reverse;
   }
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(20px, -20px);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .title-text {
-      animation: none;
-    }
-    .glow-1,
-    .glow-2 {
-      animation: none;
-    }
-    .hero-content {
-      animation: none;
-    }
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .hero {
       padding-top: calc(var(--nav-height) + 3rem);
     }
@@ -316,12 +199,6 @@ const base = import.meta.env.BASE_URL;
     .hero-buttons {
       flex-direction: column;
       align-items: center;
-    }
-
-    .btn {
-      width: 100%;
-      max-width: 280px;
-      justify-content: center;
     }
   }
 </style>

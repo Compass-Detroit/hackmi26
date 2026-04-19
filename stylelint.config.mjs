@@ -1,6 +1,7 @@
 /** @type {import("stylelint").Config} */
 export default {
   extends: ["stylelint-config-standard"],
+  plugins: ["stylelint-order"],
   rules: {
     // Keep this repo flexible; we mainly want to catch actual CSS mistakes,
     // not enforce modernized color notation or strict selector conventions.
@@ -22,9 +23,15 @@ export default {
       true,
       { ignorePseudoClasses: ["global"] },
     ],
-    "shorthand-property-no-redundant-values": null,
-    "length-zero-no-unit": null,
     "value-keyword-case": null,
+    // Consistent ordering of custom properties within a declaration block.
+    "order/order": [
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      "rules",
+      "at-rules",
+    ],
   },
   overrides: [
     {
