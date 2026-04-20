@@ -1,6 +1,6 @@
 ---
 import { publicAssetUrl, siteHeaderBrand } from "../data/siteLogos";
-import { EXTERNAL_URLS } from "../lib/constants";
+import { SECTION_ANCHORS, PRIMARY_CTA, withBase } from "../data/nav";
 
 const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
@@ -34,35 +34,35 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
         >
           Home
         </a>
-        <a href={`${base}#about`} class="nav-link">About</a>
-        <a href={`${base}#sponsors`} class="nav-link">Sponsors</a>
-        <a href={`${base}#event-details`} class="nav-link">Event</a>
-        <a href={`${base}#logistics`} class="nav-link">Logistics</a>
+        {
+          SECTION_ANCHORS.map((a) => (
+            <a href={withBase(base, a.href)} class="nav-link">
+              {a.nav}
+            </a>
+          ))
+        }
         <a
-          href={EXTERNAL_URLS.HACKER_REGISTRATION}
+          href={PRIMARY_CTA.hacker.href}
           class="nav-link nav-link-external"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Register
+          {PRIMARY_CTA.hacker.label}
         </a>
-        <a
-          href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-          class="nav-cta"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Sponsor
+        <a href={PRIMARY_CTA.sponsor.href} class="nav-cta">
+          {PRIMARY_CTA.sponsor.label}
         </a>
       </div>
 
       <button
         class="mobile-menu-btn"
-        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open menu"
         id="mobile-menu-btn"
       >
         <svg
-          class="icon"
+          class="hamburger-icon"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -72,6 +72,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          aria-hidden="true"
         >
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -81,7 +82,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     </div>
   </div>
 
-  <div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <div class="mobile-menu-content">
       <a
         href={base}
@@ -89,25 +90,23 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       >
         Home
       </a>
-      <a href={`${base}#about`} class="mobile-nav-link">About</a>
-      <a href={`${base}#sponsors`} class="mobile-nav-link">Sponsors</a>
-      <a href={`${base}#event-details`} class="mobile-nav-link">Event</a>
-      <a href={`${base}#logistics`} class="mobile-nav-link">Logistics</a>
+      {
+        SECTION_ANCHORS.map((a) => (
+          <a href={withBase(base, a.href)} class="mobile-nav-link">
+            {a.nav}
+          </a>
+        ))
+      }
       <a
-        href={EXTERNAL_URLS.HACKER_REGISTRATION}
+        href={PRIMARY_CTA.hacker.href}
         class="mobile-nav-link"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Register
+        {PRIMARY_CTA.hacker.label}
       </a>
-      <a
-        href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-        class="mobile-nav-cta"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Become a sponsor
+      <a href={PRIMARY_CTA.sponsorLong.href} class="mobile-nav-cta">
+        {PRIMARY_CTA.sponsorLong.label}
       </a>
     </div>
   </div>
@@ -121,17 +120,17 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     right: 1rem;
     z-index: 1000;
     padding: 1rem 1.5rem;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgb(15 23 42 / 85%);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--color-border);
-    border-radius: 1rem;
-    animation: slideDown 0.5s ease-out;
+    border-radius: var(--radius-lg);
+    animation: slide-down 0.5s var(--ease-out);
     text-transform: uppercase;
   }
 
   .nav-container {
-    max-width: 1200px;
+    max-width: var(--container-max);
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -157,7 +156,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     text-decoration: none;
     letter-spacing: 0.05em;
     color: var(--color-text);
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
   }
 
   .site-logo-img {
@@ -195,7 +194,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-weight: 500;
     font-size: 0.9rem;
     position: relative;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
     cursor: pointer;
     white-space: nowrap;
   }
@@ -208,7 +207,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     width: 0;
     height: 2px;
     background: var(--color-accent-orange);
-    transition: width 0.2s ease;
+    transition: width var(--duration-fast) ease;
   }
 
   .nav-link:hover {
@@ -230,21 +229,21 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 
   .nav-cta {
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-sm);
     font-size: 0.9rem;
     font-weight: 600;
     color: #000;
     background: var(--color-accent-orange);
     text-decoration: none;
     transition:
-      background-color 0.2s ease,
-      box-shadow 0.2s ease;
+      background-color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
     white-space: nowrap;
   }
 
   .nav-cta:hover {
     background: var(--color-accent-orange-hover);
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    box-shadow: var(--shadow-sm);
   }
 
   .mobile-menu-btn {
@@ -256,7 +255,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     padding: 0.5rem;
   }
 
-  .mobile-menu-btn .icon {
+  .mobile-menu-btn .hamburger-icon {
     width: 24px;
     height: 24px;
   }
@@ -268,11 +267,11 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(15, 23, 42, 0.98);
+    background: rgb(15 23 42 / 98%);
     z-index: 999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-base) ease;
   }
 
   .mobile-menu.open {
@@ -296,7 +295,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     font-weight: 600;
     color: var(--color-accent-orange-hover);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
   }
 
   .mobile-nav-link:hover,
@@ -307,7 +306,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
   .mobile-nav-cta {
     margin-top: 0.5rem;
     padding: 0.85rem 1.75rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-sm);
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 700;
@@ -316,18 +315,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     text-decoration: none;
   }
 
-  @keyframes slideDown {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: 1024px) {
+  @media (max-width: 64rem) {
     .nav-links {
       gap: 0.75rem;
     }
@@ -337,7 +325,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .nav {
       top: 0.75rem;
       left: 0.75rem;
@@ -348,11 +336,6 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     .site-logo-img {
       height: 36px;
       max-width: 160px;
-    }
-
-    .nav-org-logo-img {
-      max-height: 22px;
-      max-width: 90px;
     }
 
     .nav-links {
@@ -367,22 +350,42 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    if (!btn || !menu) return;
 
-    if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("open");
-      });
+    function setOpen(open: boolean) {
+      menu!.classList.toggle("open", open);
+      menu!.setAttribute("aria-hidden", String(!open));
+      btn!.setAttribute("aria-expanded", String(open));
+      btn!.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.style.overflow = open ? "hidden" : "";
 
-      const mobileLinks = mobileMenu.querySelectorAll(
-        ".mobile-nav-link, .mobile-nav-cta",
-      );
-      mobileLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-          mobileMenu.classList.remove("open");
-        });
-      });
+      if (open) {
+        document.addEventListener("keydown", onEscape);
+      } else {
+        document.removeEventListener("keydown", onEscape);
+      }
     }
+
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        btn!.focus();
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      const isOpen = menu.classList.contains("open");
+      setOpen(!isOpen);
+      if (!menu.classList.contains("open")) btn.focus();
+    });
+
+    const mobileLinks = menu.querySelectorAll(
+      ".mobile-nav-link, .mobile-nav-cta",
+    );
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
   });
 </script>

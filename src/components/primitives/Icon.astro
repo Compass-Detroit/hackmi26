@@ -1,0 +1,51 @@
+---
+/**
+ * Icon - inlines SVGs from `src/icons/` with normalized size + a11y.
+ *
+ * Reference icons by filename (without `.svg`).
+ * Pass `label` for meaningful icons; omit for decorative.
+ */
+const icons = import.meta.glob<string>("/src/icons/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+interface Props {
+  name: string;
+  size?: number | string;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 20, label, class: className } = Astro.props;
+
+const key = `/src/icons/${name}.svg`;
+const raw = icons[key];
+if (!raw)
+  throw new Error(
+    `Icon "${name}" not found. Available: ${Object.keys(icons)
+      .map((k) => k.split("/").pop()?.replace(".svg", ""))
+      .join(", ")}`,
+  );
+
+// inject size + a11y attrs into opening <svg> tag
+const attrs = [
+  `width="${size}"`,
+  `height="${size}"`,
+  `class="${["icon", className].filter(Boolean).join(" ")}"`,
+  label ? `aria-label="${label}" role="img"` : `aria-hidden="true"`,
+].join(" ");
+
+const svg = raw.replace("<svg", `<svg ${attrs}`);
+---
+
+<Fragment set:html={svg} />
+
+<style>
+  .icon {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+/**
+ * Section - page section shell with consistent vertical rhythm + container.
+ *
+ * Wires up `aria-labelledby` via the provided `labelledBy` id. Renders an
+ * inner `.section-container` unless `bare` is set.
+ */
+interface Props {
+  id?: string;
+  labelledBy?: string;
+  /** Container width preset. */
+  width?: "default" | "narrow" | "wide";
+  /** Vertical padding preset. */
+  padding?: "default" | "compact" | "loose" | "none";
+  /** When true, the inner container is omitted (slot is the direct child). */
+  bare?: boolean;
+  class?: string;
+  /** Inline style override (e.g. custom padding). */
+  style?: string;
+}
+
+const {
+  id,
+  labelledBy,
+  width = "default",
+  padding = "default",
+  bare = false,
+  class: className,
+  style,
+} = Astro.props;
+
+const widthClass =
+  width === "narrow"
+    ? "section-container--narrow"
+    : width === "wide"
+      ? "section-container--wide"
+      : undefined;
+
+const sectionClasses = ["page-section", `page-section--${padding}`, className];
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledBy}
+  class:list={sectionClasses}
+  style={style}
+>
+  {
+    bare ? (
+      <slot />
+    ) : (
+      <div class:list={["section-container", widthClass]}>
+        <slot />
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .page-section {
+    position: relative;
+  }
+
+  .page-section--default {
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .page-section--compact {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .page-section--loose {
+    padding: var(--space-3xl) var(--space-lg) var(--space-3xl);
+  }
+
+  .page-section--none {
+    padding: 0;
+  }
+
+  @media (max-width: 48rem) {
+    .page-section--default,
+    .page-section--compact,
+    .page-section--loose {
+      padding-inline: 1.25rem;
+    }
+  }
+</style>

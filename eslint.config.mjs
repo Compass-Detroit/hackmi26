@@ -10,7 +10,6 @@ export default [
 
   // Astro recommended rules (flat config)
   ...astro.configs["flat/recommended"],
-
   // TS/JS rules (scoped so it doesn't override the Astro parser)
   ...tseslint.configs.recommended.map((config) => ({
     ...config,

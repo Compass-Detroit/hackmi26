@@ -1,146 +1,46 @@
 ---
-// Rules, prizes, judges, criteria — placeholder content until handbook is ready
+import { LOGISTICS_CARDS } from "../data/logistics";
+import GlassCard from "./primitives/GlassCard.astro";
+import Section from "./primitives/Section.astro";
+import SectionHeader from "./primitives/SectionHeader.astro";
 ---
 
-<section class="logistics" id="logistics" aria-labelledby="logistics-heading">
-  <div class="container">
-    <h2 id="logistics-heading" class="section-title">Logistics for hackers</h2>
-    <p class="section-subtitle">
-      What to expect on the ground—full details will live in the participant
-      guide.
-    </p>
+<Section
+  id="logistics"
+  labelledBy="logistics-heading"
+  padding="compact"
+  style="padding-bottom: 5rem;"
+>
+  <SectionHeader
+    id="logistics-heading"
+    title="Logistics for hackers"
+    subtitle="What to expect on the ground—full details will live in the participant guide."
+  />
 
-    <div class="logistics-grid">
-      <article class="log-card glass" id="rules">
-        <h3 class="log-title">Rules</h3>
-        <ul class="log-list">
-          <li>
-            <strong>Team Size:</strong> Participate individually or in teams of up
-            to 5 people.
-          </li>
-          <li>
-            <strong>Eligibility:</strong> Must be 18 years or older (or age of emancipation
-            in your jurisdiction).
-          </li>
-          <li>
-            <strong>Technology Requirement:</strong> All submissions must use IBM
-            watsonx technology (watsonx.ai, watsonx.data, or IBM Granite models) or
-            other AI and Open Source technologies.
-          </li>
-          <li>
-            <strong>Originality:</strong> Projects must be original work created during
-            the hackathon period (May 15-17, 2026).
-          </li>
-          <li>
-            <strong>Deliverables:</strong> Each submission must include a video demonstration,
-            written problem/solution statements, a statement on technology utilized,
-            and optionally a working code repository.
-          </li>
-          <li>
-            Our goal is a fair, inclusive, and safe event for everyone. Full
-            code of conduct and detailed rules available in the official rules
-            document.
-          </li>
-        </ul>
-      </article>
-      <article class="log-card glass" id="prizes">
-        <h3 class="log-title">Prizes</h3>
-        <ul class="log-list">
-          <li>
-            Top teams will receive cash prizes, IBM and partner swag, mentorship
-            opportunities with Michigan tech leaders, and exclusive access to
-            IBM watsonx resources to continue developing their solutions.
-          </li>
-          <li>
-            Winners will also be featured in Hack Michigan media and invited to
-            present at future Michigan innovation events.
-          </li>
-          <li>
-            Full prize details and tiers will be announced at the opening
-            ceremony on May 15, 2026.
-          </li>
-        </ul>
-      </article>
-      <article class="log-card glass" id="judges">
-        <h3 class="log-title">Judges</h3>
-        <ul class="log-list">
-          <li>
-            Judges from industry and academia will join us in Detroit. Names and
-            backgrounds will be listed once the panel is confirmed.
-          </li>
-        </ul>
-      </article>
-      <article class="log-card glass" id="judging-criteria">
-        <h3 class="log-title">Judging criteria</h3>
-        <p class="log-copy">
-          Each submission will be scored on the following criteria (maximum 25
-          points total):
-        </p>
-        <ul class="log-list">
-          <li>
-            <strong>Completeness and Feasibility (5 points)</strong> — Is the solution
-            complete and realistic?
-          </li>
-          <li>
-            <strong>Effectiveness and Efficiency (5 points)</strong> — Does it solve
-            the problem well?
-          </li>
-          <li>
-            <strong>Design and Usability (5 points)</strong> — Is it well-designed
-            and user-friendly?
-          </li>
-          <li>
-            <strong>Creativity and Innovation (5 points)</strong> — Is it innovative
-            and creative?
-          </li>
-          <li>
-            <strong>Michigan Impact (5 points)</strong> — Does it keep value, jobs,
-            and opportunity in Michigan?
-          </li>
-          <li>
-            <strong>Your solution should also demonstrate:</strong> practical application
-            solving a real Michigan challenge, clear business value, implementability
-            as a working proof-of-concept, and strong storytelling that positions
-            Michigan as a technology innovator.
-          </li>
-          <li>
-            <strong>Final scores</strong> will be the average of judges' scores based
-            on your submitted deliverables.
-          </li>
-        </ul>
-      </article>
-    </div>
+  <div class="logistics-grid">
+    {
+      LOGISTICS_CARDS.map((card) => (
+        <GlassCard interactive hover="violet" id={card.id} class="log-card">
+          <h3 class="log-title">{card.title}</h3>
+          {card.preamble && <p class="log-copy">{card.preamble}</p>}
+          <ul class="log-list">
+            {card.rows.map((row) => (
+              <li>
+                {row.label && <strong>{row.label}</strong>}
+                {row.label && " "}
+                {row.text}
+              </li>
+            ))}
+          </ul>
+        </GlassCard>
+      ))
+    }
   </div>
-</section>
+</Section>
 
 <style>
-  .logistics {
-    padding: 4rem 2rem 5rem;
-    position: relative;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 0.75rem;
-    color: var(--color-accent-green);
-  }
-
-  .section-subtitle {
-    text-align: center;
-    color: var(--color-text-dim);
+  :global(#logistics .section-subtitle) {
     font-size: 1.5rem;
-    margin-bottom: 2.5rem;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .logistics-grid {
@@ -149,28 +49,9 @@
     gap: 1.5rem;
   }
 
-  .log-card {
-    padding: 1.75rem;
-    border-radius: 1rem;
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .glass {
-    background: rgba(30, 41, 59, 0.55);
-    border: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .log-card:hover {
-    border-color: rgba(139, 92, 246, 0.35);
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.08);
-  }
+  /* .log-card padding is in global.css (cross-component override) */
 
   .log-title {
-    font-family: var(--font-heading);
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--color-accent-green);
@@ -194,20 +75,18 @@
     color: var(--color-accent-green);
     font-weight: 600;
   }
+
   .log-list li {
     margin-bottom: 1.2rem;
   }
 
-  @media (max-width: 1185px) {
+  @media (max-width: 74rem) {
     .logistics-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  @media (max-width: 768px) {
-    .logistics {
-      padding: 3rem 1.25rem 4rem;
-    }
 
+  @media (max-width: 48rem) {
     .logistics-grid {
       grid-template-columns: 1fr;
     }

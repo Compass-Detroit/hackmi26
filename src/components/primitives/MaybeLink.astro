@@ -1,0 +1,33 @@
+---
+/**
+ * MaybeLink - renders an anchor when `href` is set, otherwise a passthrough span.
+ *
+ * Used for sponsor-logo wrappers where a website URL may or may not be present.
+ * External http(s) hrefs get `target=_blank` + safe `rel` automatically.
+ */
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"a">, "href"> {
+  /** Optional URL; when omitted a `<span>` is rendered instead. */
+  href?: string | null | undefined;
+}
+
+const { href, class: className, ...rest } = Astro.props;
+
+const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
+const linkAttrs = isExternal
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+{
+  href ? (
+    <a href={href} class:list={[className]} {...linkAttrs} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <span class:list={[className]} {...rest}>
+      <slot />
+    </span>
+  )
+}

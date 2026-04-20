@@ -1,5 +1,6 @@
 ---
-import { IBM_AGENTIC_CAMPAIGN_URL } from "../lib/constants";
+import Button from "./primitives/Button.astro";
+import { EVENT_URLS } from "../data/event";
 ---
 
 <section class="final-cta" id="agentic" aria-labelledby="final-cta-heading">
@@ -12,14 +13,9 @@ import { IBM_AGENTIC_CAMPAIGN_URL } from "../lib/constants";
       Continue your HackMI journey on the IBM Agentic experience: explore
       tooling, resources, and registration paths in one place.
     </p>
-    <a
-      href={IBM_AGENTIC_CAMPAIGN_URL}
-      class="btn btn-mega"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Button href={EVENT_URLS.hackerRegistration} variant="mega">
       Go to IBM Agentic
-    </a>
+    </Button>
   </div>
 </section>
 
@@ -27,15 +23,15 @@ import { IBM_AGENTIC_CAMPAIGN_URL } from "../lib/constants";
   .final-cta {
     margin: 2rem 1.5rem 4rem;
     padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
-    border-radius: 1.25rem;
+    border-radius: var(--radius-xl);
     background: linear-gradient(
       135deg,
-      rgba(59, 130, 246, 0.25) 0%,
-      rgba(139, 92, 246, 0.35) 50%,
-      rgba(236, 72, 153, 0.2) 100%
+      rgb(59 130 246 / 25%) 0%,
+      rgb(139 92 246 / 35%) 50%,
+      rgb(236 72 153 / 20%) 100%
     );
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgb(148 163 184 / 35%);
+    box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
     text-align: center;
     max-width: 960px;
     margin-left: auto;
@@ -58,7 +54,6 @@ import { IBM_AGENTIC_CAMPAIGN_URL } from "../lib/constants";
   }
 
   .headline {
-    font-family: var(--font-heading);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     color: var(--color-text);
@@ -73,38 +68,9 @@ import { IBM_AGENTIC_CAMPAIGN_URL } from "../lib/constants";
     margin-bottom: 1.75rem;
   }
 
-  .btn-mega {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2rem;
-    font-size: 1.05rem;
-    font-weight: 700;
-    font-family: var(--font-body);
-    border-radius: 0.5rem;
-    text-decoration: none;
-    color: #0f172a;
-    background: #f8fafc;
-    border: none;
-    cursor: pointer;
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-  }
-
-  .btn-mega:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .final-cta {
       margin: 1.5rem 1rem 3rem;
-    }
-
-    .btn-mega {
-      width: 100%;
     }
   }
 </style>

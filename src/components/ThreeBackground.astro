@@ -43,7 +43,6 @@
 <script>
   import * as THREE from "three";
 
-  // Three.js animation setup and lifecycle management
   let scene: THREE.Scene | null = null;
   let camera: THREE.PerspectiveCamera | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
@@ -60,15 +59,15 @@
   let mouseY = 0;
   let time = 0;
   let isPaused = false;
+  let isOffscreen = false;
   let pauseButtonHandler: (() => void) | null = null;
+  let observer: IntersectionObserver | null = null;
 
-  // Mouse move handler
   const handleMouseMove = (event: MouseEvent) => {
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
   };
 
-  // Resize handler
   const handleResize = () => {
     if (!camera || !renderer) return;
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -76,15 +75,21 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
-  // Initialize the Three.js scene
+  function shouldAnimate() {
+    return !isPaused && !isOffscreen;
+  }
+
   function initThreeAnimation() {
     const canvas = document.getElementById("three-canvas") as HTMLCanvasElement;
     if (!canvas) return;
 
-    // Clean up any previous instance (important for Astro view transitions)
     cleanupThreeAnimation();
 
-    // Scene, camera, and renderer
+    // Auto-pause for reduced motion
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(
       75,
@@ -99,35 +104,30 @@
     });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     camera.position.z = 5;
 
-    // Particle system
+    // Particles
     const particlesGeometry = new THREE.BufferGeometry();
     const particlesCount = 5000;
     const posArray = new Float32Array(particlesCount * 3);
     const colorArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Random positions
       posArray[i] = (Math.random() - 0.5) * 100;
       posArray[i + 1] = (Math.random() - 0.5) * 100;
       posArray[i + 2] = (Math.random() - 0.5) * 100;
 
-      // Random colors (purple, pink, blue family)
       const colorType = Math.random();
       if (colorType < 0.33) {
-        // Purple
         colorArray[i] = 0.66;
         colorArray[i + 1] = 0.33;
         colorArray[i + 2] = 0.97;
       } else if (colorType < 0.66) {
-        // Pink
         colorArray[i] = 0.93;
         colorArray[i + 1] = 0.28;
         colorArray[i + 2] = 0.6;
       } else {
-        // Blue
         colorArray[i] = 0.23;
         colorArray[i + 1] = 0.51;
         colorArray[i + 2] = 0.96;
@@ -143,7 +143,6 @@
       new THREE.BufferAttribute(colorArray, 3),
     );
 
-    // Particle material
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.15,
       vertexColors: true,
@@ -155,7 +154,7 @@
     particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    // Rotating torus (donut)
+    // Tori
     const torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100);
     const torusMaterial = new THREE.MeshBasicMaterial({
       color: 0xa855f7,
@@ -166,7 +165,6 @@
     torus = new THREE.Mesh(torusGeometry, torusMaterial);
     scene.add(torus);
 
-    // Second torus
     const torus2Geometry = new THREE.TorusGeometry(15, 2, 16, 100);
     const torus2Material = new THREE.MeshBasicMaterial({
       color: 0xec4899,
@@ -178,14 +176,28 @@
     torus2.rotation.x = Math.PI / 4;
     scene.add(torus2);
 
-    // Event listeners
     document.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", handleResize);
 
-    // Start animation loop
+    // IntersectionObserver: pause when offscreen
+    observer = new IntersectionObserver(
+      ([entry]) => {
+        isOffscreen = !entry.isIntersecting;
+        if (shouldAnimate() && animationId === null) animate();
+        if (!shouldAnimate() && animationId !== null) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      },
+      { threshold: 0 },
+    );
+    observer.observe(canvas);
+
     time = 0;
-    isPaused = false;
-    animate();
+    isPaused = prefersReduced;
+    isOffscreen = false;
+
+    if (shouldAnimate()) animate();
     setupPauseButton();
   }
 
@@ -195,13 +207,14 @@
     const pauseIcon = btn.querySelector(".three-pause-icon--pause");
     const playIcon = btn.querySelector(".three-pause-icon--play");
     btn.setAttribute("aria-pressed", isPaused ? "true" : "false");
-    if (isPaused) {
-      btn.setAttribute("aria-label", "Resume background animation");
-      btn.setAttribute("title", "Resume background animation");
-    } else {
-      btn.setAttribute("aria-label", "Pause background animation");
-      btn.setAttribute("title", "Pause background animation");
-    }
+    btn.setAttribute(
+      "aria-label",
+      isPaused ? "Resume background animation" : "Pause background animation",
+    );
+    btn.setAttribute(
+      "title",
+      isPaused ? "Resume background animation" : "Pause background animation",
+    );
     if (pauseIcon && playIcon) {
       pauseIcon.toggleAttribute("hidden", isPaused);
       playIcon.toggleAttribute("hidden", !isPaused);
@@ -210,13 +223,13 @@
 
   function setPaused(paused: boolean) {
     isPaused = paused;
-    if (isPaused) {
+    if (!shouldAnimate()) {
       if (animationId !== null) {
         cancelAnimationFrame(animationId);
         animationId = null;
       }
     } else {
-      animate();
+      if (animationId === null) animate();
     }
     syncPauseButton();
   }
@@ -224,9 +237,8 @@
   function setupPauseButton() {
     const btn = document.getElementById("three-pause-toggle");
     if (!btn) return;
-    if (pauseButtonHandler) {
+    if (pauseButtonHandler)
       btn.removeEventListener("click", pauseButtonHandler);
-    }
     pauseButtonHandler = () => setPaused(!isPaused);
     btn.addEventListener("click", pauseButtonHandler);
     syncPauseButton();
@@ -234,19 +246,16 @@
 
   function cleanupPauseButton() {
     const btn = document.getElementById("three-pause-toggle");
-    if (btn && pauseButtonHandler) {
+    if (btn && pauseButtonHandler)
       btn.removeEventListener("click", pauseButtonHandler);
-    }
     pauseButtonHandler = null;
     isPaused = false;
   }
 
-  // Animation loop
   function animate() {
     if (!scene || !camera || !renderer || !particlesMesh || !torus || !torus2)
       return;
-
-    if (isPaused) {
+    if (!shouldAnimate()) {
       animationId = null;
       return;
     }
@@ -254,11 +263,9 @@
     animationId = requestAnimationFrame(animate);
     time += 0.001;
 
-    // パーティクルの回転とうねり
     particlesMesh.rotation.y = time * 0.3;
     particlesMesh.rotation.x = Math.sin(time) * 0.1;
 
-    // トーラスの回転
     torus.rotation.x += 0.01;
     torus.rotation.y += 0.005;
     torus.rotation.z += 0.003;
@@ -267,7 +274,6 @@
     torus2.rotation.y += 0.01;
     torus2.rotation.z += 0.002;
 
-    // マウス追従
     camera.position.x = mouseX * 2;
     camera.position.y = mouseY * 2;
     camera.lookAt(scene.position);
@@ -275,57 +281,49 @@
     renderer.render(scene, camera);
   }
 
-  // Cleanup
   function cleanupThreeAnimation() {
     cleanupPauseButton();
 
-    // Stop animation loop
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+
     if (animationId !== null) {
       cancelAnimationFrame(animationId);
       animationId = null;
     }
 
-    // Remove event listeners
     document.removeEventListener("mousemove", handleMouseMove);
     window.removeEventListener("resize", handleResize);
 
-    // Dispose Three.js objects
     if (particlesMesh) {
       particlesMesh.geometry.dispose();
       particlesMesh.material.dispose();
       particlesMesh = null;
     }
-
     if (torus) {
       torus.geometry.dispose();
       torus.material.dispose();
       torus = null;
     }
-
     if (torus2) {
       torus2.geometry.dispose();
       torus2.material.dispose();
       torus2 = null;
     }
-
     if (renderer) {
       renderer.dispose();
       renderer = null;
     }
-
     scene = null;
     camera = null;
   }
 
-  // Initialize on Astro page load (view transitions safe)
-  document.addEventListener("astro:page-load", () => {
-    initThreeAnimation();
-  });
-
-  // Cleanup before navigating away
-  document.addEventListener("astro:before-preparation", () => {
-    cleanupThreeAnimation();
-  });
+  document.addEventListener("astro:page-load", () => initThreeAnimation());
+  document.addEventListener("astro:before-preparation", () =>
+    cleanupThreeAnimation(),
+  );
 </script>
 
 <style>
@@ -352,23 +350,23 @@
     padding: 0;
     border: 1px solid var(--color-border);
     border-radius: 0.65rem;
-    background: rgba(15, 23, 42, 0.88);
+    background: rgb(15 23 42 / 88%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: var(--color-text);
     cursor: pointer;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 35%);
     transition:
-      border-color 0.2s ease,
-      color 0.2s ease,
-      background 0.2s ease;
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease,
+      background var(--duration-fast) ease;
     touch-action: manipulation;
   }
 
   .three-pause-btn:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
-    background: rgba(30, 41, 59, 0.95);
+    background: rgb(30 41 59 / 95%);
   }
 
   .three-pause-btn:focus-visible {
@@ -386,7 +384,7 @@
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .three-pause-btn {
       bottom: 1rem;
       right: 1rem;

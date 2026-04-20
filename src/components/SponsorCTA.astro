@@ -1,5 +1,7 @@
 ---
-import { EXTERNAL_URLS } from "../lib/constants";
+import Button from "./primitives/Button.astro";
+import GlassCard from "./primitives/GlassCard.astro";
+import { EVENT_URLS } from "../data/event";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -9,8 +11,8 @@ const base = import.meta.env.BASE_URL;
   id="sponsor-cta"
   aria-labelledby="sponsor-cta-heading"
 >
-  <div class="sponsor-cta-inner glass">
-    <p class="eyebrow">Partners &amp; supporters</p>
+  <GlassCard as="div" elevation="raised" class="sponsor-cta-inner">
+    <p class="section-eyebrow">Partners &amp; supporters</p>
     <h2 id="sponsor-cta-heading" class="headline">
       Support the Next Wave of Michigan Innovation
     </h2>
@@ -20,17 +22,12 @@ const base = import.meta.env.BASE_URL;
       Detroit.
     </p>
     <div class="actions">
-      <a
-        href={EXTERNAL_URLS.SPONSOR_INQUIRY}
-        class="btn btn-primary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Become a Sponsor
-      </a>
-      <a href={`${base}#event-details`} class="btn btn-ghost">Event details</a>
+      <Button href={EVENT_URLS.sponsorInquiry}> Become a Sponsor </Button>
+      <Button href={`${base}#event-details`} variant="secondary">
+        Event details
+      </Button>
     </div>
-  </div>
+  </GlassCard>
 </section>
 
 <style>
@@ -39,33 +36,15 @@ const base = import.meta.env.BASE_URL;
     position: relative;
   }
 
-  .sponsor-cta-inner {
+  .sponsor-cta :global(.sponsor-cta-inner) {
     max-width: 900px;
     margin: 0 auto;
     padding: 2.5rem 2rem;
-    border-radius: 1.25rem;
+    border-radius: 20px;
     text-align: center;
   }
 
-  .glass {
-    background: rgba(30, 41, 59, 0.65);
-    border: 1px solid var(--color-border);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  }
-
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-primary);
-    margin-bottom: 0.75rem;
-  }
-
   .headline {
-    font-family: var(--font-heading);
     font-size: clamp(1.5rem, 4vw, 2.25rem);
     font-weight: 700;
     color: var(--color-text);
@@ -88,48 +67,12 @@ const base = import.meta.env.BASE_URL;
     justify-content: center;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-body);
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-    cursor: pointer;
+  /* Override button padding to match live (14px 24px) */
+  .actions :global(.btn) {
+    padding: 14px 24px;
   }
 
-  .btn-primary {
-    background: var(--color-accent-orange);
-    color: #000;
-    text-transform: uppercase;
-
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
-  }
-
-  .btn-primary:hover {
-    background: var(--color-accent-orange-hover);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--color-accent-orange);
-    border: 3px solid var(--color-accent-orange);
-    text-transform: uppercase;
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--color-accent-orange-hover);
-    color: var(--color-accent-orange-hover);
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .sponsor-cta {
       padding: 0 1.25rem 1.5rem;
     }
@@ -137,10 +80,6 @@ const base = import.meta.env.BASE_URL;
     .actions {
       flex-direction: column;
       align-items: stretch;
-    }
-
-    .btn {
-      width: 100%;
     }
   }
 </style>
