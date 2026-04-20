@@ -5,8 +5,11 @@
  * Reference icons by filename (without `.svg`).
  * Pass `label` for meaningful icons; omit for decorative.
  */
-import fs from "node:fs";
-import path from "node:path";
+const icons = import.meta.glob<string>("/src/icons/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 interface Props {
   name: string;
@@ -17,10 +20,16 @@ interface Props {
 
 const { name, size = 20, label, class: className } = Astro.props;
 
-const svgPath = path.resolve(`src/icons/${name}.svg`);
-let raw = fs.readFileSync(svgPath, "utf-8");
+const key = `/src/icons/${name}.svg`;
+const raw = icons[key];
+if (!raw)
+  throw new Error(
+    `Icon "${name}" not found. Available: ${Object.keys(icons)
+      .map((k) => k.split("/").pop()?.replace(".svg", ""))
+      .join(", ")}`,
+  );
 
-// inject size + a11y attrs into the opening <svg> tag
+// inject size + a11y attrs into opening <svg> tag
 const attrs = [
   `width="${size}"`,
   `height="${size}"`,
@@ -28,10 +37,10 @@ const attrs = [
   label ? `aria-label="${label}" role="img"` : `aria-hidden="true"`,
 ].join(" ");
 
-raw = raw.replace("<svg", `<svg ${attrs}`);
+const svg = raw.replace("<svg", `<svg ${attrs}`);
 ---
 
-<Fragment set:html={raw} />
+<Fragment set:html={svg} />
 
 <style>
   .icon {

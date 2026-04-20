@@ -27,6 +27,7 @@ import SectionHeader from "./primitives/SectionHeader.astro";
             {card.rows.map((row) => (
               <li>
                 {row.label && <strong>{row.label}</strong>}
+                {row.label && " "}
                 {row.text}
               </li>
             ))}

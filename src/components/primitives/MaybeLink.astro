@@ -26,7 +26,7 @@ const linkAttrs = isExternal
       <slot />
     </a>
   ) : (
-    <span class:list={[className]}>
+    <span class:list={[className]} {...rest}>
       <slot />
     </span>
   )

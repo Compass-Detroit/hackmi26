@@ -360,19 +360,25 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       btn!.setAttribute("aria-expanded", String(open));
       btn!.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
+
+      if (open) {
+        document.addEventListener("keydown", onEscape);
+      } else {
+        document.removeEventListener("keydown", onEscape);
+      }
+    }
+
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        btn!.focus();
+      }
     }
 
     btn.addEventListener("click", () => {
       const isOpen = menu.classList.contains("open");
       setOpen(!isOpen);
       if (!menu.classList.contains("open")) btn.focus();
-    });
-
-    menu.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-        btn.focus();
-      }
     });
 
     const mobileLinks = menu.querySelectorAll(

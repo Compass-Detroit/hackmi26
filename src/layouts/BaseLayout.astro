@@ -222,7 +222,13 @@ const selfHostedFontFaces = `
         window.matchMedia("(pointer: fine)").matches &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+      let cursorAC: AbortController | undefined;
+
       function initCursor() {
+        cursorAC?.abort();
+        cursorAC = new AbortController();
+        const { signal } = cursorAC;
+
         const cursor = document.querySelector<HTMLElement>(".cursor-follower");
         if (!cursor) return;
 
@@ -231,22 +237,34 @@ const selfHostedFontFaces = `
           return;
         }
 
-        document.addEventListener("mousemove", (e) => {
-          cursor.style.left = `${e.clientX}px`;
-          cursor.style.top = `${e.clientY}px`;
-        });
+        document.addEventListener(
+          "mousemove",
+          (e) => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+          },
+          { signal },
+        );
 
         document.querySelectorAll("a, button, .card").forEach((el) => {
-          el.addEventListener("mouseenter", () => {
-            cursor.style.width = "40px";
-            cursor.style.height = "40px";
-            cursor.style.backgroundColor = "rgba(168, 85, 247, 0.2)";
-          });
-          el.addEventListener("mouseleave", () => {
-            cursor.style.width = "20px";
-            cursor.style.height = "20px";
-            cursor.style.backgroundColor = "transparent";
-          });
+          el.addEventListener(
+            "mouseenter",
+            () => {
+              cursor.style.width = "40px";
+              cursor.style.height = "40px";
+              cursor.style.backgroundColor = "rgba(168, 85, 247, 0.2)";
+            },
+            { signal },
+          );
+          el.addEventListener(
+            "mouseleave",
+            () => {
+              cursor.style.width = "20px";
+              cursor.style.height = "20px";
+              cursor.style.backgroundColor = "transparent";
+            },
+            { signal },
+          );
         });
       }
 
