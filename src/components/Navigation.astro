@@ -34,6 +34,12 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
         >
           Home
         </a>
+        <a
+          href={withBase(base, "/hackathon/")}
+          class:list={["nav-link", { active: relativePath.startsWith("/hackathon") }]}
+        >
+          Hackathon
+        </a>
         {
           SECTION_ANCHORS.map((a) => (
             <a href={withBase(base, a.href)} class="nav-link">
@@ -89,6 +95,12 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
         class:list={["mobile-nav-link", { active: relativePath === "/" }]}
       >
         Home
+      </a>
+      <a
+        href={withBase(base, "/hackathon/")}
+        class:list={["mobile-nav-link", { active: relativePath.startsWith("/hackathon") }]}
+      >
+        Hackathon
       </a>
       {
         SECTION_ANCHORS.map((a) => (
