@@ -1,0 +1,159 @@
+---
+import { getTeams, getTeam, urlFor } from "../../../lib/sanity";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ThreeBackground from "../../../components/ThreeBackground.astro";
+import Navigation from "../../../components/Navigation.astro";
+import Footer from "../../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const allTeams = await getTeams();
+  return allTeams.map((team: any) => ({
+    params: { slug: team.slug.current },
+  }));
+}
+
+const { slug } = Astro.params;
+const team = await getTeam(slug);
+
+if (!team) {
+  return Astro.redirect("/404");
+}
+---
+
+<BaseLayout title={`${team.name} - Team`} description={`Projects by ${team.name}`}>
+  <ThreeBackground />
+  <Navigation />
+
+  <main id="main-content" class="team-detail-page" tabindex="-1">
+    <div class="container">
+      <div class="team-header">
+        {team.logo && (
+          <img src={urlFor(team.logo).width(200).height(200).url()} alt={team.name} class="team-logo" />
+        )}
+        <h1 class="team-name">{team.name}</h1>
+      </div>
+
+      <section class="members-section">
+        <h2>Team Members</h2>
+        <div class="members-list">
+          {team.members?.map((member: any) => (
+            <div class="member-card">
+              <h3>{member.name}</h3>
+              <p>{member.role}</p>
+              {member.github && (
+                <a href={member.github} target="_blank" class="github-link">GitHub</a>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="projects-section">
+        <h2>Projects</h2>
+        <div class="project-grid">
+          {team.projects?.map((project: any) => (
+            <a href={`/hackathon/project/${project.slug?.current}/`} class="project-card">
+              {project.mainImage && (
+                <img src={urlFor(project.mainImage).width(400).url()} alt={project.title} />
+              )}
+              <div class="project-info">
+                <h3>{project.title}</h3>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .team-detail-page {
+    padding-top: calc(var(--nav-height) + 4rem);
+    min-height: 100vh;
+    padding-bottom: 5rem;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .team-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .team-logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  .team-name {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+  }
+  .members-section, .projects-section {
+    margin-bottom: 4rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+  }
+  .members-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .member-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+  }
+  .member-card h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+  }
+  .member-card p {
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .github-link {
+    color: var(--color-primary, #6366f1);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .project-card img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  .project-info {
+    padding: 1rem;
+  }
+</style>
