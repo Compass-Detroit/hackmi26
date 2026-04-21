@@ -1,0 +1,116 @@
+---
+import MaybeLink from "./primitives/MaybeLink.astro";
+import { publicAssetUrl } from "../data/siteLogos";
+
+const base = import.meta.env.BASE_URL;
+
+const devs = [
+  {
+    src: "/images/devs/shrinkray_logo.webp",
+    alt: "Shrinkray Interactive, a full-service creative software design, development, and maintenance company",
+    href: "https://shrinkraylabs.com/",
+    label: "Shrinkray Interactive",
+  },
+  {
+    src: "/images/devs/shumunov_solutions_logo.png",
+    alt: "Shumunov Solutions",
+    href: "https://www.shumunovsolutions.com/",
+    label: "Shumunov Solutions",
+  },
+] as const;
+---
+
+<section class="built-by-row" aria-labelledby="built-by-heading">
+  <h3 id="built-by-heading" class="built-by-heading">Website Development</h3>
+  <ul class="built-by-slots">
+    {
+      devs.map((dev) => (
+        <li class="dev-slot" aria-label={`Web development — ${dev.alt}`}>
+          <MaybeLink href={dev.href} class="dev-logo-link">
+            <img
+              class="dev-logo"
+              src={publicAssetUrl(base, dev.src)}
+              alt={dev.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </MaybeLink>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .built-by-row {
+    text-align: center;
+    margin-top: 2.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(148 163 184 / 15%);
+  }
+
+  .built-by-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--color-accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .built-by-slots {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 320px));
+    justify-content: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dev-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 7 / 3;
+    padding: 0.75rem 2rem;
+    background: rgb(15 23 42 / 50%);
+    border: 1px dashed rgb(148 163 184 / 45%);
+    border-radius: 12px;
+    transition:
+      border-color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+  }
+
+  .dev-slot:hover {
+    border-color: var(--color-accent-orange);
+    box-shadow: 0 0 18px rgb(251 191 36 / 18%);
+  }
+
+  .dev-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dev-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .dev-slot:hover .dev-logo {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 40rem) {
+    .built-by-slots {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+  }
+</style>
