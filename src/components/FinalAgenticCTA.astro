@@ -16,6 +16,9 @@ import { EVENT_URLS } from "../data/event";
     <Button href={EVENT_URLS.hackerRegistration} variant="mega">
       Go to IBM Agentic
     </Button>
+    <p class="access-code-hint">
+      Access code: <span class="access-code">HACKMI</span>
+    </p>
   </div>
 </section>
 
@@ -66,6 +69,28 @@ import { EVENT_URLS } from "../data/event";
     line-height: 1.65;
     color: var(--color-text-dim);
     margin-bottom: 1.75rem;
+  }
+
+  .access-code-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 1.25rem;
+    opacity: 0.8;
+  }
+
+  .access-code {
+    display: inline-block;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--color-accent-orange);
+    background: rgb(251 191 36 / 12%);
+    padding: 0.1em 0.45em;
+    border-radius: 4px;
+    border: 1px solid rgb(251 191 36 / 50%);
+    letter-spacing: 0.12em;
   }
 
   @media (max-width: 48rem) {
