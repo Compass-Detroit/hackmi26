@@ -1,16 +1,18 @@
 ---
-import { getHackathonProjects, urlFor } from "../../lib/sanity";
 import {
+  getProjects,
+  urlFor,
   HACKATHON_CARD_DESCRIPTION_CHARS,
   portableTextToPlainText,
   truncatePlainText,
-} from "../../lib/portableText";
+  type HackathonProjectPreview,
+} from "../../lib/sanity";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ThreeBackground from "../../components/ThreeBackground.astro";
 import Navigation from "../../components/Navigation.astro";
 import Footer from "../../components/Footer.astro";
 
-const projects = await getHackathonProjects();
+const projects: HackathonProjectPreview[] = await getProjects();
 ---
 
 <BaseLayout
@@ -31,75 +33,85 @@ const projects = await getHackathonProjects();
 
       <div class="project-grid">
         {
-          projects.map((project: any) => {
-            const descriptionPlain = portableTextToPlainText(project.description);
+          projects.length === 0 && (
+            <p class="empty-state">
+              Project submissions will appear here once teams start publishing.
+              Watch this space.
+            </p>
+          )
+        }
+        {
+          projects.map((project) => {
+            const descriptionPlain = portableTextToPlainText(
+              project.description,
+            );
             const descriptionPreview = truncatePlainText(
               descriptionPlain,
               HACKATHON_CARD_DESCRIPTION_CHARS,
             );
             return (
-            <article class="project-card">
-              <a
-                href={`/hackathon/project/${project.slug?.current}/`}
-                class="card-link"
-              >
-                {project.mainImage && (
-                  <div class="image-wrapper">
-                    <img
-                      src={urlFor(project.mainImage).width(600).url()}
-                      alt={project.title}
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-              </a>
-              <div class="content">
-                {project.team?.slug?.current && (
-                  <a
-                    href={`/hackathon/team/${project.team.slug.current}/`}
-                    class="team-badge"
-                  >
-                    {project.team.name}
-                  </a>
-                )}
+              <article class="project-card">
                 <a
-                  href={`/hackathon/project/${project.slug?.current}/`}
-                  class="title-link"
+                  href={`/hackathon/project/${project.slug.current}/`}
+                  class="card-link"
                 >
-                  <h2>{project.title}</h2>
+                  {project.mainImage && (
+                    <div class="image-wrapper">
+                      <img
+                        src={urlFor(project.mainImage).width(600).url()}
+                        alt={project.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </a>
-                {descriptionPreview && (
-                  <p class="description">{descriptionPreview}</p>
-                )}
-
-                <div class="tags">
-                  {project.technologies?.map((tech: string) => (
-                    <span class="tag">{tech}</span>
-                  ))}
-                </div>
-
-                <div class="links">
-                  {project.githubUrl && (
+                <div class="content">
+                  {project.team?.slug?.current && (
                     <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={`/hackathon/team/${project.team.slug.current}/`}
+                      class="team-badge"
                     >
-                      Project on GitHub
+                      {project.team.name}
                     </a>
                   )}
-                  {project.demoUrl && (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      See Our Demo
-                    </a>
+                  <a
+                    href={`/hackathon/project/${project.slug.current}/`}
+                    class="title-link"
+                  >
+                    <h2>{project.title}</h2>
+                  </a>
+                  {descriptionPreview && (
+                    <p class="description">{descriptionPreview}</p>
                   )}
+
+                  <div class="tags">
+                    {project.technologies?.map((tech) => (
+                      <span class="tag">{tech}</span>
+                    ))}
+                  </div>
+
+                  <div class="links">
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Project on GitHub
+                      </a>
+                    )}
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        See Our Demo
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
             );
           })
         }
@@ -145,6 +157,17 @@ const projects = await getHackathonProjects();
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 2rem;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-dim);
+    font-size: 1.05rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-glass-bg, rgb(30 41 59 / 55%));
   }
 
   .project-card {

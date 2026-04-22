@@ -1,8 +1,9 @@
 ---
 import {
-  getHackathonProjectSlugs,
-  getHackathonProject,
+  getProject,
+  getProjectSlugs,
   urlFor,
+  type HackathonProject,
 } from "../../../lib/sanity";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ThreeBackground from "../../../components/ThreeBackground.astro";
@@ -11,22 +12,18 @@ import Footer from "../../../components/Footer.astro";
 import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
-  const slugs = await getHackathonProjectSlugs();
-  return slugs.map((slug: string) => ({
-    params: { slug },
-  }));
+  const slugs = await getProjectSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
-const { slug } = Astro.params;
-const project = await getHackathonProject(slug);
+const { slug } = Astro.params as { slug: string };
+const project: HackathonProject | null = await getProject(slug);
 
 if (!project) {
   return Astro.redirect("/404");
 }
 
-const descriptionBlocks = Array.isArray(project.description)
-  ? project.description
-  : [];
+const descriptionBlocks = project.description ?? [];
 const hasDescription = descriptionBlocks.length > 0;
 ---
 

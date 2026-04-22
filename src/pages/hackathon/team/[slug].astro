@@ -1,26 +1,34 @@
 ---
-import { getTeams, getTeam, urlFor } from "../../../lib/sanity";
+import {
+  getTeam,
+  getTeamSlugs,
+  urlFor,
+  type TeamMember,
+  type TeamWithProjects,
+} from "../../../lib/sanity";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ThreeBackground from "../../../components/ThreeBackground.astro";
 import Navigation from "../../../components/Navigation.astro";
 import Footer from "../../../components/Footer.astro";
 
 export async function getStaticPaths() {
-  const allTeams = await getTeams();
-  return allTeams.map((team: any) => ({
-    params: { slug: team.slug.current },
-  }));
+  const slugs = await getTeamSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
-const { slug } = Astro.params;
-const team = await getTeam(slug);
+const { slug } = Astro.params as { slug: string };
+const team: TeamWithProjects | null = await getTeam(slug);
 
 if (!team) {
   return Astro.redirect("/404");
 }
 
-/** Optional profile URLs from Sanity (team member object). */
-const MEMBER_SOCIALS: { field: string; label: string }[] = [
+/**
+ * Fields on `TeamMember` that hold an external profile URL. Kept in this
+ * explicit list (rather than iterating keys) so rendering order is stable
+ * and adding a new social is a one-line change.
+ */
+const MEMBER_SOCIAL_FIELDS = [
   { field: "github", label: "GitHub" },
   { field: "linkedin", label: "LinkedIn" },
   { field: "twitter", label: "X" },
@@ -28,12 +36,10 @@ const MEMBER_SOCIALS: { field: string; label: string }[] = [
   { field: "mastodon", label: "Mastodon" },
   { field: "instagram", label: "Instagram" },
   { field: "website", label: "Website" },
-];
-
-type TeamMember = Record<string, string | undefined>;
+] as const satisfies ReadonlyArray<{ field: keyof TeamMember; label: string }>;
 
 function memberSocialLinks(member: TeamMember) {
-  return MEMBER_SOCIALS.filter(({ field }) => {
+  return MEMBER_SOCIAL_FIELDS.filter(({ field }) => {
     const v = member[field];
     return typeof v === "string" && v.trim().length > 0;
   });
@@ -66,7 +72,7 @@ function memberSocialLinks(member: TeamMember) {
         <h2>Team Members</h2>
         <div class="members-list">
           {
-            team.members?.map((member: TeamMember) => {
+            team.members?.map((member) => {
               const socials = memberSocialLinks(member);
               return (
                 <div class="member-card">
@@ -99,9 +105,9 @@ function memberSocialLinks(member: TeamMember) {
         <h2>Projects</h2>
         <div class="project-grid">
           {
-            team.projects?.map((project: any) => (
+            team.projects?.map((project) => (
               <a
-                href={`/hackathon/project/${project.slug?.current}/`}
+                href={`/hackathon/project/${project.slug.current}/`}
                 class="project-card"
               >
                 {project.mainImage && (

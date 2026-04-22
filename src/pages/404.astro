@@ -1,0 +1,103 @@
+---
+/**
+ * 404 page. Reached both by Astro's built-in not-found handling and by
+ * explicit `Astro.redirect("/404")` in dynamic routes when a slug does not
+ * resolve to a Sanity document.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ThreeBackground from "../components/ThreeBackground.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Not Found - Hack Michigan"
+  description="The page you are looking for does not exist."
+>
+  <ThreeBackground />
+  <Navigation />
+
+  <main id="main-content" class="not-found" tabindex="-1">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1 class="title">We couldn't find that page.</h1>
+      <p class="body">
+        The link may be broken, or the content may have moved. Try heading back
+        to the homepage or browsing hackathon projects.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Home</a>
+        <a class="btn btn-ghost" href="/hackathon/">Projects</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    padding-top: calc(var(--nav-height) + 6rem);
+    padding-bottom: 6rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+  .eyebrow {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+  }
+  .title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+  .body {
+    color: var(--color-text-dim);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition:
+      background var(--duration-fast, 0.15s) ease,
+      border-color var(--duration-fast, 0.15s) ease;
+  }
+  .btn-primary {
+    background: var(--color-primary, #6366f1);
+    color: white;
+  }
+  .btn-primary:hover {
+    filter: brightness(1.1);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--color-text);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+</style>
