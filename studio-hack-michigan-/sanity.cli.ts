@@ -1,9 +1,10 @@
 import {defineCliConfig} from 'sanity/cli'
+import {sanityEnv} from './sanity.env'
 
 export default defineCliConfig({
   api: {
-    projectId: 'f188znys',
-    dataset: 'production'
+    projectId: sanityEnv.projectId,
+    dataset: sanityEnv.dataset,
   },
   deployment: {
     /**
@@ -11,5 +12,5 @@ export default defineCliConfig({
      * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
      */
     autoUpdates: true,
-  }
+  },
 })

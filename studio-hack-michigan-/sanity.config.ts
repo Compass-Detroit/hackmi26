@@ -2,13 +2,14 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
+import {sanityEnv} from './sanity.env'
 
 export default defineConfig({
   name: 'default',
   title: 'Hack Michigan ',
 
-  projectId: 'f188znys',
-  dataset: 'production',
+  projectId: sanityEnv.projectId,
+  dataset: sanityEnv.dataset,
 
   plugins: [structureTool(), visionTool()],
 

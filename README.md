@@ -50,12 +50,20 @@ npm run preview
 
 ## Environment
 
-Optional overrides for Sanity (defaults are set in `astro.config.mjs` for local dev):
+**Astro site** (`astro.config.mjs`) reads public Sanity vars via Vite `loadEnv` from the **repo root** `.env` files. Defaults match the shared HackMI project if unset:
 
 ```env
 PUBLIC_SANITY_PROJECT_ID=your_project_id
 PUBLIC_SANITY_DATASET=production
 ```
+
+**Standalone Studio** (`studio-hack-michigan-/`) resolves project and dataset in `sanity.env.ts`:
+
+1. `SANITY_STUDIO_PROJECT_ID` / `SANITY_STUDIO_DATASET` — use these to point local Studio or CLI at a **non-production** dataset without changing site build vars.
+2. Otherwise falls back to the same `PUBLIC_SANITY_*` names (handy if you duplicate vars in `studio-hack-michigan-/.env`).
+3. Otherwise the same built-in defaults as the Astro config.
+
+The Sanity CLI loads `.env` from `studio-hack-michigan-/` when you run `sanity dev` or `sanity deploy`.
 
 For Facebook Open Graph sharing you can set `PUBLIC_FB_APP_ID` (see `src/env.d.ts`).
 
