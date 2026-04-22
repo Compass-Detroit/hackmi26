@@ -50,7 +50,7 @@ npm run preview
 
 ## Environment
 
-**Astro site** (`astro.config.mjs`) reads public Sanity vars via Vite `loadEnv` from the **repo root** `.env` files. Defaults match the shared HackMI project if unset:
+**Astro site** (`astro.config.mjs`) reads public Sanity vars via Vite `loadEnv` from the **repo root** `.env*` files, using the **`PUBLIC_` prefix only** (so other secrets in those files are not loaded into the config object). Defaults match the shared HackMI project if unset:
 
 ```env
 PUBLIC_SANITY_PROJECT_ID=your_project_id
