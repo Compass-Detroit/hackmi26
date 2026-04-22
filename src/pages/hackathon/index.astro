@@ -63,20 +63,28 @@ const projects = await getHackathonProjects();
                 </div>
 
                 <div class="tags">
-                  {project.technologies?.map((tech) => (
+                  {project.technologies?.map((tech: string) => (
                     <span class="tag">{tech}</span>
                   ))}
                 </div>
 
                 <div class="links">
                   {project.githubUrl && (
-                    <a href={project.githubUrl} target="_blank">
-                      GitHub
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Project on GitHub
                     </a>
                   )}
                   {project.demoUrl && (
-                    <a href={project.demoUrl} target="_blank">
-                      Demo
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      See Our Demo
                     </a>
                   )}
                 </div>
