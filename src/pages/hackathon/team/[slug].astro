@@ -40,63 +40,82 @@ function memberSocialLinks(member: TeamMember) {
 }
 ---
 
-<BaseLayout title={`${team.name} - Team`} description={`Projects by ${team.name}`}>
+<BaseLayout
+  title={`${team.name} - Team`}
+  description={`Projects by ${team.name}`}
+>
   <ThreeBackground />
   <Navigation />
 
   <main id="main-content" class="team-detail-page" tabindex="-1">
     <div class="container">
       <div class="team-header">
-        {team.logo && (
-          <img src={urlFor(team.logo).width(200).height(200).url()} alt={team.name} class="team-logo" />
-        )}
+        {
+          team.logo && (
+            <img
+              src={urlFor(team.logo).width(200).height(200).url()}
+              alt={team.name}
+              class="team-logo"
+            />
+          )
+        }
         <h1 class="team-name">{team.name}</h1>
       </div>
 
       <section class="members-section">
         <h2>Team Members</h2>
         <div class="members-list">
-          {team.members?.map((member: TeamMember) => {
-            const socials = memberSocialLinks(member);
-            return (
-              <div class="member-card">
-                <h3>{member.name}</h3>
-                {member.role && <p class="member-role">{member.role}</p>}
-                {socials.length > 0 && (
-                  <ul class="member-socials" role="list">
-                    {socials.map(({ field, label }) => (
-                      <li>
-                        <a
-                          href={member[field]!}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="member-social-link"
-                        >
-                          {label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            );
-          })}
+          {
+            team.members?.map((member: TeamMember) => {
+              const socials = memberSocialLinks(member);
+              return (
+                <div class="member-card">
+                  <h3>{member.name}</h3>
+                  {member.role && <p class="member-role">{member.role}</p>}
+                  {socials.length > 0 && (
+                    <ul class="member-socials" role="list">
+                      {socials.map(({ field, label }) => (
+                        <li>
+                          <a
+                            href={member[field]!}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="member-social-link"
+                          >
+                            {label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })
+          }
         </div>
       </section>
 
       <section class="projects-section">
         <h2>Projects</h2>
         <div class="project-grid">
-          {team.projects?.map((project: any) => (
-            <a href={`/hackathon/project/${project.slug?.current}/`} class="project-card">
-              {project.mainImage && (
-                <img src={urlFor(project.mainImage).width(400).url()} alt={project.title} />
-              )}
-              <div class="project-info">
-                <h3>{project.title}</h3>
-              </div>
-            </a>
-          ))}
+          {
+            team.projects?.map((project: any) => (
+              <a
+                href={`/hackathon/project/${project.slug?.current}/`}
+                class="project-card"
+              >
+                {project.mainImage && (
+                  <img
+                    src={urlFor(project.mainImage).width(400).url()}
+                    alt={project.title}
+                  />
+                )}
+                <div class="project-info">
+                  <h3>{project.title}</h3>
+                </div>
+              </a>
+            ))
+          }
         </div>
       </section>
     </div>
@@ -132,7 +151,8 @@ function memberSocialLinks(member: TeamMember) {
     font-size: clamp(2rem, 6vw, 3.5rem);
     font-weight: 800;
   }
-  .members-section, .projects-section {
+  .members-section,
+  .projects-section {
     margin-bottom: 4rem;
   }
   h2 {

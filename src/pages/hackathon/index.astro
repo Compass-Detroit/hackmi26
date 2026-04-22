@@ -28,27 +28,40 @@ const projects = await getHackathonProjects();
         {
           projects.map((project: any) => (
             <article class="project-card">
-              <a href={`/hackathon/project/${project.slug?.current}/`} class="card-link">
+              <a
+                href={`/hackathon/project/${project.slug?.current}/`}
+                class="card-link"
+              >
                 {project.mainImage && (
                   <div class="image-wrapper">
-                    <img src={urlFor(project.mainImage).width(600).url()} alt={project.title} loading="lazy" />
+                    <img
+                      src={urlFor(project.mainImage).width(600).url()}
+                      alt={project.title}
+                      loading="lazy"
+                    />
                   </div>
                 )}
               </a>
               <div class="content">
                 {project.team?.slug?.current && (
-                  <a href={`/hackathon/team/${project.team.slug.current}/`} class="team-badge">
+                  <a
+                    href={`/hackathon/team/${project.team.slug.current}/`}
+                    class="team-badge"
+                  >
                     {project.team.name}
                   </a>
                 )}
-                <a href={`/hackathon/project/${project.slug?.current}/`} class="title-link">
+                <a
+                  href={`/hackathon/project/${project.slug?.current}/`}
+                  class="title-link"
+                >
                   <h2>{project.title}</h2>
                 </a>
                 <div class="description">
-                    {/* Simplified for now, PortableText component needed for full rendering */}
-                    {project.description?.[0]?.children?.[0]?.text}
+                  {/* Simplified for now, PortableText component needed for full rendering */}
+                  {project.description?.[0]?.children?.[0]?.text}
                 </div>
-                
+
                 <div class="tags">
                   {project.technologies?.map((tech) => (
                     <span class="tag">{tech}</span>
@@ -56,8 +69,16 @@ const projects = await getHackathonProjects();
                 </div>
 
                 <div class="links">
-                  {project.githubUrl && <a href={project.githubUrl} target="_blank">GitHub</a>}
-                  {project.demoUrl && <a href={project.demoUrl} target="_blank">Demo</a>}
+                  {project.githubUrl && (
+                    <a href={project.githubUrl} target="_blank">
+                      GitHub
+                    </a>
+                  )}
+                  {project.demoUrl && (
+                    <a href={project.demoUrl} target="_blank">
+                      Demo
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
@@ -112,7 +133,9 @@ const projects = await getHackathonProjects();
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 1rem;
     overflow: hidden;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease;
   }
 
   .project-card:hover {

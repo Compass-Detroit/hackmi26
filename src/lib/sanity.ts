@@ -13,7 +13,7 @@ export async function getTeams() {
     `*[_type == "team"] {
       ...,
       "projects": *[_type == "hackathonProject" && references(^._id)]
-    } | order(name asc)`
+    } | order(name asc)`,
   );
 }
 
@@ -23,7 +23,7 @@ export async function getTeam(slug: string) {
       ...,
       "projects": *[_type == "hackathonProject" && references(^._id)]
     }`,
-    { slug }
+    { slug },
   );
 }
 
@@ -32,7 +32,7 @@ export async function getHackathonProjects() {
     `*[_type == "hackathonProject"] {
       ...,
       team->
-    } | order(title asc)`
+    } | order(title asc)`,
   );
 }
 
@@ -42,6 +42,6 @@ export async function getHackathonProject(slug: string) {
       ...,
       team->
     }`,
-    { slug }
+    { slug },
   );
 }

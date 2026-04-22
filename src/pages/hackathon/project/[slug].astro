@@ -1,5 +1,9 @@
 ---
-import { getHackathonProjects, getHackathonProject, urlFor } from "../../../lib/sanity";
+import {
+  getHackathonProjects,
+  getHackathonProject,
+  urlFor,
+} from "../../../lib/sanity";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ThreeBackground from "../../../components/ThreeBackground.astro";
 import Navigation from "../../../components/Navigation.astro";
@@ -29,21 +33,31 @@ if (!project) {
     <div class="container">
       <header class="project-header">
         <div class="meta">
-          {project.team?.slug?.current && (
-            <a href={`/hackathon/team/${project.team.slug.current}/`} class="team-link">
-              {project.team.name}
-            </a>
-          )}
+          {
+            project.team?.slug?.current && (
+              <a
+                href={`/hackathon/team/${project.team.slug.current}/`}
+                class="team-link"
+              >
+                {project.team.name}
+              </a>
+            )
+          }
           {project.track && <span class="track"> • {project.track}</span>}
         </div>
         <h1 class="project-title">{project.title}</h1>
       </header>
 
-      {project.mainImage && (
-        <div class="hero-image">
-          <img src={urlFor(project.mainImage).width(1200).url()} alt={project.title} />
-        </div>
-      )}
+      {
+        project.mainImage && (
+          <div class="hero-image">
+            <img
+              src={urlFor(project.mainImage).width(1200).url()}
+              alt={project.title}
+            />
+          </div>
+        )
+      }
 
       <div class="project-grid">
         <div class="main-content">
@@ -53,34 +67,50 @@ if (!project) {
         </div>
 
         <aside class="sidebar">
-          {project.technologies && (
-            <div class="sidebar-block">
-              <h3>Tech Stack</h3>
-              <div class="tags">
-                {project.technologies.map((tech: string) => (
-                  <span class="tag">{tech}</span>
-                ))}
+          {
+            project.technologies && (
+              <div class="sidebar-block">
+                <h3>Tech Stack</h3>
+                <div class="tags">
+                  {project.technologies.map((tech: string) => (
+                    <span class="tag">{tech}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          }
 
           <div class="sidebar-block links">
             <h3>Links</h3>
-            {project.githubUrl && (
-              <a href={project.githubUrl} target="_blank" class="btn btn-github">
-                View on GitHub
-              </a>
-            )}
-            {project.demoUrl && (
-              <a href={project.demoUrl} target="_blank" class="btn btn-demo">
-                Live Demo
-              </a>
-            )}
-            {project.videoUrl && (
-              <a href={project.videoUrl} target="_blank" class="btn btn-video">
-                Watch Demo Video
-              </a>
-            )}
+            {
+              project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  class="btn btn-github"
+                >
+                  View on GitHub
+                </a>
+              )
+            }
+            {
+              project.demoUrl && (
+                <a href={project.demoUrl} target="_blank" class="btn btn-demo">
+                  Live Demo
+                </a>
+              )
+            }
+            {
+              project.videoUrl && (
+                <a
+                  href={project.videoUrl}
+                  target="_blank"
+                  class="btn btn-video"
+                >
+                  Watch Demo Video
+                </a>
+              )
+            }
           </div>
         </aside>
       </div>
@@ -185,10 +215,21 @@ if (!project) {
     font-weight: 700;
     transition: background 0.2s ease;
   }
-  .btn-github { background: #333; color: white; }
-  .btn-demo { background: var(--color-primary, #6366f1); color: white; }
-  .btn-video { background: #e11d48; color: white; }
-  .btn:hover { filter: brightness(1.2); }
+  .btn-github {
+    background: #333;
+    color: white;
+  }
+  .btn-demo {
+    background: var(--color-primary, #6366f1);
+    color: white;
+  }
+  .btn-video {
+    background: #e11d48;
+    color: white;
+  }
+  .btn:hover {
+    filter: brightness(1.2);
+  }
 
   @media (max-width: 900px) {
     .project-grid {
