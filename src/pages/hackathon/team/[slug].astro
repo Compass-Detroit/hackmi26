@@ -3,10 +3,11 @@ import {
   getTeam,
   getTeamSlugs,
   urlFor,
-  type TeamMember,
   type TeamWithProjects,
 } from "../../../lib/sanity";
 import PageLayout from "../../../layouts/PageLayout.astro";
+import MemberCard from "../../../components/cms/MemberCard.astro";
+import ProjectCard from "../../../components/cms/ProjectCard.astro";
 
 export async function getStaticPaths() {
   const slugs = await getTeamSlugs();
@@ -18,28 +19,6 @@ const team: TeamWithProjects | null = await getTeam(slug);
 
 if (!team) {
   return Astro.redirect("/404");
-}
-
-/**
- * Fields on `TeamMember` that hold an external profile URL. Kept in this
- * explicit list (rather than iterating keys) so rendering order is stable
- * and adding a new social is a one-line change.
- */
-const MEMBER_SOCIAL_FIELDS = [
-  { field: "github", label: "GitHub" },
-  { field: "linkedin", label: "LinkedIn" },
-  { field: "twitter", label: "X" },
-  { field: "bluesky", label: "Bluesky" },
-  { field: "mastodon", label: "Mastodon" },
-  { field: "instagram", label: "Instagram" },
-  { field: "website", label: "Website" },
-] as const satisfies ReadonlyArray<{ field: keyof TeamMember; label: string }>;
-
-function memberSocialLinks(member: TeamMember) {
-  return MEMBER_SOCIAL_FIELDS.filter(({ field }) => {
-    const v = member[field];
-    return typeof v === "string" && v.trim().length > 0;
-  });
 }
 ---
 
@@ -62,62 +41,31 @@ function memberSocialLinks(member: TeamMember) {
       <h1 class="team-name">{team.name}</h1>
     </div>
 
-    <section class="members-section">
-      <h2>Team Members</h2>
-      <div class="members-list">
-        {
-          team.members?.map((member) => {
-            const socials = memberSocialLinks(member);
-            return (
-              <div class="member-card">
-                <h3>{member.name}</h3>
-                {member.role && <p class="member-role">{member.role}</p>}
-                {socials.length > 0 && (
-                  <ul class="member-socials" role="list">
-                    {socials.map(({ field, label }) => (
-                      <li>
-                        <a
-                          href={member[field]!}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="member-social-link"
-                        >
-                          {label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            );
-          })
-        }
-      </div>
-    </section>
+    {
+      team.members && team.members.length > 0 && (
+        <section class="members-section">
+          <h2>Team Members</h2>
+          <div class="members-list">
+            {team.members.map((member) => (
+              <MemberCard member={member} />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
-    <section class="projects-section">
-      <h2>Projects</h2>
-      <div class="project-grid">
-        {
-          team.projects?.map((project) => (
-            <a
-              href={`/hackathon/project/${project.slug.current}/`}
-              class="project-card"
-            >
-              {project.mainImage && (
-                <img
-                  src={urlFor(project.mainImage).width(400).url()}
-                  alt={project.title}
-                />
-              )}
-              <div class="project-info">
-                <h3>{project.title}</h3>
-              </div>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+    {
+      team.projects && team.projects.length > 0 && (
+        <section class="projects-section">
+          <h2>Projects</h2>
+          <div class="project-grid">
+            {team.projects.map((project) => (
+              <ProjectCard project={project} variant="compact" />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </div>
 </PageLayout>
 
@@ -163,69 +111,9 @@ function memberSocialLinks(member: TeamMember) {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
   }
-  .member-card {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    text-align: center;
-  }
-  .member-card h3 {
-    margin-bottom: 0.25rem;
-    font-size: 1.1rem;
-  }
-  .member-role {
-    color: var(--color-text-dim);
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-  }
-  .member-socials {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
-    justify-content: center;
-  }
-  .member-social-link {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border-bottom: 1px solid transparent;
-    transition:
-      color var(--duration-fast) ease,
-      border-color var(--duration-fast) ease;
-  }
-  .member-social-link:hover {
-    color: var(--color-accent-orange-hover);
-    border-bottom-color: var(--color-accent-orange);
-  }
   .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
-  }
-  .project-card {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 0.75rem;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s ease;
-  }
-  .project-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
-  }
-  .project-card img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-  }
-  .project-info {
-    padding: 1rem;
   }
 </style>

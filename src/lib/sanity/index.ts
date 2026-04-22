@@ -7,5 +7,6 @@
 
 export * from "./client";
 export * from "./fetchers";
+export * from "./memberSocials";
 export * from "./portableText";
 export type * from "./schemas";

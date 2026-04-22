@@ -1,0 +1,84 @@
+---
+/**
+ * MemberCard — a single team member's card for the team detail page.
+ *
+ * Rendering order of the profile links follows the static
+ * `MEMBER_SOCIAL_FIELDS` registry in `~/lib/sanity/memberSocials.ts`, so
+ * the order stays stable across members and the registry is the one
+ * place to add / rename / reorder socials.
+ */
+import { memberSocialLinks, type TeamMember } from "../../lib/sanity";
+
+interface Props {
+  member: TeamMember;
+}
+
+const { member } = Astro.props;
+const socials = memberSocialLinks(member);
+---
+
+<div class="member-card">
+  <h3>{member.name}</h3>
+  {member.role && <p class="member-role">{member.role}</p>}
+  {
+    socials.length > 0 && (
+      <ul class="member-socials" role="list">
+        {socials.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="member-social-link"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .member-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+  }
+  .member-card h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+  }
+  .member-role {
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .member-socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    justify-content: center;
+  }
+  .member-social-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid transparent;
+    transition:
+      color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+  .member-social-link:hover {
+    color: var(--color-accent-orange-hover);
+    border-bottom-color: var(--color-accent-orange);
+  }
+</style>

@@ -1,0 +1,204 @@
+---
+/**
+ * ProjectCard — thumbnail + metadata for a hackathon project.
+ *
+ * Two variants:
+ *   - "full"    (default) — used on the hackathon index grid. Renders the
+ *                team badge, description preview, tech tags, and demo
+ *                / GitHub links.
+ *   - "compact" — used on a team's detail page, inside the "Projects by
+ *                this team" grid. Just image + title.
+ *
+ * The card is wrapped in a transparent article (not a link) so that
+ * individual interactive regions (title, team badge, GitHub/demo links)
+ * remain separately focusable for keyboard users. In compact mode the
+ * whole card is a single anchor because there's nothing else to focus.
+ */
+import {
+  urlFor,
+  HACKATHON_CARD_DESCRIPTION_CHARS,
+  portableTextToPlainText,
+  truncatePlainText,
+  type HackathonProjectPreview,
+} from "../../lib/sanity";
+import TeamBadge from "./TeamBadge.astro";
+
+interface Props {
+  project: HackathonProjectPreview;
+  variant?: "full" | "compact";
+}
+
+const { project, variant = "full" } = Astro.props;
+
+const projectHref = `/hackathon/project/${project.slug.current}/`;
+const descriptionPreview =
+  variant === "full"
+    ? truncatePlainText(
+        portableTextToPlainText(project.description),
+        HACKATHON_CARD_DESCRIPTION_CHARS,
+      )
+    : "";
+---
+
+{
+  variant === "compact" ? (
+    <a href={projectHref} class="project-card project-card--compact">
+      {project.mainImage && (
+        <img
+          src={urlFor(project.mainImage).width(400).url()}
+          alt={project.title}
+          loading="lazy"
+        />
+      )}
+      <div class="compact-info">
+        <h3>{project.title}</h3>
+      </div>
+    </a>
+  ) : (
+    <article class="project-card">
+      <a href={projectHref} class="card-link">
+        {project.mainImage && (
+          <div class="image-wrapper">
+            <img
+              src={urlFor(project.mainImage).width(600).url()}
+              alt={project.title}
+              loading="lazy"
+            />
+          </div>
+        )}
+      </a>
+      <div class="content">
+        {project.team && <TeamBadge team={project.team} />}
+        <a href={projectHref} class="title-link">
+          <h2>{project.title}</h2>
+        </a>
+        {descriptionPreview && <p class="description">{descriptionPreview}</p>}
+
+        {project.technologies && project.technologies.length > 0 && (
+          <div class="tags">
+            {project.technologies.map((tech) => (
+              <span class="tag">{tech}</span>
+            ))}
+          </div>
+        )}
+
+        <div class="links">
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Project on GitHub
+            </a>
+          )}
+          {project.demoUrl && (
+            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+              See Our Demo
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+<style>
+  /* ---- Full variant -------------------------------------------------- */
+  .project-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .image-wrapper img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  .content {
+    padding: 1.5rem;
+  }
+  .title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .title-link:hover h2 {
+    color: var(--color-primary, #6366f1);
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    transition: color 0.2s ease;
+  }
+  .description {
+    color: var(--color-text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.3rem;
+    font-size: 0.8rem;
+  }
+  .links {
+    display: flex;
+    gap: 1rem;
+  }
+  .links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .links a:hover {
+    border-color: var(--color-text);
+  }
+
+  /* ---- Compact variant ---------------------------------------------- */
+  .project-card--compact {
+    display: block;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .project-card--compact:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .project-card--compact img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  .compact-info {
+    padding: 1rem;
+  }
+  .compact-info h3 {
+    font-size: 1.1rem;
+  }
+</style>
