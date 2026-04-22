@@ -23,6 +23,11 @@ const project = await getHackathonProject(slug);
 if (!project) {
   return Astro.redirect("/404");
 }
+
+const descriptionBlocks = Array.isArray(project.description)
+  ? project.description
+  : [];
+const hasDescription = descriptionBlocks.length > 0;
 ---
 
 <BaseLayout title={project.title} description={project.title}>
@@ -59,12 +64,21 @@ if (!project) {
         )
       }
 
-      <div class="project-grid">
-        <div class="main-content">
-          <div class="description">
-            <PortableText value={project.description} />
-          </div>
-        </div>
+      <div
+        class:list={[
+          "project-grid",
+          { "project-grid--no-description": !hasDescription },
+        ]}
+      >
+        {
+          hasDescription && (
+            <div class="main-content">
+              <div class="description">
+                <PortableText value={descriptionBlocks} />
+              </div>
+            </div>
+          )
+        }
 
         <aside class="sidebar">
           {
@@ -170,6 +184,11 @@ if (!project) {
     display: grid;
     grid-template-columns: 1fr 300px;
     gap: 4rem;
+  }
+  .project-grid--no-description {
+    grid-template-columns: 1fr;
+    max-width: 28rem;
+    margin-inline: auto;
   }
   .description {
     font-size: 1.1rem;

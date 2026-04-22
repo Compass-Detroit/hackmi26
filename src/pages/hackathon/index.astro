@@ -1,5 +1,10 @@
 ---
 import { getHackathonProjects, urlFor } from "../../lib/sanity";
+import {
+  HACKATHON_CARD_DESCRIPTION_CHARS,
+  portableTextToPlainText,
+  truncatePlainText,
+} from "../../lib/portableText";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ThreeBackground from "../../components/ThreeBackground.astro";
 import Navigation from "../../components/Navigation.astro";
@@ -26,7 +31,13 @@ const projects = await getHackathonProjects();
 
       <div class="project-grid">
         {
-          projects.map((project: any) => (
+          projects.map((project: any) => {
+            const descriptionPlain = portableTextToPlainText(project.description);
+            const descriptionPreview = truncatePlainText(
+              descriptionPlain,
+              HACKATHON_CARD_DESCRIPTION_CHARS,
+            );
+            return (
             <article class="project-card">
               <a
                 href={`/hackathon/project/${project.slug?.current}/`}
@@ -57,10 +68,9 @@ const projects = await getHackathonProjects();
                 >
                   <h2>{project.title}</h2>
                 </a>
-                <div class="description">
-                  {/* Simplified for now, PortableText component needed for full rendering */}
-                  {project.description?.[0]?.children?.[0]?.text}
-                </div>
+                {descriptionPreview && (
+                  <p class="description">{descriptionPreview}</p>
+                )}
 
                 <div class="tags">
                   {project.technologies?.map((tech: string) => (
@@ -90,7 +100,8 @@ const projects = await getHackathonProjects();
                 </div>
               </div>
             </article>
-          ))
+            );
+          })
         }
       </div>
     </div>
