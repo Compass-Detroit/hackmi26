@@ -18,6 +18,26 @@ const team = await getTeam(slug);
 if (!team) {
   return Astro.redirect("/404");
 }
+
+/** Optional profile URLs from Sanity (team member object). */
+const MEMBER_SOCIALS: { field: string; label: string }[] = [
+  { field: "github", label: "GitHub" },
+  { field: "linkedin", label: "LinkedIn" },
+  { field: "twitter", label: "X" },
+  { field: "bluesky", label: "Bluesky" },
+  { field: "mastodon", label: "Mastodon" },
+  { field: "instagram", label: "Instagram" },
+  { field: "website", label: "Website" },
+];
+
+type TeamMember = Record<string, string | undefined>;
+
+function memberSocialLinks(member: TeamMember) {
+  return MEMBER_SOCIALS.filter(({ field }) => {
+    const v = member[field];
+    return typeof v === "string" && v.trim().length > 0;
+  });
+}
 ---
 
 <BaseLayout title={`${team.name} - Team`} description={`Projects by ${team.name}`}>
@@ -36,15 +56,31 @@ if (!team) {
       <section class="members-section">
         <h2>Team Members</h2>
         <div class="members-list">
-          {team.members?.map((member: any) => (
-            <div class="member-card">
-              <h3>{member.name}</h3>
-              <p>{member.role}</p>
-              {member.github && (
-                <a href={member.github} target="_blank" class="github-link">GitHub</a>
-              )}
-            </div>
-          ))}
+          {team.members?.map((member: TeamMember) => {
+            const socials = memberSocialLinks(member);
+            return (
+              <div class="member-card">
+                <h3>{member.name}</h3>
+                {member.role && <p class="member-role">{member.role}</p>}
+                {socials.length > 0 && (
+                  <ul class="member-socials" role="list">
+                    {socials.map(({ field, label }) => (
+                      <li>
+                        <a
+                          href={member[field]!}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="member-social-link"
+                        >
+                          {label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -120,16 +156,35 @@ if (!team) {
     margin-bottom: 0.25rem;
     font-size: 1.1rem;
   }
-  .member-card p {
+  .member-role {
     color: var(--color-text-dim);
     font-size: 0.9rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
-  .github-link {
-    color: var(--color-primary, #6366f1);
+  .member-socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    justify-content: center;
+  }
+  .member-social-link {
+    color: var(--color-primary);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid transparent;
+    transition:
+      color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+  .member-social-link:hover {
+    color: var(--color-accent-orange-hover);
+    border-bottom-color: var(--color-accent-orange);
   }
   .project-grid {
     display: grid;
