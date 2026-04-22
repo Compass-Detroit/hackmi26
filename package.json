@@ -2,21 +2,20 @@
   "name": "hackmichigan",
   "type": "module",
   "version": "1.1.1",
-  "description": "A dark-themed Astro portfolio/blog template with Three.js particles and modern animations",
+  "description": "Hack Michigan (HackMI) — marketing site and hackathon showcase for the Detroit tech corridor, built with Astro + Sanity.",
   "keywords": [
     "astro",
-    "theme",
-    "blog",
-    "portfolio",
-    "dark-mode",
+    "sanity",
+    "hackathon",
+    "detroit",
     "three.js",
     "typescript"
   ],
-  "author": "kpab",
+  "author": "Compass Detroit",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kpab/astro-darkness"
+    "url": "https://github.com/Compass-Detroit/hackmi26"
   },
   "homepage": "https://hackmichigan.com",
   "engines": {

@@ -27,3 +27,7 @@ pnpm-debug.log*
 
 # vscode setting
 .vscode/
+
+# playwright MCP screenshots / traces (local debugging only)
+.playwright-mcp
+baseline-*.png

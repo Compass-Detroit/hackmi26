@@ -8,5 +8,5 @@
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["dist", "src/pages/about.astro"]
+  "exclude": ["dist", "studio-hack-michigan-"]
 }

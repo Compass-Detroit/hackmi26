@@ -24,7 +24,8 @@
 
   /* ---- Color -- text & borders ---- */
   --color-text: #f1f5f9;
-  --color-text-dim: #f1f5f9;
+  /* `--color-text-dim` is slate-400: low-emphasis text on dark surfaces. Keep ≥4.5:1 against `--color-bg-dark`. */
+  --color-text-dim: #94a3b8;
   --color-border: #334155;
   --color-shadow: rgb(59 130 246 / 30%);
 
