@@ -6,7 +6,7 @@ import {sanityEnv} from './sanity.env'
 
 export default defineConfig({
   name: 'default',
-  title: 'Hack Michigan ',
+  title: 'Hack Michigan 2026',
 
   projectId: sanityEnv.projectId,
   dataset: sanityEnv.dataset,
