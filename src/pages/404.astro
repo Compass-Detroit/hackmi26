@@ -4,36 +4,27 @@
  * explicit `Astro.redirect("/404")` in dynamic routes when a slug does not
  * resolve to a Sanity document.
  */
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ThreeBackground from "../components/ThreeBackground.astro";
-import Navigation from "../components/Navigation.astro";
-import Footer from "../components/Footer.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 ---
 
-<BaseLayout
+<PageLayout
   title="Not Found - Hack Michigan"
   description="The page you are looking for does not exist."
+  mainClass="not-found"
 >
-  <ThreeBackground />
-  <Navigation />
-
-  <main id="main-content" class="not-found" tabindex="-1">
-    <div class="container">
-      <p class="eyebrow">404</p>
-      <h1 class="title">We couldn't find that page.</h1>
-      <p class="body">
-        The link may be broken, or the content may have moved. Try heading back
-        to the homepage or browsing hackathon projects.
-      </p>
-      <div class="actions">
-        <a class="btn btn-primary" href="/">Home</a>
-        <a class="btn btn-ghost" href="/hackathon/">Projects</a>
-      </div>
+  <div class="container">
+    <p class="eyebrow">404</p>
+    <h1 class="title">We couldn't find that page.</h1>
+    <p class="body">
+      The link may be broken, or the content may have moved. Try heading back to
+      the homepage or browsing hackathon projects.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Home</a>
+      <a class="btn btn-ghost" href="/hackathon/">Projects</a>
     </div>
-  </main>
-
-  <Footer />
-</BaseLayout>
+  </div>
+</PageLayout>
 
 <style>
   .not-found {

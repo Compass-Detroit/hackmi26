@@ -5,10 +5,7 @@ import {
   urlFor,
   type HackathonProject,
 } from "../../../lib/sanity";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ThreeBackground from "../../../components/ThreeBackground.astro";
-import Navigation from "../../../components/Navigation.astro";
-import Footer from "../../../components/Footer.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
@@ -27,116 +24,113 @@ const descriptionBlocks = project.description ?? [];
 const hasDescription = descriptionBlocks.length > 0;
 ---
 
-<BaseLayout title={project.title} description={project.title}>
-  <ThreeBackground />
-  <Navigation />
+<PageLayout
+  title={project.title}
+  description={project.title}
+  mainClass="project-detail-page"
+>
+  <div class="container">
+    <header class="project-header">
+      <div class="meta">
+        {
+          project.team?.slug?.current && (
+            <a
+              href={`/hackathon/team/${project.team.slug.current}/`}
+              class="team-link"
+            >
+              {project.team.name}
+            </a>
+          )
+        }
+        {project.track && <span class="track"> • {project.track}</span>}
+      </div>
+      <h1 class="project-title">{project.title}</h1>
+    </header>
 
-  <main id="main-content" class="project-detail-page" tabindex="-1">
-    <div class="container">
-      <header class="project-header">
-        <div class="meta">
-          {
-            project.team?.slug?.current && (
-              <a
-                href={`/hackathon/team/${project.team.slug.current}/`}
-                class="team-link"
-              >
-                {project.team.name}
-              </a>
-            )
-          }
-          {project.track && <span class="track"> • {project.track}</span>}
+    {
+      project.mainImage && (
+        <div class="hero-image">
+          <img
+            src={urlFor(project.mainImage).width(1200).url()}
+            alt={project.title}
+          />
         </div>
-        <h1 class="project-title">{project.title}</h1>
-      </header>
+      )
+    }
 
+    <div
+      class:list={[
+        "project-grid",
+        { "project-grid--no-description": !hasDescription },
+      ]}
+    >
       {
-        project.mainImage && (
-          <div class="hero-image">
-            <img
-              src={urlFor(project.mainImage).width(1200).url()}
-              alt={project.title}
-            />
+        hasDescription && (
+          <div class="main-content">
+            <div class="description">
+              <PortableText value={descriptionBlocks} />
+            </div>
           </div>
         )
       }
 
-      <div
-        class:list={[
-          "project-grid",
-          { "project-grid--no-description": !hasDescription },
-        ]}
-      >
+      <aside class="sidebar">
         {
-          hasDescription && (
-            <div class="main-content">
-              <div class="description">
-                <PortableText value={descriptionBlocks} />
+          project.technologies && (
+            <div class="sidebar-block">
+              <h3>Tech Stack</h3>
+              <div class="tags">
+                {project.technologies.map((tech: string) => (
+                  <span class="tag">{tech}</span>
+                ))}
               </div>
             </div>
           )
         }
 
-        <aside class="sidebar">
+        <div class="sidebar-block links">
+          <h3>Links</h3>
           {
-            project.technologies && (
-              <div class="sidebar-block">
-                <h3>Tech Stack</h3>
-                <div class="tags">
-                  {project.technologies.map((tech: string) => (
-                    <span class="tag">{tech}</span>
-                  ))}
-                </div>
-              </div>
+            project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-github"
+              >
+                View on GitHub
+              </a>
             )
           }
-
-          <div class="sidebar-block links">
-            <h3>Links</h3>
-            {
-              project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-github"
-                >
-                  View on GitHub
-                </a>
-              )
-            }
-            {
-              project.demoUrl && (
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-demo"
-                >
-                  Live Demo
-                </a>
-              )
-            }
-            {
-              project.videoUrl && (
-                <a
-                  href={project.videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-video"
-                >
-                  Watch Demo Video
-                </a>
-              )
-            }
-          </div>
-        </aside>
-      </div>
+          {
+            project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-demo"
+              >
+                Live Demo
+              </a>
+            )
+          }
+          {
+            project.videoUrl && (
+              <a
+                href={project.videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-video"
+              >
+                Watch Demo Video
+              </a>
+            )
+          }
+        </div>
+      </aside>
     </div>
-  </main>
-
-  <Footer />
-</BaseLayout>
+  </div>
+</PageLayout>
 
 <style>
   .project-detail-page {

@@ -7,120 +7,109 @@ import {
   truncatePlainText,
   type HackathonProjectPreview,
 } from "../../lib/sanity";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import ThreeBackground from "../../components/ThreeBackground.astro";
-import Navigation from "../../components/Navigation.astro";
-import Footer from "../../components/Footer.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 
 const projects: HackathonProjectPreview[] = await getProjects();
 ---
 
-<BaseLayout
+<PageLayout
   title="Hackathon Projects - Hack Michigan"
   description="Discover the amazing projects built at Hack Michigan"
+  mainClass="hackathon-page"
 >
-  <ThreeBackground />
-  <Navigation />
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">Hackathon Submissions</h1>
+      <p class="page-subtitle">
+        Showcasing the creativity and innovation from our latest event.
+      </p>
+    </header>
 
-  <main id="main-content" class="hackathon-page" tabindex="-1">
-    <div class="container">
-      <header class="page-header">
-        <h1 class="page-title">Hackathon Submissions</h1>
-        <p class="page-subtitle">
-          Showcasing the creativity and innovation from our latest event.
-        </p>
-      </header>
-
-      <div class="project-grid">
-        {
-          projects.length === 0 && (
-            <p class="empty-state">
-              Project submissions will appear here once teams start publishing.
-              Watch this space.
-            </p>
-          )
-        }
-        {
-          projects.map((project) => {
-            const descriptionPlain = portableTextToPlainText(
-              project.description,
-            );
-            const descriptionPreview = truncatePlainText(
-              descriptionPlain,
-              HACKATHON_CARD_DESCRIPTION_CHARS,
-            );
-            return (
-              <article class="project-card">
+    <div class="project-grid">
+      {
+        projects.length === 0 && (
+          <p class="empty-state">
+            Project submissions will appear here once teams start publishing.
+            Watch this space.
+          </p>
+        )
+      }
+      {
+        projects.map((project) => {
+          const descriptionPlain = portableTextToPlainText(project.description);
+          const descriptionPreview = truncatePlainText(
+            descriptionPlain,
+            HACKATHON_CARD_DESCRIPTION_CHARS,
+          );
+          return (
+            <article class="project-card">
+              <a
+                href={`/hackathon/project/${project.slug.current}/`}
+                class="card-link"
+              >
+                {project.mainImage && (
+                  <div class="image-wrapper">
+                    <img
+                      src={urlFor(project.mainImage).width(600).url()}
+                      alt={project.title}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+              </a>
+              <div class="content">
+                {project.team?.slug?.current && (
+                  <a
+                    href={`/hackathon/team/${project.team.slug.current}/`}
+                    class="team-badge"
+                  >
+                    {project.team.name}
+                  </a>
+                )}
                 <a
                   href={`/hackathon/project/${project.slug.current}/`}
-                  class="card-link"
+                  class="title-link"
                 >
-                  {project.mainImage && (
-                    <div class="image-wrapper">
-                      <img
-                        src={urlFor(project.mainImage).width(600).url()}
-                        alt={project.title}
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
+                  <h2>{project.title}</h2>
                 </a>
-                <div class="content">
-                  {project.team?.slug?.current && (
+                {descriptionPreview && (
+                  <p class="description">{descriptionPreview}</p>
+                )}
+
+                <div class="tags">
+                  {project.technologies?.map((tech) => (
+                    <span class="tag">{tech}</span>
+                  ))}
+                </div>
+
+                <div class="links">
+                  {project.githubUrl && (
                     <a
-                      href={`/hackathon/team/${project.team.slug.current}/`}
-                      class="team-badge"
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      {project.team.name}
+                      Project on GitHub
                     </a>
                   )}
-                  <a
-                    href={`/hackathon/project/${project.slug.current}/`}
-                    class="title-link"
-                  >
-                    <h2>{project.title}</h2>
-                  </a>
-                  {descriptionPreview && (
-                    <p class="description">{descriptionPreview}</p>
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      See Our Demo
+                    </a>
                   )}
-
-                  <div class="tags">
-                    {project.technologies?.map((tech) => (
-                      <span class="tag">{tech}</span>
-                    ))}
-                  </div>
-
-                  <div class="links">
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Project on GitHub
-                      </a>
-                    )}
-                    {project.demoUrl && (
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        See Our Demo
-                      </a>
-                    )}
-                  </div>
                 </div>
-              </article>
-            );
-          })
-        }
-      </div>
+              </div>
+            </article>
+          );
+        })
+      }
     </div>
-  </main>
-
-  <Footer />
-</BaseLayout>
+  </div>
+</PageLayout>
 
 <style>
   .hackathon-page {
