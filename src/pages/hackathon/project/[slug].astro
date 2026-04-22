@@ -12,7 +12,7 @@ import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
   const slugs = await getHackathonProjectSlugs();
-  return slugs.map((slug) => ({
+  return slugs.map((slug: string) => ({
     params: { slug },
   }));
 }
@@ -101,6 +101,7 @@ const hasDescription = descriptionBlocks.length > 0;
                 <a
                   href={project.githubUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   class="btn btn-github"
                 >
                   View on GitHub
@@ -109,7 +110,12 @@ const hasDescription = descriptionBlocks.length > 0;
             }
             {
               project.demoUrl && (
-                <a href={project.demoUrl} target="_blank" class="btn btn-demo">
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-demo"
+                >
                   Live Demo
                 </a>
               )
@@ -119,6 +125,7 @@ const hasDescription = descriptionBlocks.length > 0;
                 <a
                   href={project.videoUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   class="btn btn-video"
                 >
                   Watch Demo Video
