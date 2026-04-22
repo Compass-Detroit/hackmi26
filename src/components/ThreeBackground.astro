@@ -197,7 +197,12 @@
     isPaused = prefersReduced;
     isOffscreen = false;
 
-    if (shouldAnimate()) animate();
+    if (shouldAnimate()) {
+      animate();
+    } else if (renderer && scene && camera) {
+      // Reduced motion: still draw once so the canvas is not empty
+      renderer.render(scene, camera);
+    }
     setupPauseButton();
   }
 
@@ -320,10 +325,18 @@
     camera = null;
   }
 
-  document.addEventListener("astro:page-load", () => initThreeAnimation());
+  function onPageLoad() {
+    initThreeAnimation();
+  }
+
+  document.addEventListener("astro:page-load", onPageLoad);
   document.addEventListener("astro:before-preparation", () =>
     cleanupThreeAnimation(),
   );
+
+  // Initial document load: `astro:page-load` may have already fired before this
+  // module runs (deferred script order). Boot immediately when the canvas exists.
+  onPageLoad();
 </script>
 
 <style>
