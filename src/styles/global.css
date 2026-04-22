@@ -58,7 +58,8 @@
   --shadow-glass: 0 20px 50px rgb(0 0 0 / 35%);
 
   /* ---- Surfaces ---- */
-  --surface-glass-bg: rgb(30 41 59 / 55%);
+  --surface-glass-bg: rgb(15 23 42 / 82%);
+  --surface-glass-raised-bg: rgb(15 23 42 / 92%);
   --surface-glass-blur: 12px;
 
   /* ---- Layout ---- */
@@ -323,7 +324,7 @@ body::before {
 }
 
 .glass-card--raised {
-  background: rgb(30 41 59 / 65%);
+  background: var(--surface-glass-raised-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-glass);

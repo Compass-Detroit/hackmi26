@@ -31,3 +31,4 @@ pnpm-debug.log*
 # playwright MCP screenshots / traces (local debugging only)
 .playwright-mcp
 baseline-*.png
+phase*.png

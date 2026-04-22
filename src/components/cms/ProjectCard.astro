@@ -106,17 +106,20 @@ const descriptionPreview =
 <style>
   /* ---- Full variant -------------------------------------------------- */
   .project-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface-glass-raised-bg);
+    border: 1px solid var(--color-border);
     border-radius: 1rem;
     overflow: hidden;
+    backdrop-filter: blur(var(--surface-glass-blur));
+    -webkit-backdrop-filter: blur(var(--surface-glass-blur));
     transition:
       transform 0.3s ease,
-      background 0.3s ease;
+      background 0.3s ease,
+      border-color 0.3s ease;
   }
   .project-card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
+    border-color: rgb(59 130 246 / 35%);
   }
   .image-wrapper img {
     width: 100%;
@@ -179,16 +182,21 @@ const descriptionPreview =
   /* ---- Compact variant ---------------------------------------------- */
   .project-card--compact {
     display: block;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--surface-glass-raised-bg);
+    border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.2s ease;
+    backdrop-filter: blur(var(--surface-glass-blur));
+    -webkit-backdrop-filter: blur(var(--surface-glass-blur));
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
   }
   .project-card--compact:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
+    border-color: rgb(59 130 246 / 35%);
   }
   .project-card--compact img {
     width: 100%;
