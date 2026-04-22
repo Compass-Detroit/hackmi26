@@ -1,6 +1,6 @@
 ---
 import {
-  getHackathonProjects,
+  getHackathonProjectSlugs,
   getHackathonProject,
   urlFor,
 } from "../../../lib/sanity";
@@ -11,9 +11,9 @@ import Footer from "../../../components/Footer.astro";
 import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
-  const allProjects = await getHackathonProjects();
-  return allProjects.map((project: any) => ({
-    params: { slug: project.slug.current },
+  const slugs = await getHackathonProjectSlugs();
+  return slugs.map((slug) => ({
+    params: { slug },
   }));
 }
 

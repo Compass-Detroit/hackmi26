@@ -27,6 +27,14 @@ export async function getTeam(slug: string) {
   );
 }
 
+/** Slug strings only — use in `getStaticPaths` to avoid loading full documents. */
+export async function getHackathonProjectSlugs() {
+  const slugs = await sanityClient.fetch<string[] | null>(
+    `*[_type == "hackathonProject" && defined(slug.current)] | order(slug.current asc).slug.current`,
+  );
+  return slugs ?? [];
+}
+
 export async function getHackathonProjects() {
   return await sanityClient.fetch(
     `*[_type == "hackathonProject"] {
