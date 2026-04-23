@@ -32,6 +32,8 @@ jobs:
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push back generated linux baselines
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,19 +50,35 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run E2E tests
-        run: npm run test:e2e -- --update-snapshots=missing
+      - name: Generate missing linux visual baselines
+        # --update-snapshots=missing in PW 1.59 still writes to test-results
+        # (not the snapshot dir) and exits non-zero — use --update-snapshots
+        # (all) instead, guarded by a shell check so it only runs when linux
+        # PNGs are absent.  The step itself always exits 0.
+        run: |
+          if ! ls e2e/visual-regression.spec.ts-snapshots/*-linux.png \
+               2>/dev/null | grep -q .; then
+            echo "No linux baselines found — generating..."
+            npx playwright test e2e/visual-regression.spec.ts \
+              --update-snapshots
+          else
+            echo "Linux baselines already present, skipping generation."
+          fi
 
-      - name: Commit new platform snapshots
-        # Auto-commit any linux baselines that were just generated so future
-        # runs compare against them instead of re-creating from scratch.
-        # Only runs on direct pushes (not fork PRs, which can't push back).
+      - name: Commit new linux snapshots
+        # Runs on direct branch pushes only; PRs can't push back but the
+        # locally-generated files are still present for the next step.
         if: github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add e2e/visual-regression.spec.ts-snapshots/
-          git diff --staged --quiet || (git commit -m "chore: add linux visual regression baselines [skip ci]" && git push)
+          git diff --staged --quiet || \
+            (git commit -m "chore: add linux visual regression baselines [skip ci]" \
+             && git push)
+
+      - name: Run full E2E suite
+        run: npm run test:e2e
 
       - name: Upload Playwright artifacts on failure
         if: failure()
