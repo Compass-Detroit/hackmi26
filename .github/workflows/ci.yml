@@ -49,7 +49,18 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: npm run test:e2e -- --update-snapshots=missing
+
+      - name: Commit new platform snapshots
+        # Auto-commit any linux baselines that were just generated so future
+        # runs compare against them instead of re-creating from scratch.
+        # Only runs on direct pushes (not fork PRs, which can't push back).
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add e2e/visual-regression.spec.ts-snapshots/
+          git diff --staged --quiet || (git commit -m "chore: add linux visual regression baselines [skip ci]" && git push)
 
       - name: Upload Playwright artifacts on failure
         if: failure()
@@ -59,3 +70,4 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            e2e/visual-regression.spec.ts-snapshots/
