@@ -10,6 +10,8 @@ interface Props {
   /** Site-root path (e.g. `/social-card.jpg`) or absolute `https://` URL for Open Graph / Twitter */
   image?: string;
   ogType?: "website" | "article";
+  /** When true, ask crawlers not to index (e.g. internal tooling pages). */
+  noindex?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -18,6 +20,7 @@ const {
   description = EVENT.mission,
   image: imageProp,
   ogType = "website",
+  noindex = false,
 } = Astro.props;
 
 const fbAppId = import.meta.env.PUBLIC_FB_APP_ID?.trim();
@@ -112,6 +115,7 @@ const selfHostedFontFaces = `
     <meta name="theme-color" content="#0f172a" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
