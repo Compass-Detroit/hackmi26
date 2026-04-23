@@ -1,5 +1,14 @@
 /// <reference path="../.astro/types.d.ts" />
 
+// Allow TypeScript to resolve .astro file imports in test files.
+// At runtime Vite handles these via Astro's plugin; this declaration
+// keeps the language server happy without affecting compilation output.
+declare module "*.astro" {
+  import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+  const component: AstroComponentFactory;
+  export default component;
+}
+
 interface ImportMetaEnv {
   /** Facebook App ID for `fb:app_id` (Open Graph). Set in Vercel / `.env`. */
   readonly PUBLIC_FB_APP_ID?: string;
