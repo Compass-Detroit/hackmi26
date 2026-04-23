@@ -1,0 +1,46 @@
+---
+// src/pages/deploy.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ThreeBackground from "../components/ThreeBackground.astro";
+import Navigation from "../components/Navigation.astro";
+import DeployButton from "../components/DeployButton.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Deploy - HackMI" noindex>
+  <ThreeBackground />
+  <Navigation />
+  <main id="main-content" class="deploy-page" tabindex="-1">
+    <section class="deploy-section">
+      <h1>Deploy to Vercel</h1>
+      <p>Click the button below to deploy the website to Vercel.</p>
+      <DeployButton />
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .deploy-page {
+    min-height: 70vh;
+    padding: calc(var(--nav-height) + 2rem) 2rem 5rem;
+  }
+
+  .deploy-section {
+    max-width: var(--container-narrow);
+    margin: 0 auto;
+  }
+
+  .deploy-section h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .deploy-section p {
+    color: var(--color-text-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+</style>
