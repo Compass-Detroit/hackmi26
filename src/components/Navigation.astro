@@ -81,6 +81,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
 
       <button
         class="mobile-menu-btn"
+        type="button"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Open menu"
@@ -107,7 +108,15 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     </div>
   </div>
 
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
+  <div
+    class="mobile-menu"
+    id="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile navigation menu"
+    aria-hidden="true"
+    inert
+  >
     <div class="mobile-menu-content">
       {
         navItems.map((item) => (
@@ -366,15 +375,35 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
   const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-  document.addEventListener("astro:page-load", () => {
+  function initMobileMenu() {
     const btn = document.getElementById("mobile-menu-btn");
     const menu = document.getElementById("mobile-menu");
     if (!btn || !menu) return;
+    if (btn.dataset.mobileMenuBound === "true") return;
+    btn.dataset.mobileMenuBound = "true";
 
     function getFocusable(): HTMLElement[] {
       return Array.from(
         menu!.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
       );
+    }
+
+    function focusFirstMenuItem() {
+      const tryFocus = () => {
+        const first = getFocusable()[0];
+        if (!first) return false;
+        first.focus({ preventScroll: true });
+        return document.activeElement === first;
+      };
+
+      // Try immediately, then after paint, then after micro-delay.
+      if (tryFocus()) return;
+      requestAnimationFrame(() => {
+        if (tryFocus()) return;
+        window.setTimeout(() => {
+          tryFocus();
+        }, 0);
+      });
     }
 
     function setOpen(open: boolean) {
@@ -389,8 +418,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
         menu!.removeAttribute("inert");
         document.addEventListener("keydown", onKeydown);
         // Focus the first link for screen-reader + keyboard users.
-        const first = getFocusable()[0];
-        first?.focus();
+        focusFirstMenuItem();
       } else {
         menu!.setAttribute("inert", "");
         document.removeEventListener("keydown", onKeydown);
@@ -433,5 +461,15 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => setOpen(false));
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu, {
+      once: true,
+    });
+  } else {
+    initMobileMenu();
+  }
+
+  document.addEventListener("astro:page-load", initMobileMenu);
 </script>

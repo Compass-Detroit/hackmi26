@@ -9,9 +9,9 @@ const projects: HackathonProjectPreview[] = await getProjects();
 <PageLayout
   title="Hackathon Projects - Hack Michigan"
   description="Discover the amazing projects built at Hack Michigan"
-  mainClass="hackathon-page"
+  mainClass="content-page hackathon-page"
 >
-  <div class="container">
+  <div class="page-container">
     <header class="page-header">
       <h1 class="page-title">Hackathon Submissions</h1>
       <p class="page-subtitle">
@@ -35,13 +35,7 @@ const projects: HackathonProjectPreview[] = await getProjects();
 
 <style>
   .hackathon-page {
-    min-height: 100vh;
-    padding: calc(var(--nav-height) + 2rem) 2rem 5rem;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    padding-top: calc(var(--nav-height) + 2rem);
   }
 
   .page-header {
@@ -78,6 +72,6 @@ const projects: HackathonProjectPreview[] = await getProjects();
     font-size: 1.05rem;
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-lg);
-    background: var(--surface-glass-bg, rgb(15 23 42 / 82%));
+    background: var(--surface-glass-bg);
   }
 </style>

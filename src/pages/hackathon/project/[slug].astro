@@ -3,6 +3,8 @@ import {
   getProject,
   getProjectSlugs,
   urlFor,
+  portableTextToPlainText,
+  truncatePlainText,
   type HackathonProject,
 } from "../../../lib/sanity";
 import PageLayout from "../../../layouts/PageLayout.astro";
@@ -13,23 +15,25 @@ export async function getStaticPaths() {
   return slugs.map((slug) => ({ params: { slug } }));
 }
 
-const { slug } = Astro.params as { slug: string };
-const project: HackathonProject | null = await getProject(slug);
+const slug = Astro.params.slug;
+if (!slug) return Astro.redirect("/404");
 
-if (!project) {
-  return Astro.redirect("/404");
-}
+const project: HackathonProject | null = await getProject(slug);
+if (!project) return Astro.redirect("/404");
 
 const descriptionBlocks = project.description ?? [];
 const hasDescription = descriptionBlocks.length > 0;
+const metaDescription =
+  truncatePlainText(portableTextToPlainText(descriptionBlocks), 160) ||
+  project.title;
 ---
 
 <PageLayout
   title={project.title}
-  description={project.title}
-  mainClass="project-detail-page"
+  description={metaDescription}
+  mainClass="content-page"
 >
-  <div class="container">
+  <div class="page-container">
     <header class="project-header">
       <div class="meta">
         {
@@ -53,6 +57,8 @@ const hasDescription = descriptionBlocks.length > 0;
           <img
             src={urlFor(project.mainImage).width(1200).url()}
             alt={project.title}
+            loading="eager"
+            decoding="async"
           />
         </div>
       )
@@ -79,9 +85,9 @@ const hasDescription = descriptionBlocks.length > 0;
           project.technologies && (
             <div class="sidebar-block">
               <h3>Tech Stack</h3>
-              <div class="tags">
+              <div class="tag-list">
                 {project.technologies.map((tech: string) => (
-                  <span class="tag">{tech}</span>
+                  <span class="tag-chip tag-chip--lg">{tech}</span>
                 ))}
               </div>
             </div>
@@ -96,7 +102,7 @@ const hasDescription = descriptionBlocks.length > 0;
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-github"
+                class="detail-action detail-action--github"
               >
                 View on GitHub
               </a>
@@ -108,7 +114,7 @@ const hasDescription = descriptionBlocks.length > 0;
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-demo"
+                class="detail-action detail-action--demo"
               >
                 Live Demo
               </a>
@@ -120,7 +126,7 @@ const hasDescription = descriptionBlocks.length > 0;
                 href={project.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-video"
+                class="detail-action detail-action--video"
               >
                 Watch Demo Video
               </a>
@@ -133,38 +139,33 @@ const hasDescription = descriptionBlocks.length > 0;
 </PageLayout>
 
 <style>
-  .project-detail-page {
-    padding-top: calc(var(--nav-height) + 4rem);
-    min-height: 100vh;
-    padding-bottom: 5rem;
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
   .project-header {
     text-align: center;
     margin-bottom: 3rem;
   }
+
   .meta {
     font-size: 1.1rem;
     margin-bottom: 1rem;
     color: var(--color-text-dim);
   }
+
   .team-link {
-    color: var(--color-primary, #6366f1);
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: 700;
   }
+
   .team-link:hover {
     text-decoration: underline;
   }
+
   .project-title {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
     font-weight: 800;
     line-height: 1.1;
   }
+
   .hero-image {
     width: 100%;
     max-height: 600px;
@@ -174,29 +175,35 @@ const hasDescription = descriptionBlocks.length > 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: var(--surface-glass-raised-bg);
   }
+
   .hero-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .project-grid {
     display: grid;
     grid-template-columns: 1fr 300px;
     gap: 4rem;
   }
+
   .project-grid--no-description {
     grid-template-columns: 1fr;
     max-width: 28rem;
     margin-inline: auto;
   }
+
   .description {
     font-size: 1.1rem;
     line-height: 1.7;
     color: var(--color-text);
   }
+
   .description :global(p) {
     margin-bottom: 1.5rem;
   }
+
   .sidebar-block {
     background: var(--surface-glass-raised-bg);
     padding: 1.5rem;
@@ -206,48 +213,46 @@ const hasDescription = descriptionBlocks.length > 0;
     backdrop-filter: blur(var(--surface-glass-blur));
     -webkit-backdrop-filter: blur(var(--surface-glass-blur));
   }
+
   .sidebar-block h3 {
     font-size: 1.25rem;
     margin-bottom: 1.25rem;
   }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .tag {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.4rem;
-    font-size: 0.85rem;
-  }
+
   .links {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  .btn {
+
+  .detail-action {
     display: block;
     text-align: center;
     padding: 0.8rem;
     border-radius: 0.6rem;
     text-decoration: none;
     font-weight: 700;
-    transition: background 0.2s ease;
+    transition:
+      background var(--duration-fast) ease,
+      filter var(--duration-fast) ease;
   }
-  .btn-github {
+
+  .detail-action--github {
     background: #333;
     color: white;
   }
-  .btn-demo {
-    background: var(--color-primary, #6366f1);
+
+  .detail-action--demo {
+    background: var(--color-primary-button);
     color: white;
   }
-  .btn-video {
+
+  .detail-action--video {
     background: #e11d48;
     color: white;
   }
-  .btn:hover {
+
+  .detail-action:hover {
     filter: brightness(1.2);
   }
 
@@ -255,6 +260,7 @@ const hasDescription = descriptionBlocks.length > 0;
     .project-grid {
       grid-template-columns: 1fr;
     }
+
     .sidebar {
       order: -1;
     }

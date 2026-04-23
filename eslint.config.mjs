@@ -10,6 +10,9 @@ export default [
       "**/dist/**",
       "**/.astro/**",
       "**/*.d.ts",
+      "**/playwright-report/**",
+      "**/test-results/**",
+      "**/blob-report/**",
       // Sanity Studio is its own workspace with its own deps + eslint
       // config. It isn't installed at the repo root, so skip it here.
       "studio-hack-michigan-/**",

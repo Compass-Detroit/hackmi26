@@ -42,7 +42,10 @@ const descriptionPreview =
 
 {
   variant === "compact" ? (
-    <a href={projectHref} class="project-card project-card--compact">
+    <a
+      href={projectHref}
+      class="project-card--compact glass-card glass-card--interactive"
+    >
       {project.mainImage && (
         <img
           src={urlFor(project.mainImage).width(400).url()}
@@ -55,7 +58,7 @@ const descriptionPreview =
       </div>
     </a>
   ) : (
-    <article class="project-card">
+    <article class="project-card glass-card glass-card--interactive">
       <a href={projectHref} class="card-link">
         {project.mainImage && (
           <div class="image-wrapper">
@@ -75,9 +78,9 @@ const descriptionPreview =
         {descriptionPreview && <p class="description">{descriptionPreview}</p>}
 
         {project.technologies && project.technologies.length > 0 && (
-          <div class="tags">
+          <div class="tag-list">
             {project.technologies.map((tech) => (
-              <span class="tag">{tech}</span>
+              <span class="tag-chip">{tech}</span>
             ))}
           </div>
         )}
@@ -106,41 +109,34 @@ const descriptionPreview =
 <style>
   /* ---- Full variant -------------------------------------------------- */
   .project-card {
-    background: var(--surface-glass-raised-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 1rem;
     overflow: hidden;
-    backdrop-filter: blur(var(--surface-glass-blur));
-    -webkit-backdrop-filter: blur(var(--surface-glass-blur));
-    transition:
-      transform 0.3s ease,
-      background 0.3s ease,
-      border-color 0.3s ease;
   }
-  .project-card:hover {
-    transform: translateY(-5px);
-    border-color: rgb(59 130 246 / 35%);
-  }
+
   .image-wrapper img {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
   }
+
   .content {
     padding: 1.5rem;
   }
+
   .title-link {
     text-decoration: none;
     color: inherit;
   }
+
   .title-link:hover h2 {
-    color: var(--color-primary, #6366f1);
+    color: var(--color-primary);
   }
+
   h2 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
   }
+
   .description {
     color: var(--color-text-dim);
     font-size: 0.95rem;
@@ -151,30 +147,25 @@ const descriptionPreview =
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+
+  .tag-list {
     margin-bottom: 1.5rem;
   }
-  .tag {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.3rem;
-    font-size: 0.8rem;
-  }
+
   .links {
     display: flex;
     gap: 1rem;
   }
+
   .links a {
     color: var(--color-text);
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
+    transition: border-color var(--duration-fast) ease;
   }
+
   .links a:hover {
     border-color: var(--color-text);
   }
@@ -182,30 +173,21 @@ const descriptionPreview =
   /* ---- Compact variant ---------------------------------------------- */
   .project-card--compact {
     display: block;
-    background: var(--surface-glass-raised-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 0.75rem;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    backdrop-filter: blur(var(--surface-glass-blur));
-    -webkit-backdrop-filter: blur(var(--surface-glass-blur));
-    transition:
-      transform 0.2s ease,
-      border-color 0.2s ease;
   }
-  .project-card--compact:hover {
-    transform: translateY(-5px);
-    border-color: rgb(59 130 246 / 35%);
-  }
+
   .project-card--compact img {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
   }
+
   .compact-info {
     padding: 1rem;
   }
+
   .compact-info h3 {
     font-size: 1.1rem;
   }

@@ -32,3 +32,8 @@ pnpm-debug.log*
 .playwright-mcp
 baseline-*.png
 phase*.png
+
+# playwright runtime outputs
+playwright-report/
+test-results/
+blob-report/

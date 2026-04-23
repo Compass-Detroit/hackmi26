@@ -39,7 +39,15 @@ export function truncatePlainText(
   maxLength: number,
   ellipsis = "…",
 ): string {
-  if (text.length <= maxLength) return text;
-  const slice = text.slice(0, maxLength).replace(/\s+\S*$/, "");
-  return slice.length > 0 ? `${slice}${ellipsis}` : ellipsis;
+  if (maxLength <= 0) return ellipsis;
+
+  const chars = Array.from(text);
+  if (chars.length <= maxLength) return text;
+
+  const slice = chars.slice(0, maxLength).join("");
+  const wordBoundarySlice = slice.replace(/\s+\S*$/, "").trimEnd();
+  const base =
+    wordBoundarySlice.length > 0 ? wordBoundarySlice : slice.trimEnd();
+
+  return base.length > 0 ? `${base}${ellipsis}` : ellipsis;
 }
