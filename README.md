@@ -67,6 +67,19 @@ The Sanity CLI loads `.env` from `studio-hack-michigan-/` when you run `sanity d
 
 For Facebook Open Graph sharing you can set `PUBLIC_FB_APP_ID` (see `src/env.d.ts`).
 
+### Deploy trigger env
+
+The internal `/deploy/` page posts to `/api/trigger-deploy/`, which forwards to an n8n webhook.
+
+```env
+N8N_VERCEL_DEPLOY_WEBHOOK_URL=https://your-n8n-webhook.example
+DEPLOY_TRIGGER_SECRET=shared_team_passphrase
+```
+
+- `N8N_VERCEL_DEPLOY_WEBHOOK_URL` is required for local/dev proxy and production API route.
+- `DEPLOY_TRIGGER_SECRET` is optional but recommended; when set, the API requires a matching passphrase.
+- Keep both as server-only vars (do not prefix with `PUBLIC_`).
+
 ## Sanity Studio (standalone)
 
 The Studio app lives in `studio-hack-michigan-/`. Use it for a dedicated CMS dev server or deploys:

@@ -1,34 +1,31 @@
 ---
-// src/pages/deploy.astro
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ThreeBackground from "../components/ThreeBackground.astro";
-import Navigation from "../components/Navigation.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import DeployButton from "../components/DeployButton.astro";
-import Footer from "../components/Footer.astro";
 ---
 
-<BaseLayout title="Deploy - HackMI" noindex>
-  <ThreeBackground />
-  <Navigation />
-  <main id="main-content" class="deploy-page" tabindex="-1">
-    <section class="deploy-section">
-      <h1>Deploy Updates Now</h1>
-      <p>Click the button below to deploy the website to the host.</p>
-      <DeployButton />
-    </section>
-  </main>
-  <Footer />
-</BaseLayout>
+<PageLayout title="Deploy - HackMI" noindex mainClass="deploy-page">
+  <section class="deploy-section glass-card glass-card--raised">
+    <h1>Deploy updates now</h1>
+    <p>
+      Trigger a production rebuild after CMS edits so new content is visible on
+      the public site.
+    </p>
+    <DeployButton />
+  </section>
+</PageLayout>
 
 <style>
   .deploy-page {
-    min-height: 70vh;
-    padding: calc(var(--nav-height) + 2rem) 2rem 5rem;
+    min-height: 100vh;
+    padding: calc(var(--nav-height) + 2rem) 2rem var(--space-3xl);
+    display: grid;
+    align-items: start;
   }
 
   .deploy-section {
-    max-width: var(--container-narrow);
+    width: min(100%, 44rem);
     margin: 0 auto;
+    padding: clamp(1.25rem, 3vw, 2rem);
   }
 
   .deploy-section h1 {
@@ -36,11 +33,18 @@ import Footer from "../components/Footer.astro";
     font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
     color: var(--color-text);
+    text-transform: uppercase;
   }
 
   .deploy-section p {
     color: var(--color-text-dim);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+  }
+
+  @media (max-width: 48rem) {
+    .deploy-page {
+      padding-inline: 1rem;
+    }
   }
 </style>

@@ -14,14 +14,26 @@
   <button id="deploy-trigger" class="deploy-button" type="button">
     Launch Build
   </button>
+  <p id="deploy-status" class="deploy-status" role="status" aria-live="polite">
+  </p>
 </div>
 
 <script>
   const triggerBtn = document.getElementById("deploy-trigger");
   const passInput = document.getElementById("deploy-passphrase");
+  const statusEl = document.getElementById("deploy-status");
   if (!(triggerBtn instanceof HTMLButtonElement)) {
     throw new Error("deploy-trigger button missing");
   }
+
+  const setStatus = (
+    message: string,
+    mode: "neutral" | "success" | "error" = "neutral",
+  ) => {
+    if (!(statusEl instanceof HTMLElement)) return;
+    statusEl.textContent = message;
+    statusEl.dataset.mode = mode;
+  };
 
   function deployTriggerHref() {
     const base = import.meta.env.BASE_URL;
@@ -32,6 +44,7 @@
   }
 
   triggerBtn.addEventListener("click", async () => {
+    setStatus("", "neutral");
     triggerBtn.textContent = "Sending signal…";
     triggerBtn.disabled = true;
     if (passInput instanceof HTMLInputElement) {
@@ -52,7 +65,10 @@
 
       if (response.ok) {
         triggerBtn.textContent = "Deploy started";
-        triggerBtn.style.backgroundColor = "green";
+        setStatus(
+          "Deploy started. Monitor your deployment dashboard for progress.",
+          "success",
+        );
       } else {
         console.error("Deploy trigger failed", response.status, data);
         if (typeof data.details === "string" && data.details) {
@@ -60,18 +76,20 @@
         }
         if (response.status === 401) {
           triggerBtn.textContent = "Wrong passphrase — try again";
+          setStatus("Unauthorized. Check passphrase and try again.", "error");
         } else {
-          triggerBtn.textContent =
+          const message =
             typeof data.error === "string"
               ? data.error
               : "Deploy request failed";
+          triggerBtn.textContent = message;
+          setStatus(message, "error");
         }
-        triggerBtn.style.backgroundColor = "";
       }
     } catch (err) {
       console.error(err);
       triggerBtn.textContent = "Network error — try again or check console";
-      triggerBtn.style.backgroundColor = "";
+      setStatus("Network error. Check connection and retry.", "error");
     } finally {
       triggerBtn.disabled = false;
       if (passInput instanceof HTMLInputElement) {
@@ -86,7 +104,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.6rem;
     max-width: 22rem;
   }
 
@@ -112,6 +130,12 @@
     box-sizing: border-box;
   }
 
+  .deploy-pass-input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-color: var(--color-primary);
+  }
+
   .deploy-pass-input:disabled {
     opacity: 0.7;
   }
@@ -126,11 +150,41 @@
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition:
+      background-color var(--duration-fast) ease,
+      transform var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .deploy-button:hover:not(:disabled) {
+    background-color: var(--color-accent-orange-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .deploy-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .deploy-button:disabled {
     cursor: wait;
     opacity: 0.85;
+  }
+
+  .deploy-status {
+    min-height: 1.25rem;
+    margin: 0.15rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-dim);
+  }
+
+  .deploy-status[data-mode="success"] {
+    color: #4ade80;
+  }
+
+  .deploy-status[data-mode="error"] {
+    color: #f87171;
   }
 </style>

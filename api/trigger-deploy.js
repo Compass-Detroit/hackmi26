@@ -43,7 +43,9 @@ export default {
         body = {};
       }
       const auth = request.headers.get("authorization");
-      let token = auth?.startsWith("Bearer ") ? auth.slice(7).trim() : undefined;
+      let token = auth?.startsWith("Bearer ")
+        ? auth.slice(7).trim()
+        : undefined;
       if (token === undefined && typeof body.passphrase === "string") {
         token = body.passphrase;
       }

@@ -30,11 +30,12 @@ interface Props {
   description?: string;
   image?: string;
   ogType?: "website" | "article";
+  noindex?: boolean;
   /** Additional class on the <main> element (for page-specific layout CSS). */
   mainClass?: string;
 }
 
-const { title, description, image, ogType, mainClass } = Astro.props;
+const { title, description, image, ogType, noindex, mainClass } = Astro.props;
 
 /**
  * Only forward props that were actually passed. With
@@ -47,6 +48,7 @@ const baseLayoutProps = {
   ...(description !== undefined && { description }),
   ...(image !== undefined && { image }),
   ...(ogType !== undefined && { ogType }),
+  ...(noindex !== undefined && { noindex }),
 };
 ---
 
