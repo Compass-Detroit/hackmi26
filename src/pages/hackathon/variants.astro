@@ -1,0 +1,445 @@
+---
+/**
+ * UI Variants — internal exploration page for comparing different
+ * project card / page layout treatments.
+ *
+ * This page renders the same Sanity data in multiple visual variants
+ * side-by-side so the team can evaluate which layout, density, and
+ * interaction pattern works best before committing to one.
+ *
+ * Not linked from main nav — access directly at /hackathon/variants/.
+ */
+import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
+import PageLayout from "../../layouts/PageLayout.astro";
+import ProjectCard from "../../components/cms/ProjectCard.astro";
+
+const projects: HackathonProjectPreview[] = await getProjects();
+const sample = projects.slice(0, 6);
+---
+
+<PageLayout
+  title="UI Variants — Hack Michigan"
+  description="Internal: compare project layout variants"
+  mainClass="content-page variants-page"
+>
+  <div class="page-container">
+    <header class="page-header">
+      <p class="eyebrow">Internal / A-B Testing</p>
+      <h1 class="page-title">Project Layout Variants</h1>
+      <p class="page-subtitle">
+        Compare different card styles and page layouts to find the best
+        experience for showcasing hackathon projects.
+      </p>
+    </header>
+
+    <!-- ─── Variant A: Current Grid (Full Cards) ─────────────── -->
+    <section class="variant-section">
+      <div class="variant-label">
+        <span class="variant-badge">A</span>
+        <div>
+          <h2>Grid — Full Cards</h2>
+          <p>
+            Current default. Image + team badge + description + tech tags +
+            links.
+          </p>
+        </div>
+      </div>
+      <div class="grid grid--standard">
+        {
+          sample.map((project) => (
+            <ProjectCard project={project} variant="full" />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── Variant B: Compact Grid ──────────────────────────── -->
+    <section class="variant-section">
+      <div class="variant-label">
+        <span class="variant-badge">B</span>
+        <div>
+          <h2>Grid — Compact Cards</h2>
+          <p>Image + title only. Higher density, faster scanning.</p>
+        </div>
+      </div>
+      <div class="grid grid--compact">
+        {
+          sample.map((project) => (
+            <ProjectCard project={project} variant="compact" />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── Variant C: Horizontal List ───────────────────────── -->
+    <section class="variant-section">
+      <div class="variant-label">
+        <span class="variant-badge">C</span>
+        <div>
+          <h2>Horizontal List</h2>
+          <p>Image left, content right. Good for featured / winners.</p>
+        </div>
+      </div>
+      <div class="list-layout">
+        {
+          sample.slice(0, 3).map((project) => (
+            <a
+              href={`/hackathon/project/${project.slug.current}/`}
+              class="hz-card glass-card glass-card--interactive"
+            >
+              {project.mainImage && (
+                <div class="hz-card__image">
+                  <img
+                    src={`${project.mainImage}?w=480&auto=format`}
+                    alt={project.title}
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="hz-card__body">
+                {project.team && (
+                  <span class="hz-card__team">{project.team.name}</span>
+                )}
+                <h3>{project.title}</h3>
+                {project.technologies && project.technologies.length > 0 && (
+                  <div class="tag-list">
+                    {project.technologies.slice(0, 4).map((t) => (
+                      <span class="tag-chip">{t}</span>
+                    ))}
+                  </div>
+                )}
+                <div class="hz-card__actions">
+                  {project.githubUrl && (
+                    <span class="hz-card__link">GitHub</span>
+                  )}
+                  {project.demoUrl && <span class="hz-card__link">Demo</span>}
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── Variant D: Minimal / Text-Heavy ──────────────────── -->
+    <section class="variant-section">
+      <div class="variant-label">
+        <span class="variant-badge">D</span>
+        <div>
+          <h2>Minimal — Text Density</h2>
+          <p>
+            No images. Larger titles, more tech tags. Great for scanning tech
+            stack.
+          </p>
+        </div>
+      </div>
+      <div class="grid grid--minimal">
+        {
+          sample.map((project) => (
+            <a
+              href={`/hackathon/project/${project.slug.current}/`}
+              class="min-card glass-card glass-card--interactive"
+            >
+              {project.team && (
+                <span class="min-card__team">{project.team.name}</span>
+              )}
+              <h3 class="min-card__title">{project.title}</h3>
+              {project.technologies && project.technologies.length > 0 && (
+                <div class="tag-list">
+                  {project.technologies.map((t) => (
+                    <span class="tag-chip">{t}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── Variant E: Spotlight / Hero Cards ────────────────── -->
+    <section class="variant-section">
+      <div class="variant-label">
+        <span class="variant-badge">E</span>
+        <div>
+          <h2>Spotlight — Hero Image Overlay</h2>
+          <p>Full-bleed image with title gradient scrim. High visual impact.</p>
+        </div>
+      </div>
+      <div class="grid grid--spotlight">
+        {
+          sample.slice(0, 4).map((project) => (
+            <a
+              href={`/hackathon/project/${project.slug.current}/`}
+              class="spot-card glass-card--interactive"
+            >
+              <div class="spot-card__bg">
+                {project.mainImage && (
+                  <img
+                    src={`${project.mainImage}?w=600&auto=format`}
+                    alt={project.title}
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              <div class="spot-card__overlay">
+                {project.team && (
+                  <span class="spot-card__team">{project.team.name}</span>
+                )}
+                <h3>{project.title}</h3>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .variants-page {
+    padding-top: calc(var(--nav-height) + 2rem);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-dim);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── Section wrapper ── */
+  .variant-section {
+    margin-bottom: 5rem;
+  }
+
+  .variant-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .variant-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-primary-button);
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .variant-label h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .variant-label p {
+    color: var(--color-text-dim);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* ── Grid layouts ── */
+  .grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .grid--standard {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+
+  .grid--compact {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grid--minimal {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grid--spotlight {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── Horizontal card (Variant C) ── */
+  .list-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hz-card {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+  }
+
+  .hz-card__image {
+    overflow: hidden;
+  }
+
+  .hz-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/10;
+  }
+
+  .hz-card__body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hz-card__team {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .hz-card__body h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .hz-card__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+  }
+
+  .hz-card__link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-dim);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duration-fast) ease;
+  }
+
+  .hz-card:hover .hz-card__link {
+    border-color: var(--color-text-dim);
+  }
+
+  /* ── Minimal card (Variant D) ── */
+  .min-card {
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .min-card__team {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .min-card__title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Spotlight card (Variant E) ── */
+  .spot-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    color: white;
+  }
+
+  .spot-card__bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .spot-card__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-base) ease;
+  }
+
+  .spot-card:hover .spot-card__bg img {
+    transform: scale(1.05);
+  }
+
+  .spot-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+  }
+
+  .spot-card__team {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-orange);
+    margin-bottom: 0.35rem;
+  }
+
+  .spot-card__overlay h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 48rem) {
+    .hz-card {
+      grid-template-columns: 1fr;
+    }
+
+    .hz-card__image img {
+      aspect-ratio: 16/9;
+    }
+  }
+</style>

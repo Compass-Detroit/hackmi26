@@ -1,0 +1,114 @@
+---
+import {
+  getTeam,
+  getTeamSlugs,
+  urlFor,
+  type TeamWithProjects,
+} from "../../../lib/sanity";
+import PageLayout from "../../../layouts/PageLayout.astro";
+import MemberCard from "../../../components/cms/MemberCard.astro";
+import ProjectCard from "../../../components/cms/ProjectCard.astro";
+
+export async function getStaticPaths() {
+  const slugs = await getTeamSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) return Astro.redirect("/404");
+
+const team: TeamWithProjects | null = await getTeam(slug);
+if (!team) return Astro.redirect("/404");
+---
+
+<PageLayout
+  title={`${team.name} - Team`}
+  description={`Projects by ${team.name}`}
+  mainClass="content-page"
+>
+  <div class="page-container page-container--narrow">
+    <div class="team-header">
+      {
+        team.logo && (
+          <img
+            src={urlFor(team.logo).width(200).height(200).url()}
+            alt={team.name}
+            class="team-logo"
+          />
+        )
+      }
+      <h1 class="team-name">{team.name}</h1>
+    </div>
+
+    {
+      team.members && team.members.length > 0 && (
+        <section class="members-section">
+          <h2>Team Members</h2>
+          <div class="members-list">
+            {team.members.map((member) => (
+              <MemberCard member={member} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      team.projects && team.projects.length > 0 && (
+        <section class="projects-section">
+          <h2>Projects</h2>
+          <div class="project-grid">
+            {team.projects.map((project) => (
+              <ProjectCard project={project} variant="compact" />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .team-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .team-logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .team-name {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+  }
+
+  .members-section,
+  .projects-section {
+    margin-bottom: 4rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+  }
+
+  .members-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

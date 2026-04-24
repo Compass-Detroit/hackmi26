@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repository builds the **Hack Michigan (HackMI)** marketing site. It started from the **Darkness** Astro template; entries below include both upstream template history and HackMI-specific work.
 
+## [1.1.2] - 2026-04-22
+
+### Added
+
+- Optional social profile URLs on **team members** in Sanity (GitHub, LinkedIn, X, Bluesky, Mastodon, Instagram, personal website) and linked labels on hackathon **team** detail pages (`src/pages/hackathon/team/[slug].astro`).
+- README: environment variables, standalone Studio usage, content model overview, **For developers** (architecture and workflow), and **Credits**.
+- `tsconfig.json` **exclude** for removed `src/pages/about.astro` so the TypeScript program does not expect a deleted route file.
+
+### Changed
+
+- README focused on the HackMI site (Sanity-backed hackathon area, embedded Studio at `/studio`, Vercel deploy) instead of the old portfolio/blog template story.
+- `astro.config.mjs`: load `PUBLIC_SANITY_*` with **Vite** `loadEnv` — `loadEnv` is not exported from `astro/config` on Astro 5.
+- **Three.js background** (`ThreeBackground.astro`): run initialization on script load as well as `astro:page-load` (avoids a race where the animation never starts); when **prefers-reduced-motion** is set, still **render one frame** so the canvas is not empty.
+
+### Removed
+
+- **Blog and local portfolio projects**: Astro content collections (`src/content.config.ts`), `src/content/blog/`, `src/content/projects/`, blog and projects pages, and related components/layouts.
+- **`@astrojs/rss`** dependency (no blog feed).
+- Sanity Studio schemas **`post`** and **`project`**; Studio now registers **`team`** and **`hackathonProject`** only. Existing dataset documents of removed types are unchanged until manually deleted or migrated.
+- **About** page at `src/pages/about.astro`.
+
 ## [1.1.1] - 2026-04-15
 
 ### Added

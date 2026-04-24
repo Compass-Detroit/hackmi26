@@ -1,0 +1,72 @@
+---
+/**
+ * 404 page. Reached both by Astro's built-in not-found handling and by
+ * explicit `Astro.redirect("/404")` in dynamic routes when a slug does not
+ * resolve to a Sanity document.
+ */
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="Not Found - Hack Michigan"
+  description="The page you are looking for does not exist."
+  mainClass="content-page not-found"
+>
+  <div class="page-container">
+    <p class="eyebrow">404</p>
+    <h1 class="title">We couldn't find that page.</h1>
+    <p class="body">
+      The link may be broken, or the content may have moved. Try heading back to
+      the homepage or browsing hackathon projects.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Home</a>
+      <a class="btn btn-ghost" href="/hackathon/">Projects</a>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: calc(var(--nav-height) + 6rem);
+  }
+
+  .page-container {
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+
+  .body {
+    color: var(--color-text-dim);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
