@@ -1,0 +1,190 @@
+<div class="deploy-trigger-wrap">
+  <label class="deploy-pass-label" for="deploy-passphrase">
+    Deploy passphrase
+    <span class="deploy-pass-hint">(required if configured on the server)</span>
+  </label>
+  <input
+    id="deploy-passphrase"
+    class="deploy-pass-input"
+    type="password"
+    name="deploy-passphrase"
+    autocomplete="current-password"
+    placeholder="Team passphrase"
+  />
+  <button id="deploy-trigger" class="deploy-button" type="button">
+    Launch Build
+  </button>
+  <p id="deploy-status" class="deploy-status" role="status" aria-live="polite">
+  </p>
+</div>
+
+<script>
+  const triggerBtn = document.getElementById("deploy-trigger");
+  const passInput = document.getElementById("deploy-passphrase");
+  const statusEl = document.getElementById("deploy-status");
+  if (!(triggerBtn instanceof HTMLButtonElement)) {
+    throw new Error("deploy-trigger button missing");
+  }
+
+  const setStatus = (
+    message: string,
+    mode: "neutral" | "success" | "error" = "neutral",
+  ) => {
+    if (!(statusEl instanceof HTMLElement)) return;
+    statusEl.textContent = message;
+    statusEl.dataset.mode = mode;
+  };
+
+  function deployTriggerHref() {
+    const base = import.meta.env.BASE_URL;
+    const normalized = base.endsWith("/") ? base : `${base}/`;
+    // Match `trailingSlash: "always"` so we don’t rely on redirects for POST
+    return new URL("api/trigger-deploy/", window.location.origin + normalized)
+      .href;
+  }
+
+  triggerBtn.addEventListener("click", async () => {
+    setStatus("", "neutral");
+    triggerBtn.textContent = "Sending signal…";
+    triggerBtn.disabled = true;
+    if (passInput instanceof HTMLInputElement) {
+      passInput.disabled = true;
+    }
+
+    const passphrase =
+      passInput instanceof HTMLInputElement ? passInput.value : "";
+
+    try {
+      const response = await fetch(deployTriggerHref(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passphrase }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        triggerBtn.textContent = "Deploy started";
+        setStatus(
+          "Deploy started. Monitor your deployment dashboard for progress.",
+          "success",
+        );
+      } else {
+        console.error("Deploy trigger failed", response.status, data);
+        if (typeof data.details === "string" && data.details) {
+          console.error("Webhook response body (dev)", data.details);
+        }
+        if (response.status === 401) {
+          triggerBtn.textContent = "Wrong passphrase — try again";
+          setStatus("Unauthorized. Check passphrase and try again.", "error");
+        } else {
+          const message =
+            typeof data.error === "string"
+              ? data.error
+              : "Deploy request failed";
+          triggerBtn.textContent = message;
+          setStatus(message, "error");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      triggerBtn.textContent = "Network error — try again or check console";
+      setStatus("Network error. Check connection and retry.", "error");
+    } finally {
+      triggerBtn.disabled = false;
+      if (passInput instanceof HTMLInputElement) {
+        passInput.disabled = false;
+      }
+    }
+  });
+</script>
+
+<style>
+  .deploy-trigger-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    max-width: 22rem;
+  }
+
+  .deploy-pass-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .deploy-pass-hint {
+    font-weight: 400;
+    color: var(--color-text-dim);
+  }
+
+  .deploy-pass-input {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    background: var(--color-bg-elevated, #1e293b);
+    border: 1px solid var(--color-border, #334155);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  .deploy-pass-input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-color: var(--color-primary);
+  }
+
+  .deploy-pass-input:disabled {
+    opacity: 0.7;
+  }
+
+  .deploy-button {
+    margin-top: 0.25rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    background-color: var(--color-accent-orange);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) ease,
+      transform var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .deploy-button:hover:not(:disabled) {
+    background-color: var(--color-accent-orange-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .deploy-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .deploy-button:disabled {
+    cursor: wait;
+    opacity: 0.85;
+  }
+
+  .deploy-status {
+    min-height: 1.25rem;
+    margin: 0.15rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-dim);
+  }
+
+  .deploy-status[data-mode="success"] {
+    color: #4ade80;
+  }
+
+  .deploy-status[data-mode="error"] {
+    color: #f87171;
+  }
+</style>
