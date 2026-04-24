@@ -2,7 +2,14 @@ import crypto from "node:crypto";
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import sanity from "@sanity/astro";
 import { loadEnv } from "vite";
+
+const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
+  process.env.NODE_ENV || "development",
+  process.cwd(),
+  "PUBLIC_",
+);
 
 function readRequestBody(req) {
   return new Promise((resolve, reject) => {
@@ -40,6 +47,7 @@ function triggerDeployDevProxy() {
           res.end(JSON.stringify({ error: "Method not allowed" }));
           return;
         }
+
         const env = loadEnv(server.config.mode, process.cwd(), "");
         const secret = env.DEPLOY_TRIGGER_SECRET?.trim();
         if (secret) {
@@ -79,6 +87,7 @@ function triggerDeployDevProxy() {
           );
           return;
         }
+
         try {
           const upstream = await fetch(webhookUrl, { method: "POST" });
           const upstreamText = await upstream.text();
@@ -94,7 +103,6 @@ function triggerDeployDevProxy() {
             res.end(
               JSON.stringify({
                 error: `Webhook returned ${upstream.status}`,
-                // Dev server only — helps debug n8n 4xx/5xx without opening n8n UI
                 details: snippet || undefined,
               }),
             );
@@ -122,6 +130,12 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: (page) => !page.includes("/deploy/"),
+    }),
+    sanity({
+      projectId: PUBLIC_SANITY_PROJECT_ID || "f188znys",
+      dataset: PUBLIC_SANITY_DATASET || "production",
+      useCdn: false, // Set to true for production if you want to use the CDN
+      studioUrl: "/studio", // Optional: If you plan to host Sanity Studio inside Astro
     }),
   ],
   vite: {

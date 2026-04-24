@@ -63,7 +63,7 @@ These are imported and rendered in `src/pages/index.astro`. Edit freely.
 These exist in `src/components/` but are **not** imported anywhere. Avoid editing unless repurposing.
 
 `EventAbout.astro`, `Features.astro`, `FinalCTA.astro`, `Logistics.astro`, `Skills.astro`,
-`SponsorCTA.astro`, `BlogCard.astro`, `Card.astro`, `ProjectCard.astro`
+`SponsorCTA.astro`, `Card.astro`
 
 ---
 

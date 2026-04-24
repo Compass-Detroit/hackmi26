@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  quality:
+    name: Verify + Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify (format, lint, typecheck, build)
+        run: npm run verify
+
+      - name: Run unit tests
+        run: npm run test
+
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push back generated linux baselines
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Generate missing linux visual baselines
+        # --update-snapshots=missing in PW 1.59 still writes to test-results
+        # (not the snapshot dir) and exits non-zero — use --update-snapshots
+        # (all) instead, guarded by a shell check so it only runs when linux
+        # PNGs are absent.  The step itself always exits 0.
+        run: |
+          if ! ls e2e/visual-regression.spec.ts-snapshots/*-linux.png \
+               2>/dev/null | grep -q .; then
+            echo "No linux baselines found — generating..."
+            npx playwright test e2e/visual-regression.spec.ts \
+              --update-snapshots
+          else
+            echo "Linux baselines already present, skipping generation."
+          fi
+
+      - name: Commit new linux snapshots
+        # Runs on direct branch pushes only; PRs can't push back but the
+        # locally-generated files are still present for the next step.
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add e2e/visual-regression.spec.ts-snapshots/
+          git diff --staged --quiet || \
+            (git commit -m "chore: add linux visual regression baselines [skip ci]" \
+             && git push)
+
+      - name: Run full E2E suite
+        run: npm run test:e2e
+
+      - name: Upload Playwright artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            e2e/visual-regression.spec.ts-snapshots/

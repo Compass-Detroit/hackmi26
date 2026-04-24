@@ -26,3 +26,6 @@ export const EVENT_URLS = {
 } as const;
 
 export type EventUrlKey = keyof typeof EVENT_URLS;
+
+/** Access code shown to registrants on the IBM Agentic platform. */
+export const ACCESS_CODE = "HACKMI";

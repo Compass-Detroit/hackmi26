@@ -26,10 +26,12 @@ export const PRIMARY_CTA = {
 } as const;
 
 /**
- * Prefix an anchor-style href (`#foo`) with the deployed base URL. Absolute
- * external URLs and `mailto:` links pass through unchanged.
+ * Prefix an anchor-style href (`#foo`) or site-root path (`/hackathon/`)
+ * with the deployed base URL. Absolute external URLs and `mailto:` links
+ * pass through unchanged.
  */
 export function withBase(base: string, href: string): string {
+  if (href.startsWith("http") || href.startsWith("mailto:")) return href;
   if (href.startsWith("#")) return `${base}${href}`;
-  return href;
+  return `${base.replace(/\/$/, "")}${href}`;
 }
