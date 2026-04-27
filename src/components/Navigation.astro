@@ -9,6 +9,39 @@ const relativePath = currentPath.replace(base.slice(0, -1), "") || "/";
 const brand = siteHeaderBrand;
 const homeLabel = `${brand.logoAlt} — Home`;
 const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
+
+/**
+ * Single source of truth for nav entries. Rendered identically in the
+ * desktop bar and the mobile overlay (with variant-specific class names).
+ */
+type NavItem = {
+  href: string;
+  label: string;
+  active?: boolean;
+  external?: boolean;
+  cta?: "primary"; // primary CTA (sponsor) -- mobile uses long label
+};
+
+const navItems: NavItem[] = [
+  { href: base, label: "Home", active: relativePath === "/" },
+  {
+    href: withBase(base, "/hackathon/"),
+    label: "Projects",
+    active: relativePath.startsWith("/hackathon"),
+  },
+  ...SECTION_ANCHORS.map((a) => ({
+    href: withBase(base, a.href),
+    label: a.nav,
+  })),
+  {
+    href: PRIMARY_CTA.hacker.href,
+    label: PRIMARY_CTA.hacker.label,
+    external: true,
+  },
+];
+
+const desktopCta = PRIMARY_CTA.sponsor;
+const mobileCta = PRIMARY_CTA.sponsorLong;
 ---
 
 <nav class="site-nav" id="site-navigation" aria-label="Main navigation">
@@ -28,34 +61,27 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       </div>
 
       <div class="nav-links">
-        <a
-          href={base}
-          class:list={["nav-link", { active: relativePath === "/" }]}
-        >
-          Home
-        </a>
         {
-          SECTION_ANCHORS.map((a) => (
-            <a href={withBase(base, a.href)} class="nav-link">
-              {a.nav}
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "nav-link",
+                { active: item.active, "nav-link-external": item.external },
+              ]}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+            >
+              {item.label}
             </a>
           ))
         }
-        <a
-          href={PRIMARY_CTA.hacker.href}
-          class="nav-link nav-link-external"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {PRIMARY_CTA.hacker.label}
-        </a>
-        <a href={PRIMARY_CTA.sponsor.href} class="nav-cta">
-          {PRIMARY_CTA.sponsor.label}
-        </a>
+        <a href={desktopCta.href} class="nav-cta">{desktopCta.label}</a>
       </div>
 
       <button
         class="mobile-menu-btn"
+        type="button"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Open menu"
@@ -82,32 +108,29 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     </div>
   </div>
 
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div
+    class="mobile-menu"
+    id="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile navigation menu"
+    aria-hidden="true"
+    inert
+  >
     <div class="mobile-menu-content">
-      <a
-        href={base}
-        class:list={["mobile-nav-link", { active: relativePath === "/" }]}
-      >
-        Home
-      </a>
       {
-        SECTION_ANCHORS.map((a) => (
-          <a href={withBase(base, a.href)} class="mobile-nav-link">
-            {a.nav}
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={["mobile-nav-link", { active: item.active }]}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noopener noreferrer" : undefined}
+          >
+            {item.label}
           </a>
         ))
       }
-      <a
-        href={PRIMARY_CTA.hacker.href}
-        class="mobile-nav-link"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {PRIMARY_CTA.hacker.label}
-      </a>
-      <a href={PRIMARY_CTA.sponsorLong.href} class="mobile-nav-cta">
-        {PRIMARY_CTA.sponsorLong.label}
-      </a>
+      <a href={mobileCta.href} class="mobile-nav-cta">{mobileCta.label}</a>
     </div>
   </div>
 </nav>
@@ -120,7 +143,7 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     right: 1rem;
     z-index: 1000;
     padding: 1rem 1.5rem;
-    background: rgb(15 23 42 / 85%);
+    background: rgb(15 23 42 / 92%);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--color-border);
@@ -349,10 +372,39 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  const FOCUSABLE_SELECTOR =
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function initMobileMenu() {
     const btn = document.getElementById("mobile-menu-btn");
     const menu = document.getElementById("mobile-menu");
     if (!btn || !menu) return;
+    if (btn.dataset.mobileMenuBound === "true") return;
+    btn.dataset.mobileMenuBound = "true";
+
+    function getFocusable(): HTMLElement[] {
+      return Array.from(
+        menu!.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+      );
+    }
+
+    function focusFirstMenuItem() {
+      const tryFocus = () => {
+        const first = getFocusable()[0];
+        if (!first) return false;
+        first.focus({ preventScroll: true });
+        return document.activeElement === first;
+      };
+
+      // Try immediately, then after paint, then after micro-delay.
+      if (tryFocus()) return;
+      requestAnimationFrame(() => {
+        if (tryFocus()) return;
+        window.setTimeout(() => {
+          tryFocus();
+        }, 0);
+      });
+    }
 
     function setOpen(open: boolean) {
       menu!.classList.toggle("open", open);
@@ -361,17 +413,39 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
       btn!.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
 
+      // Use `inert` to remove menu from tab order + a11y tree when closed.
       if (open) {
-        document.addEventListener("keydown", onEscape);
+        menu!.removeAttribute("inert");
+        document.addEventListener("keydown", onKeydown);
+        // Focus the first link for screen-reader + keyboard users.
+        focusFirstMenuItem();
       } else {
-        document.removeEventListener("keydown", onEscape);
+        menu!.setAttribute("inert", "");
+        document.removeEventListener("keydown", onKeydown);
       }
     }
 
-    function onEscape(e: KeyboardEvent) {
+    function onKeydown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setOpen(false);
         btn!.focus();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      // Focus trap: cycle within the menu.
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0]!;
+      const last = focusable[focusable.length - 1]!;
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
       }
     }
 
@@ -387,5 +461,15 @@ const wordmark = "wordmark" in brand ? brand.wordmark : undefined;
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => setOpen(false));
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu, {
+      once: true,
+    });
+  } else {
+    initMobileMenu();
+  }
+
+  document.addEventListener("astro:page-load", initMobileMenu);
 </script>

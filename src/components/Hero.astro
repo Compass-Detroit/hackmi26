@@ -1,6 +1,7 @@
 ---
 import Button from "./primitives/Button.astro";
 import Icon from "./primitives/Icon.astro";
+import AccessCode from "./marketing/AccessCode.astro";
 import { EVENT_URLS } from "../data/event";
 
 const base = import.meta.env.BASE_URL;
@@ -34,9 +35,7 @@ const base = import.meta.env.BASE_URL;
       </Button>
     </div>
 
-    <p class="access-code-hint">
-      IBM platform access code: <span class="access-code">HACKMI</span>
-    </p>
+    <AccessCode marginBottom={2} />
 
     <p class="hero-description">
       Michigan was built by innovators—and it's time to innovate again. Build an
@@ -132,28 +131,6 @@ const base = import.meta.env.BASE_URL;
     justify-content: center;
     flex-wrap: wrap;
     margin-block: 3rem 1rem;
-  }
-
-  .access-code-hint {
-    font-size: 0.8rem;
-    color: var(--color-text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 2rem;
-    opacity: 0.8;
-  }
-
-  .access-code {
-    display: inline-block;
-    font-family: monospace;
-    font-weight: 700;
-    font-size: 1em;
-    color: var(--color-accent-orange);
-    background: rgb(251 191 36 / 12%);
-    padding: 0.1em 0.45em;
-    border-radius: 4px;
-    border: 1px solid rgb(251 191 36 / 50%);
-    letter-spacing: 0.12em;
   }
 
   .hero-chips {

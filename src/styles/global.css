@@ -24,7 +24,8 @@
 
   /* ---- Color -- text & borders ---- */
   --color-text: #f1f5f9;
-  --color-text-dim: #f1f5f9;
+  /* `--color-text-dim` is slate-400: low-emphasis text on dark surfaces. Keep ≥4.5:1 against `--color-bg-dark`. */
+  --color-text-dim: #94a3b8;
   --color-border: #334155;
   --color-shadow: rgb(59 130 246 / 30%);
 
@@ -57,11 +58,14 @@
   --shadow-glass: 0 20px 50px rgb(0 0 0 / 35%);
 
   /* ---- Surfaces ---- */
-  --surface-glass-bg: rgb(30 41 59 / 55%);
+  --surface-glass-bg: rgb(15 23 42 / 82%);
+  --surface-glass-raised-bg: rgb(15 23 42 / 92%);
   --surface-glass-blur: 12px;
 
   /* ---- Layout ---- */
-  --nav-height: 80px;
+  --nav-bar-height: 80px;
+  --nav-top-offset: 1rem;
+  --nav-height: calc(var(--nav-bar-height) + var(--nav-top-offset));
   --anchor-scroll-margin: calc(var(--nav-height) + 1.25rem);
   --container-max: 1200px;
   --container-narrow: 900px;
@@ -322,7 +326,7 @@ body::before {
 }
 
 .glass-card--raised {
-  background: rgb(30 41 59 / 65%);
+  background: var(--surface-glass-raised-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-glass);
@@ -357,6 +361,43 @@ body::before {
 
 .section-container--wide {
   max-width: var(--container-wide);
+}
+
+/* Shared page utilities — used across hackathon, project, team detail pages */
+
+.page-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.page-container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.content-page {
+  min-height: 100vh;
+  padding-top: calc(var(--nav-height) + 4rem);
+  padding-bottom: var(--space-3xl);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-chip {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.tag-chip--lg {
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
 }
 
 .section-title {

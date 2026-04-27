@@ -1,0 +1,44 @@
+---
+/**
+ * TeamBadge — small pill link displaying a team name, used on project
+ * cards to credit the authoring team.
+ *
+ * Extracted from the inline `.team-badge` rule that lived on both
+ * hackathon/index and project-detail templates. The class name stays
+ * `team-badge` so any existing overrides in global.css still apply.
+ */
+import type { TeamRef } from "../../lib/sanity";
+
+interface Props {
+  team: TeamRef;
+  /** Optional extra class for position-specific margin tweaks. */
+  class?: string;
+}
+
+const { team, class: className } = Astro.props;
+---
+
+<a
+  href={`/hackathon/team/${team.slug.current}/`}
+  class:list={["team-badge", className]}
+>
+  {team.name}
+</a>
+
+<style>
+  .team-badge {
+    display: inline-block;
+    background: var(--color-primary, #6366f1);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    transition: filter 0.2s ease;
+  }
+  .team-badge:hover {
+    filter: brightness(1.2);
+  }
+</style>

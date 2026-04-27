@@ -5,7 +5,18 @@ const tsFiles = ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"];
 
 export default [
   {
-    ignores: ["**/node_modules/**", "**/dist/**", "**/.astro/**", "**/*.d.ts"],
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.astro/**",
+      "**/*.d.ts",
+      "**/playwright-report/**",
+      "**/test-results/**",
+      "**/blob-report/**",
+      // Sanity Studio is its own workspace with its own deps + eslint
+      // config. It isn't installed at the repo root, so skip it here.
+      "studio-hack-michigan-/**",
+    ],
   },
 
   // Astro recommended rules (flat config)

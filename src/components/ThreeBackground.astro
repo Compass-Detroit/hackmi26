@@ -182,6 +182,7 @@
     // IntersectionObserver: pause when offscreen
     observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return;
         isOffscreen = !entry.isIntersecting;
         if (shouldAnimate() && animationId === null) animate();
         if (!shouldAnimate() && animationId !== null) {
@@ -197,7 +198,12 @@
     isPaused = prefersReduced;
     isOffscreen = false;
 
-    if (shouldAnimate()) animate();
+    if (shouldAnimate()) {
+      animate();
+    } else if (renderer && scene && camera) {
+      // Reduced motion: still draw once so the canvas is not empty
+      renderer.render(scene, camera);
+    }
     setupPauseButton();
   }
 
@@ -320,10 +326,27 @@
     camera = null;
   }
 
-  document.addEventListener("astro:page-load", () => initThreeAnimation());
-  document.addEventListener("astro:before-preparation", () =>
-    cleanupThreeAnimation(),
-  );
+  /** One init per view; reset when ClientRouter tears down before the next navigation. */
+  let initializedThisView = false;
+
+  function tryInitThreeForCurrentPage() {
+    if (initializedThisView) return;
+    initializedThisView = true;
+    initThreeAnimation();
+  }
+
+  document.addEventListener("astro:page-load", tryInitThreeForCurrentPage);
+
+  document.addEventListener("astro:before-preparation", () => {
+    cleanupThreeAnimation();
+    initializedThisView = false;
+  });
+
+  // If `astro:page-load` already ran before this module executed, catch up once.
+  // Using the same guard avoids double init when page-load fires again right after.
+  queueMicrotask(() => {
+    tryInitThreeForCurrentPage();
+  });
 </script>
 
 <style>

@@ -1,0 +1,62 @@
+---
+/**
+ * AccessCode — the "IBM platform access code: HACKMI" hint that appears
+ * beneath each registration CTA.
+ *
+ * Used in Hero, SignupSection, and FinalAgenticCTA. Each consumer had
+ * its own copy of the pill CSS and hint-paragraph CSS; this consolidates
+ * them and lets the marketing team change the code in one place.
+ *
+ * Consumers can pass their own `label` (e.g. "Access code:" vs. the
+ * longer "IBM platform access code:") and explicit vertical margin via
+ * `marginTop` / `marginBottom` props (rem values). Margin is a prop
+ * rather than a class override because Astro's scoped CSS won't cross
+ * the component boundary onto this file's own <p>.
+ */
+import { ACCESS_CODE } from "../../data/event";
+
+interface Props {
+  /** Label shown before the code chip. */
+  label?: string;
+  /** Top margin in rem (CSS `rem` units). Default 0. */
+  marginTop?: number;
+  /** Bottom margin in rem (CSS `rem` units). Default 0. */
+  marginBottom?: number;
+}
+
+const {
+  label = "IBM platform access code:",
+  marginTop = 0,
+  marginBottom = 0,
+} = Astro.props;
+
+const inlineStyle = `margin-top: ${marginTop}rem; margin-bottom: ${marginBottom}rem;`;
+---
+
+<p class="access-code-hint" style={inlineStyle}>
+  {label}
+  <span class="access-code">{ACCESS_CODE}</span>
+</p>
+
+<style>
+  .access-code-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+  }
+
+  .access-code {
+    display: inline-block;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--color-accent-orange);
+    background: rgb(251 191 36 / 12%);
+    padding: 0.1em 0.45em;
+    border-radius: 4px;
+    border: 1px solid rgb(251 191 36 / 50%);
+    letter-spacing: 0.12em;
+  }
+</style>

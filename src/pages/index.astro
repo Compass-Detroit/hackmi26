@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ThreeBackground from "../components/ThreeBackground.astro";
-import Navigation from "../components/Navigation.astro";
-import Footer from "../components/Footer.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import Hero from "../components/Hero.astro";
 import AboutSection from "../components/AboutSection.astro";
 import SponsorsSection from "../components/SponsorsSection.astro";
@@ -12,20 +9,15 @@ import SignupSection from "../components/SignupSection.astro";
 import FinalAgenticCTA from "../components/FinalAgenticCTA.astro";
 ---
 
-<BaseLayout
+<PageLayout
   title="HackMI — Detroit hackathon · May 15-17 2026"
   description="Hack Michigan (HackMI) is a Detroit hackathon May 15-17, 2026 for students and the public. Register and explore sponsorship."
 >
-  <ThreeBackground />
-  <Navigation />
-  <main id="main-content" tabindex="-1">
-    <Hero />
-    <AboutSection />
-    <SponsorsSection />
-    <EventDetails />
-    <LogisticsSection />
-    <SignupSection />
-    <FinalAgenticCTA />
-  </main>
-  <Footer />
-</BaseLayout>
+  <Hero />
+  <AboutSection />
+  <SponsorsSection />
+  <EventDetails />
+  <LogisticsSection />
+  <SignupSection />
+  <FinalAgenticCTA />
+</PageLayout>
