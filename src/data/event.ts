@@ -21,7 +21,7 @@ export const EVENT = {
 } as const;
 
 export const EVENT_URLS = {
-  hackerRegistration: "https://ibm.biz/hack-michigan",
+  hackerRegistration: "https://bit.ly/hack-michigan-luma",
   sponsorInquiry: "mailto:whatupdoe@compass-detroit.com",
 } as const;
 
