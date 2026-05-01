@@ -15,7 +15,7 @@ import DeployButton from "../components/DeployButton.astro";
 </PageLayout>
 
 <style>
-  .deploy-page {
+  :global(main.deploy-page) {
     min-height: 100vh;
     padding: calc(var(--nav-height) + 2rem) 2rem var(--space-3xl);
     display: grid;
@@ -43,7 +43,7 @@ import DeployButton from "../components/DeployButton.astro";
   }
 
   @media (max-width: 48rem) {
-    .deploy-page {
+    :global(main.deploy-page) {
       padding-inline: 1rem;
     }
   }
