@@ -12,6 +12,7 @@ This repository builds the **Hack Michigan (HackMI)** marketing site. It started
 ### Changed
 
 - Playwright E2E specs updated to match the new `/projects/` route for the “Projects” navigation link (instead of asserting `/hackathon/`).
+- Canonicalized the legacy `/hackathon/` listing URL by redirecting it to `/projects/` (detail routes under `/hackathon/*` remain unchanged).
 
 ## [1.1.3] - 2026-05-01
 
