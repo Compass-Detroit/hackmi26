@@ -1,7 +1,7 @@
 /* Hack Michigan Global Styles
    --------------------------------------------------------------------------
    Design tokens, element defaults, shared utilities, and keyframes.
-   Component-specific styles live in the component's \3c style> block.
+   Component-specific styles live in the component's <style> block.
 */
 
 :root {

@@ -6,10 +6,15 @@ on:
       - "**"
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     name: Verify + Unit Tests
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SANITY_STRICT_MODE: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,8 +37,8 @@ jobs:
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # needed to push back generated linux baselines
+    env:
+      PUBLIC_SANITY_STRICT_MODE: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,34 +56,27 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Generate missing linux visual baselines
-        # --update-snapshots=missing in PW 1.59 still writes to test-results
-        # (not the snapshot dir) and exits non-zero — use --update-snapshots
-        # (all) instead, guarded by a shell check so it only runs when linux
-        # PNGs are absent.  The step itself always exits 0.
+        # Visual baselines live next to each spec under
+        # `e2e/<spec>.ts-snapshots/`. We require a `-linux.png` for every
+        # `-darwin.png` we have committed; if any are missing, regenerate
+        # them all in one pass with `--update-snapshots`.  We don't swallow
+        # the exit code: if Playwright fails to start the dev server here,
+        # the next step's `git diff --staged` would silently produce no
+        # changes and we'd never notice.
         run: |
-          SNAP_DIR="e2e/visual-regression.spec.ts-snapshots"
-          REQUIRED_LINUX_BASELINES=(
-            "$SNAP_DIR/homepage-hero-desktop.png-linux.png"
-            "$SNAP_DIR/nav-desktop.png-linux.png"
-            "$SNAP_DIR/homepage-hero-tablet.png-linux.png"
-            "$SNAP_DIR/mobile-menu-open-tablet.png-linux.png"
-            "$SNAP_DIR/homepage-hero-mobile.png-linux.png"
-            "$SNAP_DIR/nav-mobile.png-linux.png"
-            "$SNAP_DIR/mobile-menu-open.png-linux.png"
-            "$SNAP_DIR/projects-grid-desktop.png-linux.png"
-          )
-
+          set -euo pipefail
           missing=0
-          for f in "${REQUIRED_LINUX_BASELINES[@]}"; do
-            if [ ! -f "$f" ]; then
-              echo "Missing linux baseline: $f"
+          while IFS= read -r -d '' darwin; do
+            linux="${darwin%-darwin.png}-linux.png"
+            if [ ! -f "$linux" ]; then
+              echo "Missing linux baseline: $linux"
               missing=1
             fi
-          done
+          done < <(find e2e -type f -name '*-darwin.png' -print0)
 
           if [ "$missing" -eq 1 ]; then
             echo "Generating missing linux baselines..."
-            npx playwright test e2e/visual-regression.spec.ts --update-snapshots || true
+            npx playwright test e2e/visual-regression.spec.ts --update-snapshots
           else
             echo "All required linux baselines already present, skipping generation."
           fi

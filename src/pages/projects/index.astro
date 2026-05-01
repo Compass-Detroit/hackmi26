@@ -3,7 +3,14 @@ import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ProjectCard from "../../components/cms/ProjectCard.astro";
 
-const projects: HackathonProjectPreview[] = await getProjects();
+// Don't break the build if Sanity is unreachable; fall through to the
+// empty-state below. Strict-mode CI flips this via `PUBLIC_SANITY_STRICT_MODE`.
+let projects: HackathonProjectPreview[] = [];
+try {
+  projects = await getProjects();
+} catch (err) {
+  console.error("[projects] getProjects() failed, rendering empty state:", err);
+}
 ---
 
 <PageLayout
