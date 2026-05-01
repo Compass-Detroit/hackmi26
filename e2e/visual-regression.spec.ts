@@ -59,11 +59,11 @@ test.describe("Visual Regression — Desktop", () => {
     });
   });
 
-  test("hackathon projects grid", async ({ page }) => {
-    await prepareVisualPage(page, "/hackathon/");
+  test("projects grid", async ({ page }) => {
+    await prepareVisualPage(page, "/projects/");
     await expect(page.locator(".project-grid")).toBeVisible();
 
-    await expect(page).toHaveScreenshot("hackathon-grid-desktop.png", {
+    await expect(page).toHaveScreenshot("projects-grid-desktop.png", {
       fullPage: true,
       maxDiffPixelRatio: 0.02,
     });

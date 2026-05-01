@@ -34,9 +34,9 @@ test.describe("Smoke Tests", () => {
     expect(realErrors).toEqual([]);
   });
 
-  test("hackathon projects page loads", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
-    await expect(page).toHaveTitle(/Hackathon Projects/);
+  test("projects page loads", async ({ page }) => {
+    await gotoPath(page, "/projects/");
+    await expect(page).toHaveTitle(/Projects/i);
   });
 
   test("404 page renders for unknown routes", async ({ page }) => {

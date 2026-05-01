@@ -11,9 +11,9 @@ async function gotoPath(page: Page, path: string) {
   return page.goto(path, { waitUntil: "domcontentloaded" });
 }
 
-test.describe("Hackathon Projects Page", () => {
+test.describe("Projects Page", () => {
   test("renders project cards or empty state", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
+    await gotoPath(page, "/projects/");
 
     const cards = page.locator("article, .glass-card");
     const empty = page.locator(".empty-state");
@@ -25,8 +25,8 @@ test.describe("Hackathon Projects Page", () => {
   });
 
   test("page header has title and subtitle", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
-    await expect(page.locator(".page-title")).toContainText("Hackathon");
+    await gotoPath(page, "/projects/");
+    await expect(page.locator(".page-title")).toContainText("Projects");
     await expect(page.locator(".page-subtitle")).toBeVisible();
   });
 });

@@ -117,6 +117,22 @@ npm run typecheck       # astro check
 npm run verify          # format + lint + lint:css + typecheck + build
 ```
 
+## E2E tests (Playwright)
+
+By default, local runs use your installed **Google Chrome** (so you don’t need to download Playwright browser binaries).
+
+If you don’t have Chrome installed (or you want Playwright-managed Chromium), install browsers once:
+
+```bash
+npm run playwright:install
+```
+
+Then run the suite:
+
+```bash
+npm run test:e2e
+```
+
 ## Customization
 
 - **Colors, type, motion tokens** — `src/styles/global.css` (`:root` variables)

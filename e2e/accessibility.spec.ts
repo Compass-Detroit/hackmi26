@@ -60,8 +60,8 @@ test.describe("Accessibility", () => {
     }
   });
 
-  test("hackathon page has a primary heading", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
+  test("projects page has a primary heading", async ({ page }) => {
+    await gotoPath(page, "/projects/");
     const h1 = page.locator(".page-title, main h1");
     expect(await h1.count()).toBeGreaterThanOrEqual(1);
   });

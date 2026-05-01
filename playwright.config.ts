@@ -20,6 +20,9 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: "http://localhost:4321",
+    // Avoid requiring `npx playwright install` for local runs.
+    // CI uses `npx playwright install --with-deps chromium`.
+    channel: process.env.CI ? undefined : "chrome",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     viewport: { width: 1440, height: 900 },

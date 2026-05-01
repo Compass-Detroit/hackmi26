@@ -32,20 +32,20 @@ test.describe("Desktop Navigation", () => {
     expect(count).toBeGreaterThanOrEqual(5);
   });
 
-  test("Projects link navigates to hackathon page", async ({ page }) => {
+  test("Projects link navigates to projects page", async ({ page }) => {
     await gotoPath(page, "/");
     await page.locator('.nav-link:text("Projects")').click();
-    await expect(page).toHaveURL(/hackathon/);
+    await expect(page).toHaveURL(/\/projects\/?/);
   });
 
   test("Home link on projects page returns home", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
+    await gotoPath(page, "/projects/");
     await page.locator('.nav-link:text("Home")').click();
     await expect(page).toHaveURL("/");
   });
 
-  test("Projects nav link is active on hackathon pages", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
+  test("Projects nav link is active on projects pages", async ({ page }) => {
+    await gotoPath(page, "/projects/");
     const projectsLink = page.locator(".nav-link", { hasText: "Projects" });
 
     await expect(projectsLink).toHaveClass(/active/);
