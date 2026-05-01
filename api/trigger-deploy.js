@@ -6,10 +6,17 @@
  *
  * Environment (Vercel + optional .env for local / `vercel dev`):
  *   N8N_VERCEL_DEPLOY_WEBHOOK_URL — production n8n webhook URL (required)
- *   DEPLOY_TRIGGER_SECRET — optional; if set, require matching JSON `{ "passphrase": "..." }`
+ *   DEPLOY_TRIGGER_SECRET — required in production; require matching JSON `{ "passphrase": "..." }`
  *     or header `Authorization: Bearer <secret>` (shared team passphrase, not user accounts)
  */
 import crypto from "node:crypto";
+import {
+  SUCCESS_COOLDOWN_MS,
+  clientKeyFromHeaders,
+  createDeployRateLimiter,
+} from "../src/lib/deploy/rate-limit.js";
+
+const limiter = createDeployRateLimiter();
 
 /**
  * @param {string} a
@@ -22,6 +29,12 @@ function timingSafeEqualString(a, b) {
   return crypto.timingSafeEqual(ba, bb);
 }
 
+/** @param {Request} request */
+function checkRateLimit(request) {
+  const key = clientKeyFromHeaders((name) => request.headers.get(name));
+  return limiter.check(key);
+}
+
 export default {
   /**
    * @param {Request} request
@@ -31,7 +44,32 @@ export default {
       return Response.json({ error: "Method not allowed" }, { status: 405 });
     }
 
+    const rate = checkRateLimit(request);
+    if (!rate.allowed) {
+      const retryAfterSeconds = Math.ceil(rate.retryAfterMs / 1000);
+      return Response.json(
+        {
+          error: "Too many requests. Retry later.",
+          retryAfterSeconds,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfterSeconds),
+          },
+        },
+      );
+    }
+
+    const isProd = process.env.NODE_ENV === "production";
     const secret = process.env.DEPLOY_TRIGGER_SECRET?.trim();
+    if (isProd && !secret) {
+      return Response.json(
+        { error: "DEPLOY_TRIGGER_SECRET must be configured in production" },
+        { status: 500 },
+      );
+    }
+
     if (secret) {
       let body = {};
       try {
@@ -75,7 +113,8 @@ export default {
         );
       }
 
-      return Response.json({ ok: true });
+      limiter.applySuccessCooldown(rate.key);
+      return Response.json({ ok: true, cooldownMs: SUCCESS_COOLDOWN_MS });
     } catch {
       return Response.json({ error: "Proxy request failed" }, { status: 500 });
     }

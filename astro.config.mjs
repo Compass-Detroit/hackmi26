@@ -4,6 +4,11 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import sanity from "@sanity/astro";
 import { loadEnv } from "vite";
+import {
+  SUCCESS_COOLDOWN_MS,
+  clientKeyFromHeaders,
+  createDeployRateLimiter,
+} from "./src/lib/deploy/rate-limit.js";
 
 const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
   process.env.NODE_ENV || "development",
@@ -29,6 +34,15 @@ function timingSafeEqualString(a, b) {
 
 /** Dev-only: same-origin proxy so `fetch("/api/trigger-deploy")` works during `astro dev` (avoids browser CORS to n8n). */
 function triggerDeployDevProxy() {
+  const limiter = createDeployRateLimiter();
+
+  function checkRateLimit(req) {
+    const key = clientKeyFromHeaders(
+      (name) => req.headers[name]?.toString() ?? null,
+    );
+    return limiter.check(key);
+  }
+
   return {
     name: "trigger-deploy-dev-proxy",
     configureServer(server) {
@@ -48,8 +62,34 @@ function triggerDeployDevProxy() {
           return;
         }
 
+        const rate = checkRateLimit(req);
+        if (!rate.allowed) {
+          const retryAfterSeconds = Math.ceil(rate.retryAfterMs / 1000);
+          res.statusCode = 429;
+          res.setHeader("Content-Type", "application/json");
+          res.setHeader("Retry-After", String(retryAfterSeconds));
+          res.end(
+            JSON.stringify({
+              error: "Too many requests. Retry later.",
+              retryAfterSeconds,
+            }),
+          );
+          return;
+        }
+
         const env = loadEnv(server.config.mode, process.cwd(), "");
+        const isProd = server.config.mode === "production";
         const secret = env.DEPLOY_TRIGGER_SECRET?.trim();
+        if (isProd && !secret) {
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.end(
+            JSON.stringify({
+              error: "DEPLOY_TRIGGER_SECRET must be configured in production",
+            }),
+          );
+          return;
+        }
         if (secret) {
           const raw = await readRequestBody(req);
           let body = {};
@@ -110,7 +150,10 @@ function triggerDeployDevProxy() {
           }
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify({ ok: true }));
+          limiter.applySuccessCooldown(rate.key);
+          res.end(
+            JSON.stringify({ ok: true, cooldownMs: SUCCESS_COOLDOWN_MS }),
+          );
         } catch {
           res.statusCode = 500;
           res.setHeader("Content-Type", "application/json");
