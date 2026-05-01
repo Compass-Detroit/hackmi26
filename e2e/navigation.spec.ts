@@ -27,7 +27,7 @@ test.describe("Desktop Navigation", () => {
     await gotoPath(page, "/");
     const navLinks = page.locator(".nav-links .nav-link");
 
-    // Should have: Home, Projects, About, Sponsors, Event, Logistics, Register
+    // Should have: Home, Projects, About, Event, Challenge, Sponsors, Logistics, Register
     const count = await navLinks.count();
     expect(count).toBeGreaterThanOrEqual(5);
   });
