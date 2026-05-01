@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repository builds the **Hack Michigan (HackMI)** marketing site. It started from the **Darkness** Astro template; entries below include both upstream template history and HackMI-specific work.
 
+## [1.1.3] - 2026-05-01
+
+### Added
+
+- `/projects/` route for hackathon project browsing (`src/pages/projects/index.astro`).
+- Vercel redirect rule to enforce trailing slashes (`vercel.json`).
+
+### Changed
+
+- Navigation “Projects” now routes to `/projects/` (and remains active on both `/projects/` and `/hackathon/` paths) (`src/components/Navigation.astro`).
+- Sponsor tier `layout` prop now uses the shared `SponsorTierKey` union (fixes `"platinum"` typing mismatch) (`src/components/SponsorTier.astro`).
+- Deploy page main padding now correctly clears the fixed navigation (`src/pages/deploy.astro`).
+- Refined landing copy/layout for About + Challenge sections (`src/components/AboutSection.astro`, `src/components/ChallengeSection.astro`).
+
+### Fixed
+
+- Gold sponsor tier now uses the correct logo tier data and layout (`src/components/SponsorsSection.astro`).
+
 ## [1.1.2] - 2026-04-22
 
 ### Added
@@ -105,6 +123,8 @@ _Initial [astro-darkness](https://github.com/kpab/astro-darkness) template relea
 - @astrojs/rss for feed generation
 - @astrojs/sitemap for SEO optimization
 
+[1.1.3]: https://github.com/Compass-Detroit/hackmi26/compare/v1.1.2...v1.1.3
+[1.1.2]: https://github.com/Compass-Detroit/hackmi26/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Compass-Detroit/hackmi26/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Compass-Detroit/hackmi26/releases/tag/v1.1.0
 [1.0.1]: https://github.com/kpab/astro-darkness/compare/v1.0.0...v1.0.1
