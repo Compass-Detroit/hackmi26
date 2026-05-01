@@ -56,13 +56,31 @@ jobs:
         # (all) instead, guarded by a shell check so it only runs when linux
         # PNGs are absent.  The step itself always exits 0.
         run: |
-          if ! ls e2e/visual-regression.spec.ts-snapshots/*-linux.png \
-               2>/dev/null | grep -q .; then
-            echo "No linux baselines found — generating..."
-            npx playwright test e2e/visual-regression.spec.ts \
-              --update-snapshots
+          SNAP_DIR="e2e/visual-regression.spec.ts-snapshots"
+          REQUIRED_LINUX_BASELINES=(
+            "$SNAP_DIR/homepage-hero-desktop.png-linux.png"
+            "$SNAP_DIR/nav-desktop.png-linux.png"
+            "$SNAP_DIR/homepage-hero-tablet.png-linux.png"
+            "$SNAP_DIR/mobile-menu-open-tablet.png-linux.png"
+            "$SNAP_DIR/homepage-hero-mobile.png-linux.png"
+            "$SNAP_DIR/nav-mobile.png-linux.png"
+            "$SNAP_DIR/mobile-menu-open.png-linux.png"
+            "$SNAP_DIR/projects-grid-desktop.png-linux.png"
+          )
+
+          missing=0
+          for f in "${REQUIRED_LINUX_BASELINES[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "Missing linux baseline: $f"
+              missing=1
+            fi
+          done
+
+          if [ "$missing" -eq 1 ]; then
+            echo "Generating missing linux baselines..."
+            npx playwright test e2e/visual-regression.spec.ts --update-snapshots || true
           else
-            echo "Linux baselines already present, skipping generation."
+            echo "All required linux baselines already present, skipping generation."
           fi
 
       - name: Commit new linux snapshots
