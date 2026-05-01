@@ -24,28 +24,28 @@ import SectionHeader from "./primitives/SectionHeader.astro";
 
   <div class="sponsor-tiers">
     <SponsorTier
-      heading="Host"
-      headingId="tier-host-heading"
-      logos={sponsorLogosByTier.host}
-      totalSlots={sponsorLogosByTier.host.length}
-      layout="host"
-      shape="card"
-      slotLabel="Host sponsor"
-    />
-    <SponsorTier
       heading="Diamond"
-      headingId="tier-diamond-heading"
+      headingId="tier-host-heading"
       logos={sponsorLogosByTier.diamond}
-      totalSlots={2}
+      totalSlots={sponsorLogosByTier.diamond.length}
       layout="diamond"
       shape="card"
       slotLabel="Diamond sponsor"
     />
     <SponsorTier
+      heading="Platinum"
+      headingId="tier-platinum-heading"
+      logos={sponsorLogosByTier.platinum}
+      totalSlots={2}
+      layout="platinum"
+      shape="card"
+      slotLabel="Platinum sponsor"
+    />
+    <SponsorTier
       heading="Gold"
       headingId="tier-gold-heading"
       logos={sponsorLogosByTier.gold}
-      totalSlots={2}
+      totalSlots={4}
       layout="gold"
       shape="card"
       slotLabel="Gold sponsor"
