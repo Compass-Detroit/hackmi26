@@ -1,7 +1,7 @@
 /* Hack Michigan Global Styles
    --------------------------------------------------------------------------
    Design tokens, element defaults, shared utilities, and keyframes.
-   Component-specific styles live in the component's <style> block.
+   Component-specific styles live in the component's \3c style> block.
 */
 
 :root {
@@ -448,6 +448,7 @@ body::before {
   line-height: normal;
   margin: 0.5rem auto 2rem;
   max-width: 720px;
+  text-wrap: pretty;
 }
 
 .section-eyebrow {
