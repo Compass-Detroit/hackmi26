@@ -1,41 +1,12 @@
 ---
-import { footerSponsorLogos, publicAssetUrl } from "../data/siteLogos";
 import { EVENT } from "../data/event";
 import { SECTION_ANCHORS, withBase } from "../data/nav";
 import { SOCIAL_LINKS } from "../data/socials";
-import MaybeLink from "./primitives/MaybeLink.astro";
-
 const base = import.meta.env.BASE_URL;
-const sponsors = footerSponsorLogos;
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  {
-    sponsors.length > 0 && (
-      <div class="sponsor-strip">
-        <div class="sponsor-strip-inner">
-          <p class="sponsor-strip-label">Partners &amp; sponsors</p>
-          <ul class="sponsor-strip-logos" role="list">
-            {sponsors.map((logo) => (
-              <li>
-                <MaybeLink href={logo.href ?? null} class="sponsor-strip-link">
-                  <img
-                    src={publicAssetUrl(base, logo.src)}
-                    alt={logo.alt}
-                    class="sponsor-strip-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </MaybeLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    )
-  }
-
   <div class="footer-main">
     <div class="container">
       <div class="footer-grid">
