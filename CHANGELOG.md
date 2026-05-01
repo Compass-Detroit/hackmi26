@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repository builds the **Hack Michigan (HackMI)** marketing site. It started from the **Darkness** Astro template; entries below include both upstream template history and HackMI-specific work.
 
+## [Unreleased]
+
+### Changed
+
+- Playwright E2E specs updated to match the new `/projects/` route for the “Projects” navigation link (instead of asserting `/hackathon/`).
+
 ## [1.1.3] - 2026-05-01
 
 ### Added
