@@ -30,7 +30,7 @@ export const PRIMARY_CTA = {
 } as const;
 
 /**
- * Prefix an anchor-style href (`#foo`) or site-root path (`/hackathon/`)
+ * Prefix an anchor-style href (`#foo`) or site-root path (`/projects/`)
  * with the deployed base URL. Absolute external URLs and `mailto:` links
  * pass through unchanged.
  */

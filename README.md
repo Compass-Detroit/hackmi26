@@ -16,7 +16,7 @@ Release history: [CHANGELOG.md](CHANGELOG.md).
 ## Features
 
 - **Landing experience** — Hero, about, sponsors, event details, logistics, signup, and campaign CTA sections
-- **Hackathon area** — `/hackathon/` project grid, per-project pages, and team pages with optional member social links
+- **Hackathon area** — `/projects/` project grid, per-project pages, and team pages with optional member social links
 - **Sanity CMS** — Teams and hackathon projects; embedded Studio at `/studio` (via `@sanity/astro`)
 - **Three.js background** — Particle field and wireframe accents (respects reduced motion; pause control)
 - **Design system** — Scoped component styles plus tokens in `src/styles/global.css` (self-hosted **Tiny5** + **Nunito**)
@@ -55,7 +55,10 @@ npm run preview
 ```env
 PUBLIC_SANITY_PROJECT_ID=your_project_id
 PUBLIC_SANITY_DATASET=production
+PUBLIC_SANITY_STRICT_MODE=false
 ```
+
+- Set `PUBLIC_SANITY_STRICT_MODE=true` in production to fail builds when Sanity fetches fail instead of silently shipping empty fallback content.
 
 **Standalone Studio** (`studio-hack-michigan-/`) resolves project and dataset in `sanity.env.ts`:
 
@@ -77,8 +80,9 @@ DEPLOY_TRIGGER_SECRET=shared_team_passphrase
 ```
 
 - `N8N_VERCEL_DEPLOY_WEBHOOK_URL` is required for local/dev proxy and production API route.
-- `DEPLOY_TRIGGER_SECRET` is optional but recommended; when set, the API requires a matching passphrase.
+- `DEPLOY_TRIGGER_SECRET` is required in production; when set, the API requires a matching passphrase.
 - Keep both as server-only vars (do not prefix with `PUBLIC_`).
+- Deploy endpoint has in-memory rate limiting and a short post-success cooldown; still add edge/WAF rate limits in Vercel for stronger abuse protection.
 
 ## Sanity Studio (standalone)
 
@@ -94,13 +98,13 @@ Schemas: `studio-hack-michigan-/schemaTypes/` (`team`, `hackathonProject`). Team
 
 ## Content model (high level)
 
-| Source                                  | What it drives                                         |
-| --------------------------------------- | ------------------------------------------------------ |
-| `src/data/*.ts`, `src/lib/constants.ts` | Event copy, nav, agenda hints, external links          |
-| `src/data/siteLogos.ts`                 | Logos in header, footer, sections                      |
-| Sanity `team` / `hackathonProject`      | `/hackathon/` listings, team and project detail routes |
+| Source                             | What it drives                                        |
+| ---------------------------------- | ----------------------------------------------------- |
+| `src/data/*.ts`                    | Event copy, nav, agenda hints, external links         |
+| `src/data/siteLogos.ts`            | Logos in header, footer, sections                     |
+| Sanity `team` / `hackathonProject` | `/projects/` listings, team and project detail routes |
 
-Fetched in `src/lib/sanity.ts` at build time for static pages.
+Fetched in `src/lib/sanity/` at build time for static pages.
 
 ## Code style
 
@@ -136,7 +140,7 @@ npm run test:e2e
 ## Customization
 
 - **Colors, type, motion tokens** — `src/styles/global.css` (`:root` variables)
-- **Event name, dates, URLs** — `src/data/event.ts`, `src/lib/constants.ts`
+- **Event name, dates, URLs** — `src/data/event.ts`
 - **Astro** — `astro.config.mjs` (site URL, Sanity, MDX, sitemap)
 
 ## Project structure
@@ -147,7 +151,7 @@ src/
 ├── data/           # Event, nav, logos, agenda (TypeScript)
 ├── layouts/        # BaseLayout (meta, fonts, transitions)
 ├── lib/            # sanity client helpers, constants
-├── pages/          # Routes (index, hackathon/*)
+├── pages/          # Routes (index, projects/*)
 ├── styles/         # global.css
 └── env.d.ts        # Import meta env typings
 
@@ -166,7 +170,7 @@ studio-hack-michigan-/
 
 ### Architecture notes
 
-- **Rendering** — Static output (`output: "static"`). Hackathon routes use `getStaticPaths()` and load Sanity in `src/lib/sanity.ts` at **build time**; a full `npm run build` needs the Sanity API reachable with the configured project/dataset.
+- **Rendering** — Static output (`output: "static"`). Hackathon routes use `getStaticPaths()` and load Sanity in `src/lib/sanity/` at **build time**; a full `npm run build` needs the Sanity API reachable with the configured project/dataset.
 - **Client navigation** — `ClientRouter` in `BaseLayout` enables SPA-style transitions. Client scripts that must re-run after navigation should listen for `astro:page-load` (see `ThreeBackground.astro` and the layout cursor script).
 - **Styles** — Component-scoped `<style>` blocks plus shared tokens in `src/styles/global.css`. No Tailwind in this repo.
 - **Paths** — TypeScript path alias `~/*` → `src/*` (see `tsconfig.json`).
@@ -176,7 +180,7 @@ studio-hack-michigan-/
 
 1. `npm install` at the repo root; `npm run dev` for the marketing site.
 2. When changing Sanity schemas or bulk-editing content, run `npm run dev` inside `studio-hack-michigan-/` as well (or use the site’s `/studio` route after `astro dev`).
-3. After schema changes, update GROQ usage and any page types in `src/` as needed, then confirm `/hackathon/` and detail pages still build.
+3. After schema changes, update GROQ usage and any page types in `src/` as needed, then confirm `/projects/` and detail pages still build.
 4. Regenerate Astro ambient types if needed: `npx astro sync`.
 
 ### Quality gate

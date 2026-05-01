@@ -34,7 +34,7 @@ describe("TeamBadge", () => {
     });
     const $ = cheerio.load(html);
 
-    expect($(".team-badge").attr("href")).toBe("/hackathon/team/grownsense/");
+    expect($(".team-badge").attr("href")).toBe("/projects/team/grownsense/");
   });
 
   it("accepts an extra class", async () => {

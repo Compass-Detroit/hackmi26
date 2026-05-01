@@ -20,13 +20,13 @@ describe("MaybeLink", () => {
   it("renders an anchor when href is set", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(MaybeLink, {
-      props: { href: "/hackathon/" },
+      props: { href: "/projects/" },
       slots: { default: "Projects" },
     });
     const $ = cheerio.load(html);
 
     expect($("a").length).toBe(1);
-    expect($("a").attr("href")).toBe("/hackathon/");
+    expect($("a").attr("href")).toBe("/projects/");
   });
 
   it("applies safe rel attrs for external links", async () => {
@@ -44,7 +44,7 @@ describe("MaybeLink", () => {
   it("does not add target/rel for internal links", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(MaybeLink, {
-      props: { href: "/" },
+      props: { href: "/projects/" },
       slots: { default: "Home" },
     });
     const $ = cheerio.load(html);

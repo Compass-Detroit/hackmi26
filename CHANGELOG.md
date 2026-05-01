@@ -24,9 +24,13 @@ This repository builds the **Hack Michigan (HackMI)** marketing site. It started
 ### Changed
 
 - Navigation “Projects” now routes to `/projects/` (and remains active on both `/projects/` and `/hackathon/` paths) (`src/components/Navigation.astro`).
+  - Navigation links now correctly update active state when they are in view & is ordered to match the content sections on the landing page.
 - Sponsor tier `layout` prop now uses the shared `SponsorTierKey` union (fixes `"platinum"` typing mismatch) (`src/components/SponsorTier.astro`).
 - Deploy page main padding now correctly clears the fixed navigation (`src/pages/deploy.astro`).
 - Refined landing copy/layout for About + Challenge sections (`src/components/AboutSection.astro`, `src/components/ChallengeSection.astro`).
+- Replaced deprecated default import from `@sanity/image-url` with named `createImageUrlBuilder` in `src/lib/sanity/client.ts`.
+- Updated README references to current data layer paths (`src/lib/sanity/`) and removed stale `src/lib/constants.ts` and `/hackathon` references.
+- Refreshed local skill notes in `.cursor/skills/hackmi-astro/SKILL.md` to match current repo structure.
 
 ### Fixed
 

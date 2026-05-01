@@ -22,7 +22,7 @@ description: >-
 ## Repo map
 
 - Home page: `src/pages/index.astro`
-- URLs, copy, external links: `src/lib/constants.ts`
+- URLs, copy, external links: `src/data/event.ts`, `src/data/nav.ts`
 - Logo configuration (which logos appear where): `src/data/siteLogos.ts`
 - Event schedule/agenda: `src/data/eventAgenda.ts`
 - Global CSS custom properties + resets: `src/styles/global.css`
@@ -58,12 +58,10 @@ These are imported and rendered in `src/pages/index.astro`. Edit freely.
 
 ---
 
-## Legacy / unused components
+## Notes
 
-These exist in `src/components/` but are **not** imported anywhere. Avoid editing unless repurposing.
-
-`EventAbout.astro`, `Features.astro`, `FinalCTA.astro`, `Logistics.astro`, `Skills.astro`,
-`SponsorCTA.astro`, `Card.astro`
+- Legacy template components (blog/projects/about/card cluster) were removed during the Sanity migration.
+- `SponsorCTA.astro` remains active and can be edited when refining sponsor-focused CTA messaging.
 
 ---
 

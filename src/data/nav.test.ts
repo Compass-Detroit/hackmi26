@@ -10,7 +10,7 @@ describe("withBase", () => {
     });
 
     it("passes through absolute paths unchanged", () => {
-      expect(withBase(base, "/hackathon/")).toBe("/hackathon/");
+      expect(withBase(base, "/projects/")).toBe("/projects/");
     });
 
     it("passes through external https URLs", () => {
@@ -34,7 +34,7 @@ describe("withBase", () => {
     });
 
     it("prepends base to absolute paths", () => {
-      expect(withBase(base, "/hackathon/")).toBe("/hackmi26/hackathon/");
+      expect(withBase(base, "/projects/")).toBe("/hackmi26/projects/");
     });
 
     it("passes through external URLs unchanged", () => {

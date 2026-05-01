@@ -27,8 +27,7 @@ const navItems: NavItem[] = [
   {
     href: withBase(base, "/projects/"),
     label: "Projects",
-    active:
-      relativePath.startsWith("/projects") || relativePath.startsWith("/hackathon"),
+    active: relativePath.startsWith("/projects"),
   },
   ...SECTION_ANCHORS.map((a) => ({
     href: withBase(base, a.href),
@@ -476,7 +475,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
   /**
    * Scroll spy — only runs on the homepage where in-page section anchors
    * (#about, #sponsors, #event-details, #logistics) live. On routed pages
-   * (/projects/, /hackathon/...) the server already marks the right link
+   * (/projects/) the server already marks the right link
    * active via `aria-current=page`, so we leave that alone.
    *
    * Uses IntersectionObserver with a margin biased to the top of the

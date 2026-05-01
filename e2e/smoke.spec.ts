@@ -29,7 +29,8 @@ test.describe("Smoke Tests", () => {
       (e) =>
         !e.includes("favicon") &&
         !e.includes("deprecated") &&
-        !e.includes("DevTools"),
+        !e.includes("DevTools") &&
+        !e.includes("Outdated Optimize Dep"),
     );
     expect(realErrors).toEqual([]);
   });

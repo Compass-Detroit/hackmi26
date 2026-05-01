@@ -11,10 +11,29 @@
       "permanent": true
     },
     {
+      "source": "/hackathon/project/:slug",
+      "destination": "/projects/project/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/hackathon/project/:slug/",
+      "destination": "/projects/project/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/hackathon/team/:slug",
+      "destination": "/projects/team/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/hackathon/team/:slug/",
+      "destination": "/projects/team/:slug/",
+      "permanent": true
+    },
+    {
       "source": "/:path((?!.*\\.).*[^/])",
       "destination": "/:path/",
       "permanent": false
     }
   ]
 }
-

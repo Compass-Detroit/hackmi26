@@ -20,6 +20,9 @@ import type {
   TeamWithProjects,
 } from "./schemas";
 
+const strictSanity =
+  !import.meta.env.DEV && import.meta.env.PUBLIC_SANITY_STRICT_MODE === "true";
+
 /**
  * Wrap a fetch so a Sanity failure doesn't kill the whole build.
  * Returns `fallback` on error and logs the issue.
@@ -33,6 +36,7 @@ async function safeFetch<T>(
     return await promise;
   } catch (err) {
     console.error(`[sanity] ${label} failed:`, err);
+    if (strictSanity) throw err;
     return fallback;
   }
 }

@@ -5,6 +5,9 @@
  * resolve to a Sanity document.
  */
 import PageLayout from "../layouts/PageLayout.astro";
+import { withBase } from "../data/nav";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <PageLayout
@@ -20,8 +23,8 @@ import PageLayout from "../layouts/PageLayout.astro";
       the homepage or browsing hackathon projects.
     </p>
     <div class="actions">
-      <a class="btn btn-primary" href="/">Home</a>
-      <a class="btn btn-ghost" href="/projects/">Projects</a>
+      <a class="btn btn-primary" href={withBase(base, "/")}>Home</a>
+      <a class="btn btn-ghost" href={withBase(base, "/projects/")}>Projects</a>
     </div>
   </div>
 </PageLayout>

@@ -73,14 +73,20 @@ export function createDeployRateLimiter() {
 
     if (s.cooldownUntil > now) {
       state.set(key, s);
-      return { allowed: false, retryAfterMs: Math.max(1000, s.cooldownUntil - now) };
+      return {
+        allowed: false,
+        retryAfterMs: Math.max(1000, s.cooldownUntil - now),
+      };
     }
 
     if (s.attempts >= RATE_LIMIT_ATTEMPTS) {
       state.set(key, s);
       return {
         allowed: false,
-        retryAfterMs: Math.max(1000, RATE_LIMIT_WINDOW_MS - (now - s.windowStart)),
+        retryAfterMs: Math.max(
+          1000,
+          RATE_LIMIT_WINDOW_MS - (now - s.windowStart),
+        ),
       };
     }
 

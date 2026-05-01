@@ -16,6 +16,8 @@ interface ImportMetaEnv {
   readonly PUBLIC_SANITY_PROJECT_ID?: string;
   /** Sanity dataset. Defaults to `production` in `astro.config.mjs` if unset. */
   readonly PUBLIC_SANITY_DATASET?: string;
+  /** When true outside dev, Sanity fetch failures throw instead of falling back to empty arrays/null. */
+  readonly PUBLIC_SANITY_STRICT_MODE?: "true" | "false";
 }
 
 interface ImportMeta {

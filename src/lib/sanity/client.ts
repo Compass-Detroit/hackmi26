@@ -6,12 +6,12 @@
  * file and makes mocking (e.g. in tests) trivial.
  */
 import { sanityClient } from "sanity:client";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImage } from "./schemas";
 
 export { sanityClient };
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 /** Build an image URL for a Sanity image reference. */
 export function urlFor(source: SanityImage) {

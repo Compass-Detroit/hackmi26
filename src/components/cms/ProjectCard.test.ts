@@ -18,9 +18,7 @@ describe("ProjectCard", () => {
     const $ = cheerio.load(html);
 
     expect($("article.project-card").length).toBe(1);
-    expect($(".title-link").attr("href")).toBe(
-      "/hackathon/project/mittenharvest-ai/",
-    );
+    expect($(".title-link").attr("href")).toBe("/projects/mittenharvest-ai/");
     expect($("h2").text()).toBe("MittenHarvest AI");
   });
 

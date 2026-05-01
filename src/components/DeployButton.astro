@@ -64,9 +64,12 @@
       const data = await response.json().catch(() => ({}));
 
       if (response.ok) {
-        triggerBtn.textContent = "Deploy started";
+        const cooldownMs =
+          typeof data.cooldownMs === "number" ? data.cooldownMs : 20_000;
+        const seconds = Math.max(1, Math.round(cooldownMs / 1000));
+        triggerBtn.textContent = `Deploy started (${seconds}s cooldown)`;
         setStatus(
-          "Deploy started. Monitor your deployment dashboard for progress.",
+          `Deploy started. Wait ${seconds}s before next trigger. Monitor deployment dashboard for progress.`,
           "success",
         );
       } else {
@@ -77,6 +80,16 @@
         if (response.status === 401) {
           triggerBtn.textContent = "Wrong passphrase — try again";
           setStatus("Unauthorized. Check passphrase and try again.", "error");
+        } else if (response.status === 429) {
+          const retryAfterSeconds =
+            typeof data.retryAfterSeconds === "number"
+              ? data.retryAfterSeconds
+              : undefined;
+          const retryMsg = retryAfterSeconds
+            ? `Rate limited. Retry in ${retryAfterSeconds}s.`
+            : "Rate limited. Retry shortly.";
+          triggerBtn.textContent = "Too many requests";
+          setStatus(retryMsg, "error");
         } else {
           const message =
             typeof data.error === "string"
