@@ -19,19 +19,19 @@ describe("Button", () => {
   it("renders an anchor when href is provided", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Button, {
-      props: { href: "/hackathon/" },
+      props: { href: "/projects/" },
       slots: { default: "Projects" },
     });
     const $ = cheerio.load(html);
 
     expect($("a").length).toBe(1);
-    expect($("a").attr("href")).toBe("/hackathon/");
+    expect($("a").attr("href")).toBe("/projects/");
   });
 
   it("auto-adds external link safety attrs for https href", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Button, {
-      props: { href: "https://ibm.biz/hack-michigan" },
+      props: { href: "https://bit.ly/hack-michigan-luma" },
       slots: { default: "Register" },
     });
     const $ = cheerio.load(html);
@@ -43,7 +43,7 @@ describe("Button", () => {
   it("does not force external attrs for internal links", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Button, {
-      props: { href: "/hackathon/" },
+      props: { href: "/projects/" },
       slots: { default: "Projects" },
     });
     const $ = cheerio.load(html);
