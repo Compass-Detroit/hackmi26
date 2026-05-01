@@ -25,9 +25,10 @@ type NavItem = {
 const navItems: NavItem[] = [
   { href: base, label: "Home", active: relativePath === "/" },
   {
-    href: withBase(base, "/hackathon/"),
+    href: withBase(base, "/projects/"),
     label: "Projects",
-    active: relativePath.startsWith("/hackathon"),
+    active:
+      relativePath.startsWith("/projects") || relativePath.startsWith("/hackathon"),
   },
   ...SECTION_ANCHORS.map((a) => ({
     href: withBase(base, a.href),

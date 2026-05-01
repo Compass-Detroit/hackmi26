@@ -1,0 +1,84 @@
+---
+import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
+import PageLayout from "../../layouts/PageLayout.astro";
+import ProjectCard from "../../components/cms/ProjectCard.astro";
+
+const projects: HackathonProjectPreview[] = await getProjects();
+---
+
+<PageLayout
+  title="Projects - Hack Michigan"
+  description="Discover the amazing projects built at Hack Michigan"
+  mainClass="content-page projects-page"
+>
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-subtitle">
+        Showcasing the creativity and innovation from our latest event.
+      </p>
+    </header>
+
+    <div class="project-grid">
+      {
+        projects.length === 0 && (
+          <p class="empty-state">
+            Project submissions will appear here once teams start publishing.
+            Watch this space.
+          </p>
+        )
+      }
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .projects-page {
+    padding-top: calc(var(--nav-height) + 2rem);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .page-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-dim);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-dim);
+    font-size: 1.05rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-glass-bg);
+  }
+
+  @media (max-width: 48rem) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
