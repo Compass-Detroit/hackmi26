@@ -5,26 +5,26 @@ export type SponsorLogo = {
   surface?: "light";
 };
 
-export type SponsorTierKey = "host" | "diamond" | "gold" | "community";
+export type SponsorTierKey = "diamond" | "platinum" | "gold" | "community";
 
 export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
   /** Use optional surface: "light" for light background logos */
-  host: [
+  diamond: [
     {
-      src: "/images/sponsors/host-techtown-300x.webp",
+      src: "/images/sponsors/dia-techtown-300x.webp",
       alt: "TechTown Detroit",
       surface: "light",
     },
   ],
-  diamond: [
+  platinum: [
     {
-      src: "/images/sponsors/dia-ibm-300x.webp",
+      src: "/images/sponsors/platinum-ibm-300x.webp",
       alt: "IBM",
       href: "https://www.ibm.com",
       surface: "light",
     },
     {
-      src: "/images/sponsors/dia-google-300x.webp",
+      src: "/images/sponsors/platinum-google-300x.webp",
       alt: "Google",
     },
   ],
@@ -36,6 +36,14 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
     {
       src: "/images/sponsors/gold-littleceasars-300x.webp",
       alt: "Little Caesars",
+    },
+    {
+      src: "/images/sponsors/gold-mlh-300x.webp",
+      alt: "MLH",
+    },
+    {
+      src: "/images/sponsors/gold-kaggle-300x.webp",
+      alt: "Kaggle",
     },
   ],
   community: [
