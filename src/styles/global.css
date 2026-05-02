@@ -76,6 +76,8 @@
   --bp-md: 48rem; /* 768px */
   --bp-lg: 64rem; /* 1024px */
   --bp-xl: 80rem; /* 1280px */
+  /* Navigation.astro uses this width as raw `1170px` in @media (var() unsupported there). */
+  --bp-nav-mobile: 1170px;
 
   /* ---- Motion ---- */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -448,6 +450,7 @@ body::before {
   line-height: normal;
   margin: 0.5rem auto 2rem;
   max-width: 720px;
+  text-wrap: pretty;
 }
 
 .section-eyebrow {

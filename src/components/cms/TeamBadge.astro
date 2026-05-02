@@ -4,10 +4,11 @@
  * cards to credit the authoring team.
  *
  * Extracted from the inline `.team-badge` rule that lived on both
- * hackathon/index and project-detail templates. The class name stays
+ * projects/index and project-detail templates. The class name stays
  * `team-badge` so any existing overrides in global.css still apply.
  */
 import type { TeamRef } from "../../lib/sanity";
+import { withBase } from "../../data/nav";
 
 interface Props {
   team: TeamRef;
@@ -16,12 +17,11 @@ interface Props {
 }
 
 const { team, class: className } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const href = withBase(base, `/projects/team/${team.slug.current}/`);
 ---
 
-<a
-  href={`/hackathon/team/${team.slug.current}/`}
-  class:list={["team-badge", className]}
->
+<a href={href} class:list={["team-badge", className]}>
   {team.name}
 </a>
 

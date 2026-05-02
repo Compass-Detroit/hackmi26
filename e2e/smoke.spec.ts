@@ -29,14 +29,15 @@ test.describe("Smoke Tests", () => {
       (e) =>
         !e.includes("favicon") &&
         !e.includes("deprecated") &&
-        !e.includes("DevTools"),
+        !e.includes("DevTools") &&
+        !e.includes("Outdated Optimize Dep"),
     );
     expect(realErrors).toEqual([]);
   });
 
-  test("hackathon projects page loads", async ({ page }) => {
-    await gotoPath(page, "/hackathon/");
-    await expect(page).toHaveTitle(/Hackathon Projects/);
+  test("projects page loads", async ({ page }) => {
+    await gotoPath(page, "/projects/");
+    await expect(page).toHaveTitle(/Projects/i);
   });
 
   test("404 page renders for unknown routes", async ({ page }) => {

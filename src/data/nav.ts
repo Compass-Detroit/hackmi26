@@ -12,10 +12,14 @@ export interface SectionAnchor {
   readonly footer: string;
 }
 
+// Order mirrors the on-page section order in `src/pages/index.astro`
+// (About → EventDetails → Challenge → Sponsors → Logistics) so that the
+// scroll-spy active state advances monotonically as the user scrolls.
 export const SECTION_ANCHORS: readonly SectionAnchor[] = [
   { href: "#about", nav: "About", footer: "About" },
-  { href: "#sponsors", nav: "Sponsors", footer: "Sponsors" },
   { href: "#event-details", nav: "Event", footer: "Details" },
+  { href: "#challenge", nav: "Challenge", footer: "Challenge" },
+  { href: "#sponsors", nav: "Sponsors", footer: "Sponsors" },
   { href: "#logistics", nav: "Logistics", footer: "Logistics" },
 ] as const;
 
@@ -26,7 +30,7 @@ export const PRIMARY_CTA = {
 } as const;
 
 /**
- * Prefix an anchor-style href (`#foo`) or site-root path (`/hackathon/`)
+ * Prefix an anchor-style href (`#foo`) or site-root path (`/projects/`)
  * with the deployed base URL. Absolute external URLs and `mailto:` links
  * pass through unchanged.
  */

@@ -47,12 +47,12 @@ export const teamDetailProjection = `{
   slug,
   logo,
   members,
-  "projects": *[_type == "hackathonProject" && references(^._id)] ${projectPreviewProjection}
+  "projects": *[_type == "hackathonProject" && references(^._id) && defined(slug.current)] ${projectPreviewProjection}
 }`;
 
 export const QUERIES = {
   projectSlugs: `*[_type == "hackathonProject" && defined(slug.current)] | order(slug.current asc).slug.current`,
-  projectList: `*[_type == "hackathonProject"] ${projectPreviewProjection} | order(title asc)`,
+  projectList: `*[_type == "hackathonProject" && defined(slug.current)] ${projectPreviewProjection} | order(title asc)`,
   projectBySlug: `*[_type == "hackathonProject" && slug.current == $slug][0] ${projectDetailProjection}`,
 
   teamSlugs: `*[_type == "team" && defined(slug.current)] | order(slug.current asc).slug.current`,

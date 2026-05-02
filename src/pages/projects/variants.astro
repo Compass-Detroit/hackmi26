@@ -7,20 +7,27 @@
  * side-by-side so the team can evaluate which layout, density, and
  * interaction pattern works best before committing to one.
  *
- * Not linked from main nav — access directly at /hackathon/variants/.
+ * Not linked from main nav — access directly at /projects/variants/.
  */
-import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
+import {
+  getProjects,
+  urlFor,
+  type HackathonProjectPreview,
+} from "../../lib/sanity";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ProjectCard from "../../components/cms/ProjectCard.astro";
+import { withBase } from "../../data/nav";
 
 const projects: HackathonProjectPreview[] = await getProjects();
 const sample = projects.slice(0, 6);
+const base = import.meta.env.BASE_URL;
 ---
 
 <PageLayout
   title="UI Variants — Hack Michigan"
   description="Internal: compare project layout variants"
   mainClass="content-page variants-page"
+  noindex
 >
   <div class="page-container">
     <header class="page-header">
@@ -84,13 +91,19 @@ const sample = projects.slice(0, 6);
         {
           sample.slice(0, 3).map((project) => (
             <a
-              href={`/hackathon/project/${project.slug.current}/`}
+              href={withBase(
+                base,
+                `/projects/project/${project.slug.current}/`,
+              )}
               class="hz-card glass-card glass-card--interactive"
             >
               {project.mainImage && (
                 <div class="hz-card__image">
                   <img
-                    src={`${project.mainImage}?w=480&auto=format`}
+                    src={urlFor(project.mainImage)
+                      .width(480)
+                      .auto("format")
+                      .url()}
                     alt={project.title}
                     loading="lazy"
                   />
@@ -137,7 +150,10 @@ const sample = projects.slice(0, 6);
         {
           sample.map((project) => (
             <a
-              href={`/hackathon/project/${project.slug.current}/`}
+              href={withBase(
+                base,
+                `/projects/project/${project.slug.current}/`,
+              )}
               class="min-card glass-card glass-card--interactive"
             >
               {project.team && (
@@ -170,13 +186,19 @@ const sample = projects.slice(0, 6);
         {
           sample.slice(0, 4).map((project) => (
             <a
-              href={`/hackathon/project/${project.slug.current}/`}
+              href={withBase(
+                base,
+                `/projects/project/${project.slug.current}/`,
+              )}
               class="spot-card glass-card--interactive"
             >
               <div class="spot-card__bg">
                 {project.mainImage && (
                   <img
-                    src={`${project.mainImage}?w=600&auto=format`}
+                    src={urlFor(project.mainImage)
+                      .width(600)
+                      .auto("format")
+                      .url()}
                     alt={project.title}
                     loading="lazy"
                   />

@@ -3,17 +3,24 @@ import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ProjectCard from "../../components/cms/ProjectCard.astro";
 
-const projects: HackathonProjectPreview[] = await getProjects();
+// Don't break the build if Sanity is unreachable; fall through to the
+// empty-state below. Strict-mode CI flips this via `PUBLIC_SANITY_STRICT_MODE`.
+let projects: HackathonProjectPreview[] = [];
+try {
+  projects = await getProjects();
+} catch (err) {
+  console.error("[projects] getProjects() failed, rendering empty state:", err);
+}
 ---
 
 <PageLayout
-  title="Hackathon Projects - Hack Michigan"
+  title="Projects - Hack Michigan"
   description="Discover the amazing projects built at Hack Michigan"
-  mainClass="content-page hackathon-page"
+  mainClass="content-page projects-page"
 >
   <div class="page-container">
     <header class="page-header">
-      <h1 class="page-title">Hackathon Submissions</h1>
+      <h1 class="page-title">Projects</h1>
       <p class="page-subtitle">
         Showcasing the creativity and innovation from our latest event.
       </p>
@@ -34,7 +41,7 @@ const projects: HackathonProjectPreview[] = await getProjects();
 </PageLayout>
 
 <style>
-  .hackathon-page {
+  .projects-page {
     padding-top: calc(var(--nav-height) + 2rem);
   }
 
@@ -73,5 +80,11 @@ const projects: HackathonProjectPreview[] = await getProjects();
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--surface-glass-bg);
+  }
+
+  @media (max-width: 48rem) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

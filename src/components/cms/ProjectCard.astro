@@ -21,6 +21,7 @@ import {
   truncatePlainText,
   type HackathonProjectPreview,
 } from "../../lib/sanity";
+import { withBase } from "../../data/nav";
 import TeamBadge from "./TeamBadge.astro";
 
 interface Props {
@@ -30,7 +31,11 @@ interface Props {
 
 const { project, variant = "full" } = Astro.props;
 
-const projectHref = `/hackathon/project/${project.slug.current}/`;
+const base = import.meta.env.BASE_URL;
+const projectHref = withBase(
+  base,
+  `/projects/project/${project.slug.current}/`,
+);
 const descriptionPreview =
   variant === "full"
     ? truncatePlainText(

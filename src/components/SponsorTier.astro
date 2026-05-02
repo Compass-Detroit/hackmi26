@@ -6,7 +6,7 @@
  * left; remaining slots render as `+` placeholders (for open inventory).
  */
 import MaybeLink from "./primitives/MaybeLink.astro";
-import type { SponsorLogo } from "../data/sponsorLogos";
+import type { SponsorLogo, SponsorTierKey } from "../data/sponsorLogos";
 import { publicAssetUrl } from "../data/siteLogos";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   headingId: string;
   logos: readonly SponsorLogo[];
   totalSlots: number;
-  layout: "host" | "diamond" | "gold" | "community";
+  layout: SponsorTierKey;
   shape: "card" | "square";
   slotLabel: string;
 }
@@ -95,15 +95,15 @@ const slotShapeClass = `sponsor-slot--${shape}`;
     margin: 0;
   }
 
-  .tier-slots--host {
+  .tier-slots--diamond {
     grid-template-columns: minmax(0, 640px);
   }
 
-  .tier-slots--diamond,
-  .tier-slots--gold {
+  .tier-slots--platinum {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .tier-slots--gold,
   .tier-slots--community {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

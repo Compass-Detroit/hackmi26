@@ -19,7 +19,7 @@ describe("ProjectCard", () => {
 
     expect($("article.project-card").length).toBe(1);
     expect($(".title-link").attr("href")).toBe(
-      "/hackathon/project/mittenharvest-ai/",
+      "/projects/project/mittenharvest-ai/",
     );
     expect($("h2").text()).toBe("MittenHarvest AI");
   });

@@ -25,9 +25,9 @@ type NavItem = {
 const navItems: NavItem[] = [
   { href: base, label: "Home", active: relativePath === "/" },
   {
-    href: withBase(base, "/hackathon/"),
+    href: withBase(base, "/projects/"),
     label: "Projects",
-    active: relativePath.startsWith("/hackathon"),
+    active: relativePath.startsWith("/projects"),
   },
   ...SECTION_ANCHORS.map((a) => ({
     href: withBase(base, a.href),
@@ -69,6 +69,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
                 "nav-link",
                 { active: item.active, "nav-link-external": item.external },
               ]}
+              aria-current={item.active ? "page" : undefined}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
             >
@@ -116,6 +117,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     aria-label="Mobile navigation menu"
     aria-hidden="true"
     inert
+    hidden
   >
     <div class="mobile-menu-content">
       {
@@ -123,6 +125,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
           <a
             href={item.href}
             class:list={["mobile-nav-link", { active: item.active }]}
+            aria-current={item.active ? "page" : undefined}
             target={item.external ? "_blank" : undefined}
             rel={item.external ? "noopener noreferrer" : undefined}
           >
@@ -348,7 +351,8 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     }
   }
 
-  @media (max-width: 48rem) {
+  /* Sync with --bp-nav-mobile in global.css (custom props are invalid in @media). */
+  @media (max-width: 1170px) {
     .nav {
       top: 0.75rem;
       left: 0.75rem;
@@ -409,6 +413,7 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     function setOpen(open: boolean) {
       menu!.classList.toggle("open", open);
       menu!.setAttribute("aria-hidden", String(!open));
+      menu!.toggleAttribute("hidden", !open);
       btn!.setAttribute("aria-expanded", String(open));
       btn!.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
@@ -459,17 +464,120 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
       ".mobile-nav-link, .mobile-nav-cta",
     );
     mobileLinks.forEach((link) => {
-      link.addEventListener("click", () => setOpen(false));
+      link.addEventListener("click", () => {
+        setOpen(false);
+      });
     });
+
+    document.addEventListener("astro:before-preparation", () => setOpen(false));
+    setOpen(false);
+  }
+
+  /**
+   * Scroll spy — only runs on the homepage where in-page section anchors
+   * (#about, #sponsors, #event-details, #logistics) live. On routed pages
+   * (/projects/) the server already marks the right link
+   * active via `aria-current=page`, so we leave that alone.
+   *
+   * Uses IntersectionObserver with a margin biased to the top of the
+   * viewport so the link flips when a section's heading reaches the
+   * fixed-nav band, not when the section barely enters from the bottom.
+   */
+  function initScrollSpy() {
+    if (window.location.pathname.replace(/\/$/, "") !== "") return;
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(
+        '.nav-link[href*="#"], .mobile-nav-link[href*="#"]',
+      ),
+    );
+    if (links.length === 0) return;
+
+    const linksByHash = new Map<string, HTMLAnchorElement[]>();
+    const sectionIds: string[] = [];
+    for (const link of links) {
+      const hash = new URL(link.href, window.location.origin).hash;
+      if (!hash || hash === "#") continue;
+      const id = hash.slice(1);
+      if (!document.getElementById(id)) continue;
+      if (!linksByHash.has(hash)) {
+        linksByHash.set(hash, []);
+        sectionIds.push(id);
+      }
+      linksByHash.get(hash)!.push(link);
+    }
+    if (sectionIds.length === 0) return;
+
+    // Honor server-rendered active state for routed pages — only clear
+    // section-anchor links, not /projects or /hackathon.
+    const anchorLinks = Array.from(linksByHash.values()).flat();
+    const setActive = (hash: string | null) => {
+      for (const link of anchorLinks) {
+        const linkHash = new URL(link.href, window.location.origin).hash;
+        const isActive = linkHash === hash;
+        link.classList.toggle("active", isActive);
+        if (isActive) link.setAttribute("aria-current", "location");
+        else if (link.getAttribute("aria-current") === "location") {
+          link.removeAttribute("aria-current");
+        }
+      }
+    };
+
+    let activeHash: string | null = null;
+    const visible = new Map<string, number>(); // id → intersectionRatio
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visible.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        // Pick the topmost visible section in DOM order.
+        let next: string | null = null;
+        for (const id of sectionIds) {
+          if (visible.has(id)) {
+            next = `#${id}`;
+            break;
+          }
+        }
+        if (next !== activeHash) {
+          activeHash = next;
+          setActive(activeHash);
+        }
+      },
+      {
+        // Top band starts under the fixed nav (~80px); bottom keeps the
+        // active section "sticky" until well past midpoint.
+        rootMargin: "-80px 0px -55% 0px",
+        threshold: [0, 0.01, 0.5, 1],
+      },
+    );
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+
+    document.addEventListener(
+      "astro:before-preparation",
+      () => observer.disconnect(),
+      { once: true },
+    );
+  }
+
+  function init() {
+    initMobileMenu();
+    initScrollSpy();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMobileMenu, {
-      once: true,
-    });
+    document.addEventListener("DOMContentLoaded", init, { once: true });
   } else {
-    initMobileMenu();
+    init();
   }
 
-  document.addEventListener("astro:page-load", initMobileMenu);
+  document.addEventListener("astro:page-load", init);
 </script>

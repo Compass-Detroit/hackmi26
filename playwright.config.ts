@@ -20,6 +20,10 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: "http://localhost:4321",
+    // Use the Playwright-managed Chromium everywhere by default. Local
+    // contributors can opt into the system "chrome" channel by exporting
+    // `PLAYWRIGHT_CHANNEL=chrome` (matches Google's branded build).
+    channel: process.env.PLAYWRIGHT_CHANNEL || undefined,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     viewport: { width: 1440, height: 900 },
@@ -35,6 +39,9 @@ export default defineConfig({
   webServer: {
     command: "npm run build && npm run preview",
     port: 4321,
+    env: {
+      PUBLIC_SANITY_STRICT_MODE: "true",
+    },
     reuseExistingServer: true,
     timeout: 120_000,
   },
