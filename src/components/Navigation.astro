@@ -351,7 +351,8 @@ const mobileCta = PRIMARY_CTA.sponsorLong;
     }
   }
 
-  @media (max-width: 48rem) {
+  /* Sync with --bp-nav-mobile in global.css (custom props are invalid in @media). */
+  @media (max-width: 1170px) {
     .nav {
       top: 0.75rem;
       left: 0.75rem;
