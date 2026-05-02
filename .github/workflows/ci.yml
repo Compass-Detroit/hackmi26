@@ -37,6 +37,8 @@ jobs:
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push back generated linux baselines
     env:
       PUBLIC_SANITY_STRICT_MODE: "true"
     steps:
@@ -53,7 +55,9 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: |
+          npx playwright install --with-deps chromium || \
+            (echo "First attempt failed, retrying..." && sleep 15 && npx playwright install --with-deps chromium)
 
       - name: Generate missing linux visual baselines
         # Visual baselines live next to each spec under
