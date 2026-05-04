@@ -39,6 +39,22 @@ describe("MaybeLink", () => {
 
     expect($("a").attr("target")).toBe("_blank");
     expect($("a").attr("rel")).toContain("noopener");
+    expect($("a").attr("rel")).toContain("noreferrer");
+    expect($("a").attr("rel")).not.toContain("sponsored");
+  });
+
+  it("adds sponsored + safe rel attrs for sponsored external links", async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(MaybeLink, {
+      props: { href: "https://example.com", sponsored: true },
+      slots: { default: "External sponsor" },
+    });
+    const $ = cheerio.load(html);
+
+    expect($("a").attr("target")).toBe("_blank");
+    expect($("a").attr("rel")).toContain("sponsored");
+    expect($("a").attr("rel")).toContain("noopener");
+    expect($("a").attr("rel")).toContain("noreferrer");
   });
 
   it("does not add target/rel for internal links", async () => {
@@ -51,5 +67,17 @@ describe("MaybeLink", () => {
 
     expect($("a").attr("target")).toBeUndefined();
     expect($("a").attr("rel")).toBeUndefined();
+  });
+
+  it("adds rel=sponsored for sponsored internal links", async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(MaybeLink, {
+      props: { href: "/projects/", sponsored: true },
+      slots: { default: "Projects" },
+    });
+    const $ = cheerio.load(html);
+
+    expect($("a").attr("target")).toBeUndefined();
+    expect($("a").attr("rel")).toBe("sponsored");
   });
 });

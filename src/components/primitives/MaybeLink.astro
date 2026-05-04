@@ -4,20 +4,52 @@
  *
  * Used for sponsor-logo wrappers where a website URL may or may not be present.
  * External http(s) hrefs get `target=_blank` + safe `rel` automatically.
+ * When `sponsored` is true, `rel` also includes `sponsored` (merged with any passed `rel`).
  */
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends Omit<HTMLAttributes<"a">, "href"> {
   /** Optional URL; when omitted a `<span>` is rendered instead. */
   href?: string | null | undefined;
+  /** When true, `rel` includes `sponsored` (event / paid partner links). */
+  sponsored?: boolean;
 }
 
-const { href, class: className, ...rest } = Astro.props;
+function mergeRelTokens(...rels: Array<string | undefined | null>): string {
+  const tokens = rels
+    .flatMap((r) => (typeof r === "string" ? r.split(/\s+/) : []))
+    .map((t) => t.trim())
+    .filter(Boolean);
+
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const t of tokens) {
+    const key = t.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(t);
+  }
+  return out.join(" ");
+}
+
+const { href, class: className, sponsored = false, rel, ...rest } = Astro.props;
 
 const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
 const linkAttrs = isExternal
-  ? { target: "_blank", rel: "noopener noreferrer" }
-  : {};
+  ? {
+      target: "_blank",
+      rel: mergeRelTokens(
+        sponsored ? "sponsored" : undefined,
+        "noopener",
+        "noreferrer",
+        rel,
+      ),
+    }
+  : sponsored
+    ? { rel: mergeRelTokens("sponsored", rel) }
+    : rel
+      ? { rel: mergeRelTokens(rel) }
+      : {};
 ---
 
 {
