@@ -36,7 +36,7 @@ import SectionHeader from "./primitives/SectionHeader.astro";
       heading="Platinum"
       headingId="tier-platinum-heading"
       logos={sponsorLogosByTier.platinum}
-      totalSlots={2}
+      totalSlots={3}
       layout="platinum"
       shape="card"
       slotLabel="Platinum sponsor"
@@ -54,10 +54,19 @@ import SectionHeader from "./primitives/SectionHeader.astro";
       heading="Community"
       headingId="tier-community-heading"
       logos={sponsorLogosByTier.community}
-      totalSlots={4}
+      totalSlots={8}
       layout="community"
       shape="square"
       slotLabel="Community sponsor"
+    />
+    <SponsorTier
+      heading="Media"
+      headingId="tier-media-heading"
+      logos={sponsorLogosByTier.media}
+      totalSlots={4}
+      layout="media"
+      shape="square"
+      slotLabel="Media sponsor"
     />
   </div>
 
