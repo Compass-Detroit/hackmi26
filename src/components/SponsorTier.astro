@@ -43,7 +43,11 @@ const slotShapeClass = `sponsor-slot--${shape}`;
           ]}
           aria-label={`${slotLabel} -- ${logo.alt}`}
         >
-          <MaybeLink href={logo.href ?? null} sponsored class="sponsor-logo-link">
+          <MaybeLink
+            href={logo.href ?? null}
+            sponsored
+            class="sponsor-logo-link"
+          >
             <img
               class="sponsor-logo"
               src={publicAssetUrl(base, logo.src)}
