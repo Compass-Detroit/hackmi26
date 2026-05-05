@@ -60,6 +60,23 @@ test.describe("Accessibility", () => {
     }
   });
 
+  test("sponsor logo links have rel=sponsored", async ({ page }) => {
+    await gotoPath(page, "/");
+    // Only sponsor links that are actual anchors (logos without href render as spans)
+    const relValues = await page
+      .locator("#sponsors a.sponsor-logo-link")
+      .evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("rel") ?? ""),
+      );
+
+    // At least one sponsor has a linked logo
+    expect(relValues.length).toBeGreaterThan(0);
+    for (const rel of relValues) {
+      expect(rel).toContain("sponsored");
+      expect(rel).toContain("noopener");
+    }
+  });
+
   test("projects page has a primary heading", async ({ page }) => {
     await gotoPath(page, "/projects/");
     const h1 = page.locator(".page-title, main h1");

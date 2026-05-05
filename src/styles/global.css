@@ -151,6 +151,20 @@ body::before {
   z-index: -1;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Keyboard focus ring — applied only when navigating with keyboard/assistive tech. */
+a[href]:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* Scrollbar */
 
 ::-webkit-scrollbar {
@@ -310,9 +324,9 @@ body::before {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }

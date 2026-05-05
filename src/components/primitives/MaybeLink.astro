@@ -4,20 +4,63 @@
  *
  * Used for sponsor-logo wrappers where a website URL may or may not be present.
  * External http(s) hrefs get `target=_blank` + safe `rel` automatically.
+ * When `sponsored` is true, `rel` also includes `sponsored` (merged with any passed `rel`).
  */
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends Omit<HTMLAttributes<"a">, "href"> {
   /** Optional URL; when omitted a `<span>` is rendered instead. */
   href?: string | null | undefined;
+  /** When true, `rel` includes `sponsored` (event / paid partner links). */
+  sponsored?: boolean;
 }
 
-const { href, class: className, ...rest } = Astro.props;
+/** Deduplicate whitespace-separated rel tokens, preserving first-seen order. */
+export function mergeRelTokens(
+  ...rels: Array<string | undefined | null>
+): string {
+  const seen = new Set<string>();
+  const out: string[] = [];
 
-const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
-const linkAttrs = isExternal
-  ? { target: "_blank", rel: "noopener noreferrer" }
-  : {};
+  for (const r of rels) {
+    if (typeof r !== "string") continue;
+    for (const token of r.split(/\s+/)) {
+      const t = token.trim();
+      if (!t) continue;
+      const key = t.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(t);
+    }
+  }
+
+  return out.join(" ");
+}
+
+/**
+ * Compute the `target` / `rel` attrs for an anchor.
+ * Pure function — extracted so it can be unit-tested independently.
+ */
+export function buildLinkAttrs(
+  href: string,
+  sponsored: boolean,
+  callerRel?: string | null,
+): Record<string, string> {
+  const isExternal = /^https?:\/\//i.test(href);
+  const rel = mergeRelTokens(
+    isExternal ? "noopener noreferrer" : undefined,
+    sponsored ? "sponsored" : undefined,
+    callerRel,
+  );
+
+  return {
+    ...(isExternal ? { target: "_blank" } : {}),
+    ...(rel ? { rel } : {}),
+  };
+}
+
+const { href, class: className, sponsored = false, rel, ...rest } = Astro.props;
+const linkAttrs = href ? buildLinkAttrs(href, sponsored, rel) : {};
 ---
 
 {

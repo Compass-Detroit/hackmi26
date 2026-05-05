@@ -5,63 +5,105 @@ export type SponsorLogo = {
   surface?: "light";
 };
 
-export type SponsorTierKey = "diamond" | "platinum" | "gold" | "community";
+export type SponsorTierKey =
+  | "diamond"
+  | "platinum"
+  | "gold"
+  | "community"
+  | "media";
 
 export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
   /** Use optional surface: "light" for light background logos */
   diamond: [
     {
       src: "/images/sponsors/dia-techtown-300x.webp",
-      alt: "TechTown Detroit",
+      alt: "TechTown Detroit, the celebration of entrepreneurship, innovation, and small business support",
+      href: "https://techtowndetroit.org",
       surface: "light",
     },
   ],
   platinum: [
     {
       src: "/images/sponsors/platinum-ibm-300x.webp",
-      alt: "IBM",
+      alt: "IBM, Let's create smarter business",
       href: "https://www.ibm.com",
       surface: "light",
     },
     {
       src: "/images/sponsors/platinum-google-300x.webp",
-      alt: "Google",
+      alt: "Google, AI for everyone, Building for everyone",
+      href: "https://about.google",
+    },
+    {
+      src: "/images/sponsors/platinum-mtw-300x.webp",
+      alt: "MTW, Founder-first. Future-focused. Fearlessly Michigan.",
+      href: "https://www.michigantechweek.com",
     },
   ],
   gold: [
     {
       src: "/images/sponsors/gold-dte-300x.webp",
-      alt: "DTE Energy",
+      alt: "DTE Energy, providing energy solutions for Michigan",
+      href: "https://www.dteenergy.com",
     },
     {
       src: "/images/sponsors/gold-littleceasars-300x.webp",
-      alt: "Little Caesars",
+      alt: "Little Caesars, Pizza! Pizza!",
+      href: "https://www.littlecaesars.com",
     },
     {
       src: "/images/sponsors/gold-mlh-300x.webp",
-      alt: "MLH",
+      alt: "MLH, focuses on empowering developers and fostering community through their core values, notably, 'Learn. Build. Share'",
+      href: "https://mlh.io",
     },
     {
       src: "/images/sponsors/gold-kaggle-300x.webp",
-      alt: "Kaggle",
+      alt: "Kaggle, a platform for data science and machine learning competitions",
+      href: "https://www.kaggle.com",
     },
   ],
   community: [
     {
       src: "/images/sponsors/com-nsbe-300x.webp",
-      alt: "NSBE",
+      alt: "NSBE, a community of Black engineers and scientists who are passionate about technology and innovation",
+      href: "https://www.nsbe.org",
     },
     {
-      src: "/images/site/gdg-detroit-logo.svg",
-      alt: "GDG Detroit",
+      src: "/images/sponsors/com-gdg-detroit2.png",
+      alt: "GDG Detroit, a community of developers who are passionate about technology and innovation",
+      href: "https://gdg.community.dev/gdg-detroit/",
     },
     {
       src: "/images/sponsors/com-dhh-300x.webp",
-      alt: "Detroit Hacker House",
+      alt: "Detroit Hacker House, a community-driven space for learning, collaboration, and innovation",
+      href: "https://detroithackerhouse.com",
     },
     {
       src: "/images/sponsors/com-shpe-600x.webp",
-      alt: "SHPE",
+      alt: "SHPE, transforming lives in Detroit by inspiring and motivating young Hispanic students to excel in STEM education",
+      href: "https://shpe.org",
+    },
+    {
+      src: "/images/sponsors/com-dev-of-detroit.webp",
+      alt: "Dev of Detroit, Build what lasts",
+      href: "https://www.instagram.com/developersofdetroit/",
+    },
+    {
+      src: "/images/sponsors/com-devops-detroit.webp",
+      alt: "DevOps Detroit, dedicated to empowering Detroit's tech community through collaboration, education, and innovation",
+      href: "https://www.devopsdetroit.io/",
+    },
+    {
+      src: "/images/sponsors/com-tq-techqueria-300x.webp",
+      alt: "Techqueria, where Latiné talent drives tech innovation",
+      href: "https://techqueria.org",
+    },
+  ],
+  media: [
+    {
+      src: "/images/sponsors/media-startMidwest.webp",
+      alt: "Start Midwest, the storytelling engine for Midwest innovation and entrepreneurship",
+      href: "https://www.start-midwest.com/",
     },
   ],
 };

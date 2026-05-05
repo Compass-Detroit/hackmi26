@@ -2,9 +2,28 @@
 import SponsorCTA from "./SponsorCTA.astro";
 import SponsorTier from "./SponsorTier.astro";
 import BuiltByRow from "./BuiltByRow.astro";
-import { sponsorLogosByTier } from "../data/sponsorLogos";
+import { sponsorLogosByTier, type SponsorTierKey } from "../data/sponsorLogos";
 import Section from "./primitives/Section.astro";
 import SectionHeader from "./primitives/SectionHeader.astro";
+
+/**
+ * Display config for each sponsor tier — single source of truth.
+ * To add a tier: append one entry here (and add its key to SponsorTierKey).
+ * `totalSlots` sets visible grid slots; extras over logos.length render as `+` placeholders.
+ * When omitted it defaults to logos.length (no open-slot placeholders shown).
+ */
+const TIER_DISPLAY: Array<{
+  key: SponsorTierKey;
+  heading: string;
+  totalSlots?: number;
+  shape: "card" | "square";
+}> = [
+  { key: "diamond", heading: "Diamond", shape: "card" },
+  { key: "platinum", heading: "Platinum", totalSlots: 3, shape: "card" },
+  { key: "gold", heading: "Gold", totalSlots: 4, shape: "card" },
+  { key: "community", heading: "Community", totalSlots: 8, shape: "square" },
+  { key: "media", heading: "Media", totalSlots: 4, shape: "square" },
+];
 ---
 
 <Section
@@ -23,42 +42,19 @@ import SectionHeader from "./primitives/SectionHeader.astro";
   </div>
 
   <div class="sponsor-tiers">
-    <SponsorTier
-      heading="Diamond"
-      headingId="tier-diamond-heading"
-      logos={sponsorLogosByTier.diamond}
-      totalSlots={sponsorLogosByTier.diamond.length}
-      layout="diamond"
-      shape="card"
-      slotLabel="Diamond sponsor"
-    />
-    <SponsorTier
-      heading="Platinum"
-      headingId="tier-platinum-heading"
-      logos={sponsorLogosByTier.platinum}
-      totalSlots={2}
-      layout="platinum"
-      shape="card"
-      slotLabel="Platinum sponsor"
-    />
-    <SponsorTier
-      heading="Gold"
-      headingId="tier-gold-heading"
-      logos={sponsorLogosByTier.gold}
-      totalSlots={4}
-      layout="gold"
-      shape="card"
-      slotLabel="Gold sponsor"
-    />
-    <SponsorTier
-      heading="Community"
-      headingId="tier-community-heading"
-      logos={sponsorLogosByTier.community}
-      totalSlots={4}
-      layout="community"
-      shape="square"
-      slotLabel="Community sponsor"
-    />
+    {
+      TIER_DISPLAY.map(({ key, heading, totalSlots, shape }) => (
+        <SponsorTier
+          heading={heading}
+          headingId={`tier-${key}-heading`}
+          logos={sponsorLogosByTier[key]}
+          totalSlots={totalSlots ?? sponsorLogosByTier[key].length}
+          layout={key}
+          shape={shape}
+          slotLabel={`${heading} sponsor`}
+        />
+      ))
+    }
   </div>
 
   <SponsorCTA />
