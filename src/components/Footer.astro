@@ -56,61 +56,6 @@ const currentYear = new Date().getFullYear();
 </footer>
 
 <style>
-  .sponsor-strip {
-    padding: 2rem 1.5rem 0;
-    border-top: 1px solid var(--color-border);
-    background: rgb(15 23 42 / 50%);
-  }
-
-  .sponsor-strip-inner {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .sponsor-strip-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-dim);
-    margin-bottom: 1rem;
-  }
-
-  .sponsor-strip-logos {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem 2rem;
-    padding-bottom: 2rem;
-  }
-
-  :global(.sponsor-strip-link) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.85;
-    transition: opacity var(--duration-fast) ease;
-  }
-
-  :global(a.sponsor-strip-link:hover) {
-    opacity: 1;
-  }
-
-  .sponsor-strip-img {
-    max-height: 120px;
-    width: auto;
-    max-width: 240px;
-    object-fit: contain;
-    filter: grayscale(0.15) brightness(1.05);
-  }
-
-  :global(a.sponsor-strip-link:hover) .sponsor-strip-img {
-    filter: grayscale(0) brightness(1.1);
-  }
-
   .footer {
     position: relative;
     z-index: 10;

@@ -62,7 +62,7 @@ const slotShapeClass = `sponsor-slot--${shape}`;
     {
       Array.from({ length: placeholderCount }, (_, i) => i + 1).map((n) => (
         <li
-          class:list={["sponsor-slot", slotShapeClass]}
+          class:list={["sponsor-slot", "sponsor-slot--placeholder", slotShapeClass]}
           aria-label={`${slotLabel} slot ${logos.length + n} of ${totalSlots} -- logo placeholder`}
         >
           <span class="sponsor-slot__plus" aria-hidden="true">
@@ -141,7 +141,7 @@ const slotShapeClass = `sponsor-slot--${shape}`;
       box-shadow var(--duration-fast) ease;
   }
 
-  .sponsor-slot:hover {
+  .sponsor-slot:not(.sponsor-slot--placeholder):hover {
     border-color: rgb(148 163 184 / 70%);
   }
 
@@ -169,6 +169,18 @@ const slotShapeClass = `sponsor-slot--${shape}`;
     justify-content: center;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+    border-radius: inherit;
+  }
+
+  .sponsor-logo-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .sponsor-logo-link:hover .sponsor-logo {
+    filter: brightness(1.08);
+    transition: filter var(--duration-fast) ease;
   }
 
   .sponsor-logo {
