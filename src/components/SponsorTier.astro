@@ -62,7 +62,11 @@ const slotShapeClass = `sponsor-slot--${shape}`;
     {
       Array.from({ length: placeholderCount }, (_, i) => i + 1).map((n) => (
         <li
-          class:list={["sponsor-slot", "sponsor-slot--placeholder", slotShapeClass]}
+          class:list={[
+            "sponsor-slot",
+            "sponsor-slot--placeholder",
+            slotShapeClass,
+          ]}
           aria-label={`${slotLabel} slot ${logos.length + n} of ${totalSlots} -- logo placeholder`}
         >
           <span class="sponsor-slot__plus" aria-hidden="true">

@@ -36,6 +36,7 @@ jobs:
 
   e2e:
     name: Playwright E2E
+    needs: quality
     runs-on: ubuntu-latest
     permissions:
       contents: write # needed to push back generated linux baselines

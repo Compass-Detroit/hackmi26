@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  sponsorLogosByTier,
-  type SponsorTierKey,
-} from "./sponsorLogos";
+import { sponsorLogosByTier, type SponsorTierKey } from "./sponsorLogos";
 
 const ALL_TIERS: SponsorTierKey[] = [
   "diamond",
@@ -34,10 +31,7 @@ describe("sponsorLogos data integrity", () => {
   it("every logo has a non-empty src", () => {
     for (const tier of ALL_TIERS) {
       for (const logo of sponsorLogosByTier[tier]) {
-        expect(
-          logo.src.trim(),
-          `logo in "${tier}" has empty src`,
-        ).not.toBe("");
+        expect(logo.src.trim(), `logo in "${tier}" has empty src`).not.toBe("");
       }
     }
   });

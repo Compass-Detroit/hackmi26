@@ -15,7 +15,9 @@ test.describe("Sponsors Section", () => {
     await gotoHome(page);
     const section = page.locator("#sponsors");
     await expect(section).toBeAttached();
-    await expect(section.locator("#sponsors-heading")).toContainText("Sponsors");
+    await expect(section.locator("#sponsors-heading")).toContainText(
+      "Sponsors",
+    );
   });
 
   test("all tier headings are rendered", async ({ page }) => {
@@ -39,9 +41,7 @@ test.describe("Sponsors Section", () => {
     await gotoHome(page);
     const alts = await page
       .locator("#sponsors img.sponsor-logo")
-      .evaluateAll((imgs) =>
-        imgs.map((img) => (img as HTMLImageElement).alt),
-      );
+      .evaluateAll((imgs) => imgs.map((img) => (img as HTMLImageElement).alt));
 
     expect(alts.length).toBeGreaterThan(0);
     for (const alt of alts) {
@@ -83,9 +83,7 @@ test.describe("Sponsors Section", () => {
 
   test("media tier section is present", async ({ page }) => {
     await gotoHome(page);
-    const mediaTier = page.locator(
-      "#sponsors section.sponsor-tier--media",
-    );
+    const mediaTier = page.locator("#sponsors section.sponsor-tier--media");
     await expect(mediaTier).toBeAttached();
     await expect(mediaTier.locator("#tier-media-heading")).toContainText(
       "Media",

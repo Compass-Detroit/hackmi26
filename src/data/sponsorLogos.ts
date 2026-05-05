@@ -91,7 +91,7 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
     {
       src: "/images/sponsors/com-devops-detroit.webp",
       alt: "DevOps Detroit, dedicated to empowering Detroit's tech community through collaboration, education, and innovation",
-      href: "https://www.meetup.com/devops-detroit/",
+      href: "https://www.devopsdetroit.io/",
     },
     {
       src: "/images/sponsors/com-tq-techqueria-300x.webp",
