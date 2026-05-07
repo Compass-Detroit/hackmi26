@@ -66,7 +66,11 @@ export const EVENT_AGENDA: AgendaDay[] = [
       { time: "12:00 PM", title: "Project Submission Due" },
       { time: "12:00 PM", title: "Lunch Break & Networking" },
       { time: "1:00 PM", title: "Practice Demos" },
-      { time: "2:00 PM", title: "Judging & Awards" },
+      {
+        time: "2:00 PM",
+        title: "Judging & Awards",
+        detail: "Top teams invited to present & demo at Michigan Tech Week · May 19–21",
+      },
     ],
   },
 ];
