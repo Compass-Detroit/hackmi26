@@ -12,12 +12,14 @@ import SectionHeader from "./primitives/SectionHeader.astro";
  * `totalSlots` sets visible grid slots; extras over logos.length render as `+` placeholders.
  * When omitted it defaults to logos.length (no open-slot placeholders shown).
  */
-const TIER_DISPLAY: Array<{
+interface TierConfig {
   key: SponsorTierKey;
   heading: string;
   totalSlots?: number;
   shape: "card" | "square";
-}> = [
+}
+
+const TIER_DISPLAY: TierConfig[] = [
   { key: "diamond", heading: "Diamond", shape: "card" },
   { key: "platinum", heading: "Platinum", totalSlots: 3, shape: "card" },
   { key: "gold", heading: "Gold", totalSlots: 4, shape: "card" },
@@ -31,13 +33,13 @@ const TIER_DISPLAY: Array<{
   labelledBy="sponsors-heading"
   width="wide"
   padding="none"
-  style="padding: 2rem 2rem 5rem;"
+  style="padding: var(--space-lg) var(--space-lg) var(--space-3xl);"
 >
   <div class="sponsors-header-wrap">
     <SectionHeader
       id="sponsors-heading"
       title="Sponsors"
-      subtitle="Thank you to the organizations backing HackMI. Interested in joining them?"
+      subtitle="Thank you to the organizations powering HackMI 2026. Interested in joining them?"
     />
   </div>
 
@@ -71,7 +73,6 @@ const TIER_DISPLAY: Array<{
     display: flex;
     flex-direction: column;
     gap: 2.75rem;
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
+    margin: 2.5rem 0;
   }
 </style>
