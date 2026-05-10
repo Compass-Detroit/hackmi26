@@ -181,7 +181,7 @@ import { EVENT_URLS } from "../data/event";
   .challenge-body {
     margin: 0;
     color: var(--color-text-dim);
-    font-size: 1.05rem;
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
     line-height: 1.75;
   }
 
@@ -201,6 +201,7 @@ import { EVENT_URLS } from "../data/event";
   }
 
   .challenge-list li {
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
     margin-bottom: 0.75rem;
   }
 
@@ -219,10 +220,11 @@ import { EVENT_URLS } from "../data/event";
   }
 
   .challenge-focus li {
-    padding: 1.05rem 1.15rem;
+    background: rgb(15 23 42 / 45%);
     border: 1px solid rgb(148 163 184 / 18%);
     border-radius: var(--radius-md);
-    background: rgb(15 23 42 / 45%);
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
+    padding: 1.05rem 1.15rem;
   }
 
   .challenge-focus-title {
@@ -252,7 +254,7 @@ import { EVENT_URLS } from "../data/event";
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     background: rgb(251 191 36 / 6%);
     color: var(--color-text-dim);
-    font-size: 0.95rem;
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
     line-height: 1.6;
   }
 

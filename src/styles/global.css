@@ -1,7 +1,7 @@
 /* Hack Michigan Global Styles
    --------------------------------------------------------------------------
    Design tokens, element defaults, shared utilities, and keyframes.
-   Component-specific styles live in the component's <style> block.
+   Component-specific styles live in the component's \3c style> block.
 */
 
 :root {
@@ -460,7 +460,7 @@ button:focus-visible,
 .section-subtitle {
   text-align: center;
   color: var(--color-text);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   line-height: normal;
   margin: 0.5rem auto 2rem;
   max-width: 720px;
