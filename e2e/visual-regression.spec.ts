@@ -5,7 +5,9 @@
  *   First run creates `baseline` screenshots in e2e/<spec>.ts-snapshots/
  *   Subsequent runs compare against the `baseline` files
  *   If a screenshot differs beyond the threshold, the test fails
- *   To update `baseline` screenshots: `npx playwright test --update-snapshots`
+ *   To update baselines: `npm run test:e2e:update` (all E2E), or scoped:
+ *   `npx playwright test e2e/visual-regression.spec.ts --update-snapshots`
+ *   (put the spec path *before* `--update-snapshots`; `npm run … -- <path>` breaks the flag).
  *
  * These catch unintended visual changes — CSS regressions, broken
  * layouts, spacing issues that unit tests can't detect.
