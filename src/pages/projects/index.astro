@@ -2,6 +2,8 @@
 import { getProjects, type HackathonProjectPreview } from "../../lib/sanity";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ProjectCard from "../../components/cms/ProjectCard.astro";
+import Button from "../../components/primitives/Button.astro";
+import { EVENT_URLS } from "../../data/event";
 
 // Don't break the build if Sanity is unreachable; fall through to the
 // empty-state below. Strict-mode CI flips this via `PUBLIC_SANITY_STRICT_MODE`.
@@ -25,6 +27,38 @@ try {
         Showcasing the creativity and innovation from our latest event.
       </p>
     </header>
+
+    <section
+      class="sponsor-challenge"
+      aria-labelledby="sponsor-challenge-heading"
+    >
+      <div class="sponsor-copy">
+        <p class="section-eyebrow">Sponsor an AI challenge</p>
+        <h2 id="sponsor-challenge-heading">
+          Put a real business problem in front of builders.
+        </h2>
+        <p>
+          Hack Michigan sponsors can design an AI challenge around a workforce,
+          operations, civic, or customer problem they need solved. Teams spend
+          the hackathon building toward that use case, giving sponsors a direct
+          path from support to working prototypes, fresh talent, and clearer
+          next steps.
+        </p>
+      </div>
+
+      <div class="sponsor-panel">
+        <h3>What sponsorship can look like</h3>
+        <ul>
+          <li>Bring a practical AI use case from your organization.</li>
+          <li>Help shape judging criteria and success outcomes.</li>
+          <li>Meet teams solving problems tied to your work.</li>
+          <li>Support workforce development with measurable builder output.</li>
+        </ul>
+        <Button href={EVENT_URLS.sponsorInquiry}>
+          Start a sponsor challenge
+        </Button>
+      </div>
+    </section>
 
     <div class="project-grid">
       {
@@ -65,6 +99,89 @@ try {
     margin: 0 auto;
   }
 
+  .sponsor-challenge {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+    gap: var(--space-lg);
+    align-items: stretch;
+    margin-bottom: var(--space-2xl);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(
+        circle at 15% 20%,
+        rgb(139 92 246 / 24%),
+        transparent 35%
+      ),
+      var(--surface-glass-raised-bg);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .sponsor-copy {
+    align-self: center;
+  }
+
+  .section-eyebrow {
+    margin: 0 0 var(--space-xs);
+    color: var(--color-accent-orange);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sponsor-copy h2,
+  .sponsor-panel h3 {
+    color: var(--color-text);
+    line-height: 1.1;
+  }
+
+  .sponsor-copy h2 {
+    max-width: 12ch;
+    margin-bottom: var(--space-sm);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .sponsor-copy p {
+    max-width: 690px;
+    color: var(--color-text-dim);
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  .sponsor-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: 1px solid rgb(130 177 254 / 30%);
+    border-radius: var(--radius-lg);
+    background: rgb(2 6 23 / 48%);
+  }
+
+  .sponsor-panel h3 {
+    font-size: 1.35rem;
+  }
+
+  .sponsor-panel ul {
+    display: grid;
+    gap: var(--space-xs);
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--color-text-dim);
+    line-height: 1.55;
+  }
+
+  .sponsor-panel li::marker {
+    color: var(--color-accent-orange);
+  }
+
+  .sponsor-panel :global(.btn) {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
   .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -83,6 +200,19 @@ try {
   }
 
   @media (max-width: 48rem) {
+    .sponsor-challenge {
+      grid-template-columns: 1fr;
+      margin-bottom: var(--space-xl);
+    }
+
+    .sponsor-copy h2 {
+      max-width: 100%;
+    }
+
+    .sponsor-panel :global(.btn) {
+      align-self: stretch;
+    }
+
     .project-grid {
       grid-template-columns: 1fr;
     }

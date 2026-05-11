@@ -54,7 +54,7 @@ export const LOGISTICS_CARDS: readonly LogisticsCard[] = [
         text: "Top teams will receive cash prizes, IBM and partner swag, mentorship opportunities with Michigan tech leaders, and exclusive access to IBM watsonx resources to continue developing their solutions.",
       },
       {
-        text: "Winners will also be featured in Hack Michigan media and invited to present at future Michigan innovation events.",
+        text: "Winners will be featured in Hack Michigan media and invited to present and demo their projects at Michigan Tech Week (May 19–21, 2026) — happening in Detroit immediately after the hackathon, putting top teams directly in front of Michigan's broader tech and business community.",
       },
       {
         text: "Full prize details and tiers will be announced at the opening ceremony on May 15, 2026.",

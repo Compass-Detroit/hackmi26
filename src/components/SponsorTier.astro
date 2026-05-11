@@ -43,11 +43,7 @@ const slotShapeClass = `sponsor-slot--${shape}`;
           ]}
           aria-label={`${slotLabel} -- ${logo.alt}`}
         >
-          <MaybeLink
-            href={logo.href ?? null}
-            sponsored
-            class="sponsor-logo-link"
-          >
+          <MaybeLink href={logo.href} sponsored class="sponsor-logo-link">
             <img
               class="sponsor-logo"
               src={publicAssetUrl(base, logo.src)}
@@ -60,14 +56,14 @@ const slotShapeClass = `sponsor-slot--${shape}`;
       ))
     }
     {
-      Array.from({ length: placeholderCount }, (_, i) => i + 1).map((n) => (
+      Array.from({ length: placeholderCount }, (_, i) => (
         <li
           class:list={[
             "sponsor-slot",
             "sponsor-slot--placeholder",
             slotShapeClass,
           ]}
-          aria-label={`${slotLabel} slot ${logos.length + n} of ${totalSlots} -- logo placeholder`}
+          aria-label={`${slotLabel} slot ${logos.length + i + 1} of ${totalSlots} -- logo placeholder`}
         >
           <span class="sponsor-slot__plus" aria-hidden="true">
             +
@@ -173,8 +169,11 @@ const slotShapeClass = `sponsor-slot--${shape}`;
     justify-content: center;
     width: 100%;
     height: 100%;
-    cursor: pointer;
     border-radius: inherit;
+  }
+
+  a.sponsor-logo-link {
+    cursor: pointer;
   }
 
   .sponsor-logo-link:focus-visible {
@@ -184,13 +183,13 @@ const slotShapeClass = `sponsor-slot--${shape}`;
 
   .sponsor-logo-link:hover .sponsor-logo {
     filter: brightness(1.08);
-    transition: filter var(--duration-fast) ease;
   }
 
   .sponsor-logo {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    transition: filter var(--duration-fast) ease;
   }
 
   .sponsor-slot__plus {

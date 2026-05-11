@@ -2,6 +2,7 @@
 import GlassCard from "./primitives/GlassCard.astro";
 import Section from "./primitives/Section.astro";
 import SectionHeader from "./primitives/SectionHeader.astro";
+import { EVENT_URLS } from "../data/event";
 ---
 
 <Section
@@ -147,6 +148,13 @@ import SectionHeader from "./primitives/SectionHeader.astro";
           </span>
         </li>
       </ul>
+
+      <aside class="sponsor-note" aria-label="Sponsor challenge opportunity">
+        <strong>Sponsors:</strong> define a real AI challenge from your organization
+        — teams build toward it all weekend, and winning projects demo at Michigan
+        Tech Week (May 19–21).
+        <a href={EVENT_URLS.sponsorInquiry}>Get in touch →</a>
+      </aside>
     </div>
   </GlassCard>
 </Section>
@@ -173,7 +181,7 @@ import SectionHeader from "./primitives/SectionHeader.astro";
   .challenge-body {
     margin: 0;
     color: var(--color-text-dim);
-    font-size: 1.05rem;
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
     line-height: 1.75;
   }
 
@@ -193,6 +201,7 @@ import SectionHeader from "./primitives/SectionHeader.astro";
   }
 
   .challenge-list li {
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
     margin-bottom: 0.75rem;
   }
 
@@ -211,10 +220,11 @@ import SectionHeader from "./primitives/SectionHeader.astro";
   }
 
   .challenge-focus li {
-    padding: 1.05rem 1.15rem;
+    background: rgb(15 23 42 / 45%);
     border: 1px solid rgb(148 163 184 / 18%);
     border-radius: var(--radius-md);
-    background: rgb(15 23 42 / 45%);
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
+    padding: 1.05rem 1.15rem;
   }
 
   .challenge-focus-title {
@@ -235,5 +245,30 @@ import SectionHeader from "./primitives/SectionHeader.astro";
       grid-template-columns: 1.15fr 0.85fr;
       gap: var(--space-2xl);
     }
+  }
+
+  .sponsor-note {
+    margin-top: var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    border-left: 3px solid var(--color-accent-orange);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgb(251 191 36 / 6%);
+    color: var(--color-text-dim);
+    font-size: clamp(1.125rem, 1.75vw, 1.375rem);
+    line-height: 1.6;
+  }
+
+  .sponsor-note strong {
+    color: var(--color-accent-orange);
+  }
+
+  .sponsor-note a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .sponsor-note a:hover {
+    color: var(--color-text);
   }
 </style>
