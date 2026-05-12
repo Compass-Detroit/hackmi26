@@ -32,6 +32,7 @@
   /* ---- Typography ---- */
   --font-heading: "Tiny5", system-ui, sans-serif;
   --font-body: "Nunito", system-ui, sans-serif;
+  --font-size-body: clamp(1.125rem, 1.75vw, 1.275rem);
 
   /* ---- Spacing scale (t-shirt) ---- */
   --space-3xs: 0.25rem;
