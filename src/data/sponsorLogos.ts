@@ -98,6 +98,12 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
       alt: "Techqueria, where Latiné talent drives tech innovation",
       href: "https://techqueria.org",
     },
+    {
+      src: "/images/sponsors/com_AI_Collective_Detroit.png",
+      alt: "AI Collective Detroit, a community of AI enthusiasts building the future",
+      href: "https://www.aicollective.com/chapters/detroit",
+      surface: "light",
+    },
   ],
   media: [
     {
