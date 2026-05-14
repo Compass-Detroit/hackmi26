@@ -26,16 +26,20 @@ export const EVENT_AGENDA: AgendaDay[] = [
       {
         time: "2:00 PM",
         title: "Check-In & Registration",
-        detail: "Check-in, badges, coffee",
+        detail: "Check-in, badges, drinks & snacks",
       },
       {
         time: "3:00 PM",
         title: "Hackathon Welcome",
-        detail: "Welcome and theme",
+        detail:
+          "Welcome and opening remarks with Compass Detroit and AI challenge sponsors",
+      },
+      {
+        time: "3:30 PM",
+        title: "Tools and Provisioning Workshop",
       },
       { time: "4:00 PM", title: "Design for AI Workshop" },
-      { time: "6:00 PM", title: "Dinner Break & Networking" },
-      { time: "7:00 PM", title: "Tools and Provisioning Workshop" },
+      { time: "6:00 PM", title: "Happy Hour & Networking" },
       { time: "8:00 PM", title: "Hacking Begins" },
     ],
   },
@@ -50,7 +54,7 @@ export const EVENT_AGENDA: AgendaDay[] = [
       { time: "10:00 AM", title: "Build with AI Workshops" },
       { time: "1:00 PM", title: "Lunch Break & Networking" },
       { time: "2:00 PM", title: "Workshops Office Hours" },
-      { time: "6:00 PM", title: "Happy Hour & Networking" },
+      { time: "6:00 PM", title: "Dinner Break & Movie Night!" },
       { time: "8:00 PM", title: "Hacking Continues" },
     ],
   },
