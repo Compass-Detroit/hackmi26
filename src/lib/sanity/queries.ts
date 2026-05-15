@@ -46,6 +46,7 @@ export const teamDetailProjection = `{
   name,
   slug,
   logo,
+  teamDescription,
   members,
   "projects": *[_type == "hackathonProject" && references(^._id) && defined(slug.current)] ${projectPreviewProjection}
 }`;

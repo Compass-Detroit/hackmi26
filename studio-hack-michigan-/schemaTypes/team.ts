@@ -19,7 +19,24 @@ export const teamType = defineType({
     defineField({
       name: 'logo',
       type: 'image',
+      title: 'Team Logo (Optional)',
+      description:
+        'Optional. Wide logo recommended: 600×300 px (or similar 2:1 aspect). PNG or SVG with a transparent background works well.',
       options: {hotspot: true},
+    }),
+    defineField({
+      name: 'teamDescription',
+      type: 'array',
+      of: [{type: 'block'}],
+      title: 'Team Description (Optional)',
+      description: `Rich text. Plain text must be 1000 characters or fewer.`,
+      validation: (Rule) =>
+        Rule.custom((blocks) => {
+          const len = blocks ? blocks.length : 0
+          return len <= 1000
+            ? true
+            : `Team description is too long (${len} characters). Maximum is 1000 characters.`
+        }),
     }),
     defineField({
       name: 'members',

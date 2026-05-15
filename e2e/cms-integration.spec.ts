@@ -44,6 +44,24 @@ async function openFirstProjectFromListing(page: Page): Promise<boolean> {
   return true;
 }
 
+/**
+ * Open the first team page via a project detail's team link.
+ * Returns false when CMS has no project/team data (unless E2E_REQUIRE_CMS_DATA).
+ */
+async function openFirstTeamPage(page: Page): Promise<boolean> {
+  const hasProject = await openFirstProjectFromListing(page);
+  if (!hasProject) return false;
+
+  const teamLink = page.locator(".team-link").first();
+  await expect(teamLink).toBeVisible();
+  const href = await teamLink.getAttribute("href");
+  expect(href).toMatch(/^\/projects\/team\/[^/]+\/$/);
+  await gotoPath(page, href!);
+  await expect(page).toHaveURL(/\/projects\/team\/[^/]+\/$/);
+  await expect(page.locator(".team-name")).toBeVisible();
+  return true;
+}
+
 test.describe("Projects Page", () => {
   test("renders project cards or empty state", async ({ page }) => {
     await gotoPath(page, PROJECTS_PATH);
@@ -86,16 +104,67 @@ test.describe("Project Detail Page", () => {
 
 test.describe("Team Detail Page", () => {
   test("team detail is reachable from project team link", async ({ page }) => {
-    const hasProject = await openFirstProjectFromListing(page);
-    if (!hasProject) return;
+    await openFirstTeamPage(page);
+  });
 
-    const teamLink = page.locator(".team-link").first();
-    await expect(teamLink).toBeVisible();
-    const href = await teamLink.getAttribute("href");
-    expect(href).toMatch(/^\/projects\/team\/[^/]+\/$/);
-    await gotoPath(page, href!);
-    await expect(page).toHaveURL(/\/projects\/team\/[^/]+\/$/);
-    await expect(page.locator(".team-name")).toBeVisible();
+  test("team page content uses the narrow page container", async ({ page }) => {
+    const hasTeam = await openFirstTeamPage(page);
+    if (!hasTeam) return;
+
+    const narrow = page.locator(".page-container--narrow");
+    await expect(narrow).toBeVisible();
+    await expect(narrow.locator(".team-name")).toBeVisible();
+
+    const projectsSection = page.locator(".projects-section");
+    const projectsCount = await projectsSection.count();
+    expect(projectsCount).toBeLessThanOrEqual(1);
+    if (projectsCount > 0) {
+      await expect(narrow.locator(".projects-section")).toBeVisible();
+    }
+  });
+
+  test("team projects section renders compact project cards when present", async ({
+    page,
+  }) => {
+    const hasTeam = await openFirstTeamPage(page);
+    if (!hasTeam) return;
+
+    const projectsSection = page.locator(".projects-section");
+    if ((await projectsSection.count()) === 0) return;
+
+    await expect(projectsSection.locator("h2")).toContainText("Projects");
+    const compactCards = projectsSection.locator("a.project-card--compact");
+    await expect(compactCards.first()).toBeVisible();
+    expect(await compactCards.count()).toBeGreaterThan(0);
+  });
+
+  test("team description renders portable text when present", async ({
+    page,
+  }) => {
+    const hasTeam = await openFirstTeamPage(page);
+    if (!hasTeam) return;
+
+    const descriptionParagraphs = page.locator(
+      ".page-container--narrow .team-description p",
+    );
+    if ((await descriptionParagraphs.count()) === 0) return;
+
+    await expect(descriptionParagraphs.first()).toBeVisible();
+  });
+
+  test("team members section renders member cards when present", async ({
+    page,
+  }) => {
+    const hasTeam = await openFirstTeamPage(page);
+    if (!hasTeam) return;
+
+    const membersSection = page.locator(".members-section");
+    if ((await membersSection.count()) === 0) return;
+
+    await expect(membersSection.locator("h2")).toContainText("Team Members");
+    const memberCards = membersSection.locator(".member-card");
+    await expect(memberCards.first()).toBeVisible();
+    expect(await memberCards.count()).toBeGreaterThan(0);
   });
 });
 
