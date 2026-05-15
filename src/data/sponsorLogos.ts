@@ -123,6 +123,7 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
       src: "/images/sponsors/fuel-luminesso-300x.png",
       alt: "Luminesso Coffee, fueling Detroit's builders one cup at a time",
       href: "https://www.luminessocoffee.com",
+      surface: "light",
     },
   ],
 };
