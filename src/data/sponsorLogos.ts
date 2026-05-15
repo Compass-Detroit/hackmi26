@@ -10,7 +10,8 @@ export type SponsorTierKey =
   | "platinum"
   | "gold"
   | "community"
-  | "media";
+  | "media"
+  | "fuel";
 
 export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
   /** Use optional surface: "light" for light background logos */
@@ -110,6 +111,18 @@ export const sponsorLogosByTier: Record<SponsorTierKey, SponsorLogo[]> = {
       src: "/images/sponsors/media-startMidwest.webp",
       alt: "Start Midwest, the storytelling engine for Midwest innovation and entrepreneurship",
       href: "https://www.start-midwest.com/",
+    },
+    {
+      src: "/images/sponsors/media-whynotcollab-300x.png",
+      alt: "Why Not Collab Detroit, a creative community amplifying Detroit voices",
+      href: "https://www.instagram.com/whynotcollabdet/",
+    },
+  ],
+  fuel: [
+    {
+      src: "/images/sponsors/fuel-luminesso-300x.png",
+      alt: "Luminesso Coffee, fueling Detroit's builders one cup at a time",
+      href: "https://www.luminessocoffee.com",
     },
   ],
 };
