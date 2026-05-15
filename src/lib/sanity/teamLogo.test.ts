@@ -27,9 +27,9 @@ describe("hasTeamLogo", () => {
   });
 
   it("returns true when logo has an asset reference", () => {
-    expect(
-      hasTeamLogo({ _type: "image", asset: { _ref: "image-abc" } }),
-    ).toBe(true);
+    expect(hasTeamLogo({ _type: "image", asset: { _ref: "image-abc" } })).toBe(
+      true,
+    );
   });
 });
 
