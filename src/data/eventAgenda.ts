@@ -36,7 +36,7 @@ export const EVENT_AGENDA: AgendaDay[] = [
       },
       {
         time: "3:30 PM",
-        title: "Tools and Provisioning Workshop",
+        title: "AI Tools and Provisioning",
       },
       { time: "4:00 PM", title: "Design for AI Workshop" },
       { time: "6:00 PM", title: "Happy Hour & Networking" },
@@ -52,7 +52,8 @@ export const EVENT_AGENDA: AgendaDay[] = [
       { time: "8:00 AM", title: "Breakfast & Networking" },
       { time: "9:00 AM", title: "How to Win a Hackathon" },
       { time: "10:00 AM", title: "Build with AI Workshops" },
-      { time: "1:00 PM", title: "Lunch Break & Networking" },
+      { time: "11:30 AM", title: "Lunch Break & Networking" },
+      { time: "12:30 PM", title: "Build with AI Workshops" },
       { time: "2:00 PM", title: "Workshops Office Hours" },
       { time: "6:00 PM", title: "Dinner Break & Movie Night!" },
       { time: "8:00 PM", title: "Hacking Continues" },
