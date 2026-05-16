@@ -9,4 +9,5 @@ export * from "./client";
 export * from "./fetchers";
 export * from "./memberSocials";
 export * from "./portableText";
+export * from "./teamLogo";
 export type * from "./schemas";

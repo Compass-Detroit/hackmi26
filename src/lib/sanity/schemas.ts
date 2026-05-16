@@ -43,6 +43,7 @@ export interface Team {
   name: string;
   slug: Slug;
   logo?: SanityImage;
+  teamDescription?: PortableTextBlock[];
   members?: TeamMember[];
 }
 

@@ -2,12 +2,16 @@
 import {
   getTeam,
   getTeamSlugs,
-  urlFor,
+  hasTeamLogo,
+  teamLogoUrl,
+  TEAM_LOGO_MAX_HEIGHT,
+  TEAM_LOGO_MAX_WIDTH,
   type TeamWithProjects,
 } from "../../../lib/sanity";
 import PageLayout from "../../../layouts/PageLayout.astro";
 import MemberCard from "../../../components/cms/MemberCard.astro";
 import ProjectCard from "../../../components/cms/ProjectCard.astro";
+import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
   const slugs = await getTeamSlugs();
@@ -19,6 +23,10 @@ if (!slug) return Astro.redirect("/404");
 
 const team: TeamWithProjects | null = await getTeam(slug);
 if (!team) return Astro.redirect("/404");
+
+const descriptionBlocks = team.teamDescription ?? [];
+const hasDescription = descriptionBlocks.length > 0;
+const teamLogo = hasTeamLogo(team.logo) ? team.logo : undefined;
 ---
 
 <PageLayout
@@ -29,17 +37,20 @@ if (!team) return Astro.redirect("/404");
   <div class="page-container page-container--narrow">
     <div class="team-header">
       {
-        team.logo && (
+        teamLogo && (
           <img
-            src={urlFor(team.logo).width(200).height(200).url()}
+            src={teamLogoUrl(teamLogo)}
             alt={team.name}
             class="team-logo"
+            width={TEAM_LOGO_MAX_WIDTH}
+            height={TEAM_LOGO_MAX_HEIGHT}
+            loading="eager"
+            decoding="async"
           />
         )
       }
       <h1 class="team-name">{team.name}</h1>
     </div>
-
     {
       team.members && team.members.length > 0 && (
         <section class="members-section">
@@ -52,7 +63,13 @@ if (!team) return Astro.redirect("/404");
         </section>
       )
     }
-
+    {
+      hasDescription && (
+        <div class="team-description">
+          <PortableText value={descriptionBlocks} />
+        </div>
+      )
+    }
     {
       team.projects && team.projects.length > 0 && (
         <section class="projects-section">
@@ -75,17 +92,36 @@ if (!team) return Astro.redirect("/404");
   }
 
   .team-logo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
+    display: block;
+    width: auto;
+    height: 10rem;
+    max-width: 100%;
+    margin-inline: auto;
     margin-bottom: 1.5rem;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    object-fit: contain;
+    border-radius: 0.5rem;
   }
 
   .team-name {
     font-size: clamp(2rem, 6vw, 3.5rem);
     font-weight: 800;
+  }
+
+  .team-description {
+    margin-block: 4rem;
+    margin-inline: 0.5rem;
+    max-width: 100%;
+    line-height: 1.6;
+    color: var(--color-text);
+    font-size: var(--font-size-body);
+  }
+
+  .team-description :global(p) {
+    margin: 0 0 1rem;
+  }
+
+  .team-description :global(p:last-child) {
+    margin-bottom: 0;
   }
 
   .members-section,
@@ -108,7 +144,10 @@ if (!team) return Astro.redirect("/404");
 
   .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+    justify-content: start;
     gap: 1.5rem;
+    width: fit-content;
+    max-width: 100%;
   }
 </style>
