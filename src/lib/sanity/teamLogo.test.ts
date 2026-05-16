@@ -9,6 +9,12 @@ const chain = {
 
 vi.mock("./client", () => ({
   urlFor: vi.fn(() => chain),
+  hasSanityImage: vi.fn((logo: unknown) => {
+    if (!logo || typeof logo !== "object") return false;
+    const asset = (logo as { asset?: { _ref?: string; _id?: string } }).asset;
+    if (!asset || typeof asset !== "object") return false;
+    return Boolean(asset._ref ?? asset._id);
+  }),
 }));
 
 import {
@@ -26,8 +32,14 @@ describe("hasTeamLogo", () => {
     expect(hasTeamLogo({ _type: "image", asset: {} })).toBe(false);
   });
 
-  it("returns true when logo has an asset reference", () => {
+  it("returns true when logo has an asset reference (_ref)", () => {
     expect(hasTeamLogo({ _type: "image", asset: { _ref: "image-abc" } })).toBe(
+      true,
+    );
+  });
+
+  it("returns true when logo has an expanded asset ID (_id)", () => {
+    expect(hasTeamLogo({ _type: "image", asset: { _id: "image-xyz" } })).toBe(
       true,
     );
   });

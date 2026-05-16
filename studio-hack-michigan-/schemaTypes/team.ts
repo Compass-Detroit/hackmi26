@@ -1,4 +1,7 @@
 import {defineField, defineType} from 'sanity'
+import {portableTextPlainLength} from './portableTextUtils'
+
+const TEAM_DESCRIPTION_MAX_CHARS = 1000
 
 export const teamType = defineType({
   name: 'team',
@@ -29,13 +32,13 @@ export const teamType = defineType({
       type: 'array',
       of: [{type: 'block'}],
       title: 'Team Description (Optional)',
-      description: `Rich text. Plain text must be 1000 characters or fewer.`,
+      description: `Rich text. Plain text must be ${TEAM_DESCRIPTION_MAX_CHARS} characters or fewer.`,
       validation: (Rule) =>
         Rule.custom((blocks) => {
-          const len = blocks ? blocks.length : 0
-          return len <= 1000
+          const len = portableTextPlainLength(blocks)
+          return len <= TEAM_DESCRIPTION_MAX_CHARS
             ? true
-            : `Team description is too long (${len} characters). Maximum is 1000 characters.`
+            : `Team description is too long (${len} characters). Maximum is ${TEAM_DESCRIPTION_MAX_CHARS}.`
         }),
     }),
     defineField({

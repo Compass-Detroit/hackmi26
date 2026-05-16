@@ -51,29 +51,25 @@ const teamLogo = hasTeamLogo(team.logo) ? team.logo : undefined;
       }
       <h1 class="team-name">{team.name}</h1>
     </div>
-    <div class="">
-      {
-        team.members && team.members.length > 0 && (
-          <section class="members-section">
-            <h2>Team Members</h2>
-            <div class="members-list">
-              {team.members.map((member) => (
-                <MemberCard member={member} />
-              ))}
-            </div>
-          </section>
-        )
-      }
-    </div>
-    <div class="team-description">
-      {
-        hasDescription && (
-          <div class="team-description">
-            <PortableText value={descriptionBlocks} />
+    {
+      team.members && team.members.length > 0 && (
+        <section class="members-section">
+          <h2>Team Members</h2>
+          <div class="members-list">
+            {team.members.map((member) => (
+              <MemberCard member={member} />
+            ))}
           </div>
-        )
-      }
-    </div>
+        </section>
+      )
+    }
+    {
+      hasDescription && (
+        <div class="team-description">
+          <PortableText value={descriptionBlocks} />
+        </div>
+      )
+    }
     {
       team.projects && team.projects.length > 0 && (
         <section class="projects-section">
@@ -114,7 +110,7 @@ const teamLogo = hasTeamLogo(team.logo) ? team.logo : undefined;
   .team-description {
     margin-block: 4rem;
     margin-inline: 0.5rem;
-    max-width: stretch;
+    max-width: 100%;
     line-height: 1.6;
     color: var(--color-text);
     font-size: var(--font-size-body);

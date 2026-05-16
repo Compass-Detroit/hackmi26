@@ -1,19 +1,15 @@
-import { urlFor } from "./client";
+import { urlFor, hasSanityImage } from "./client";
 import type { SanityImage } from "./schemas";
 
 /** Recommended upload size for `team.logo` in Sanity — keep in sync with studio field description. */
 export const TEAM_LOGO_MAX_WIDTH = 600;
 export const TEAM_LOGO_MAX_HEIGHT = 300;
 
-/** True when Sanity returned an image field with a resolvable asset (optional field may be unset or empty). */
-export function hasTeamLogo(
-  logo: SanityImage | null | undefined,
-): logo is SanityImage {
-  if (!logo || typeof logo !== "object") return false;
-  const asset = (logo as { asset?: { _ref?: string; _id?: string } }).asset;
-  if (!asset || typeof asset !== "object") return false;
-  return Boolean(asset._ref ?? asset._id);
-}
+/**
+ * Domain-specific alias for `hasSanityImage`.
+ * True when Sanity returned a team logo with a resolvable asset reference.
+ */
+export const hasTeamLogo = hasSanityImage;
 
 /** Build a Sanity CDN URL that fits within the logo bounds without square-cropping. */
 export function teamLogoUrl(image: SanityImage): string {
